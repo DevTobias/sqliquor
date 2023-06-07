@@ -1,0 +1,22 @@
+{
+  "name": "documentation",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "docusaurus start --host 0.0.0.0 --no-open",
+    "start": "docusaurus serve",
+    "build": "docusaurus build"
+  },
+  "dependencies": {
+    "@akebifiky/remark-simple-plantuml": "^1.0.2",
+    "@docusaurus/core": "2.4.1",
+    "@docusaurus/preset-classic": "2.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.4.1",
+    "@tsconfig/docusaurus": "^1.0.7",
+    "typescript": "^5.1.3"
+  }
+}

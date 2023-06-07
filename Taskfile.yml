@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  run:
+    desc: Runs the script with the provided name (clean, upgrade, install)
+    cmds:
+      - sudo bash scripts/{{.CLI_ARGS}}.sh

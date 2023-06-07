@@ -1,0 +1,82 @@
+{
+  "name": "sql-game-network",
+  "build": { "dockerfile": "Dockerfile" },
+  "remoteUser": "node",
+  "mounts": [
+    "source=frontend-node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
+    "source=documentation-node_modules,target=${containerWorkspaceFolder}/documentation/node_modules,type=volume"
+
+  ],
+  "initializeCommand": "docker network create sql-game-network || true",
+  "postCreateCommand": "sudo chmod -R 777 frontend && sudo chmod -R 777 documentation",
+  "runArgs": [
+    "-p=3000:3000",
+    "--network=sql-game-network",
+    "--name=sql_game_devcontainer"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Editor settings
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "cSpell.language": "en,de-de",
+
+        // Explorer
+        "explorer.fileNesting.enabled": true,
+        "explorer.fileNesting.expand": false,
+        "explorer.fileNesting.patterns": {
+          "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js",
+          "next.config.js": "next-env.d.ts",
+          "Taskfile.yml": ".gitignore,.editorconfig"
+        },
+
+        "material-icon-theme.folders.associations": {},
+
+        "files.exclude": {
+          "**/yarn.lock": true,
+          "**/node_modules": true,
+          "**/.next": true,
+          "**/.turbo": true
+        },
+
+        // Typescript
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "typescript.preferences.importModuleSpecifier": "non-relative",
+
+        // CSS
+        "scss.lint.unknownAtRules": "ignore",
+
+        // ESLint
+        "eslint.validate": ["javascript", "typescript", "css", "typescriptreact", "javascriptreact"],
+        "eslint.probe": ["javascript", "typescript", "css", "typescriptreact", "javascriptreact"],
+        "eslint.codeAction.showDocumentation": {
+          "enable": true
+        },
+        "eslint.debug": true,
+        "eslint.codeActionsOnSave.mode": "problems",
+        "eslint.workingDirectories": ["frontend/app"],
+
+        //! Formatters
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+        "[json][json][html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript][javascript]": {
+          "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        }
+      },
+      "extensions": [
+        "streetsidesoftware.code-spell-checker-german",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "EditorConfig.EditorConfig",
+        "IronGeek.vscode-env",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "rvest.vs-code-prettier-eslint"
+      ]
+    }
+  }
+}
