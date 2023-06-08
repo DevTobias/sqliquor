@@ -1,0 +1,11 @@
+{
+  "name": "@modules/esfasty",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "esbuild": "^0.17.4",
+    "esbuild-plugin-clean": "^1.0.1",
+    "esbuild-plugin-pino": "^1.2.8",
+    "esbuild-plugin-tsconfig-paths": "^1.0.1"
+  }
+}
