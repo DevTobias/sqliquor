@@ -1022,10 +1022,10 @@ esbuild-plugin-clean@^1.0.1:
     chalk "^4.1.2"
     del "^6.0.0"
 
-esbuild-plugin-pino@^1.2.8:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/esbuild-plugin-pino/-/esbuild-plugin-pino-1.3.0.tgz#dd3ac79fa746480a6cb13764ba539e19fecca93a"
-  integrity sha512-rHVfhKKdX7bEJJpFF2OHYBApavE7QgaVtz29Bk+Io8XA9X/wNNwnShZ6YTgdoqtYqX2LjG/MoGBP/QlxuM/HTg==
+esbuild-plugin-pino@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-pino/-/esbuild-plugin-pino-2.0.0.tgz#aff215d9e92f0fff96ba899a1a08d30b2b5eda23"
+  integrity sha512-U0IhqHSNnp9z85Hjr2DtEeT1xxUiuITz7rAGNqNP/ZGOZxPZDf+u5kJfkFI3WmqtlbnEEH1mXup0yfOcejLo3Q==
 
 esbuild-plugin-tsconfig-paths@^1.0.1:
   version "1.0.1"
@@ -1034,7 +1034,7 @@ esbuild-plugin-tsconfig-paths@^1.0.1:
   dependencies:
     tsconfig-paths "4.2.0"
 
-esbuild@^0.17.4:
+esbuild@^0.17.19:
   version "0.17.19"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.17.19.tgz#087a727e98299f0462a3d0bcdd9cd7ff100bd955"
   integrity sha512-XQ0jAPFkK/u3LcVRcvVHQcTIqD6E2H1fvZMA5dQPSOWb3suUbWbfbRf94pjc0bNzRYLfIrDRQXr7X+LHIm5oHw==

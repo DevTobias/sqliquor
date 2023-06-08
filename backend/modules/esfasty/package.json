@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "esbuild": "^0.17.4",
+    "esbuild": "^0.17.19",
     "esbuild-plugin-clean": "^1.0.1",
-    "esbuild-plugin-pino": "^1.2.8",
+    "esbuild-plugin-pino": "^2.0.0",
     "esbuild-plugin-tsconfig-paths": "^1.0.1"
   }
 }
