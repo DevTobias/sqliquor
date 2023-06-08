@@ -9,6 +9,7 @@
     "esfasty": "node ../modules/esfasty/index.js"
   },
   "dependencies": {
+    "@modules/clean-backend": "^1.0.0",
     "@fastify/cors": "^8.3.0",
     "@fastify/helmet": "^10.1.1",
     "@fastify/rate-limit": "^8.0.0",

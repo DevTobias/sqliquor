@@ -63,7 +63,7 @@
         },
         "eslint.debug": true,
         "eslint.codeActionsOnSave.mode": "problems",
-        "eslint.workingDirectories": ["frontend/app", "backend/app"],
+        "eslint.workingDirectories": ["frontend/app", "backend/app", "backend/modules/clean-backend"],
 
         //! Formatters
         "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",

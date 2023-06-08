@@ -1,4 +1,4 @@
-import { Router } from '$lib/router';
+import { Router } from '@modules/clean-backend';
 import { HelloController } from '$interface/controller/hello.controller';
 
 export const HelloRouter = Router('/hello', async (app) => {

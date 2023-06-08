@@ -1,30 +1,25 @@
 import fastify, { FastifyInstance, FastifyPluginCallback } from 'fastify';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyCors from '@fastify/cors';
+import { Route } from '@modules/clean-backend';
 
-import { Router } from '$lib/router';
 import { loadConfig } from '$infrastructure/config';
 import { notFoundHandler } from '$infrastructure/webserver/handler/not_found.handler';
 import { errorHandler } from '$infrastructure/webserver/handler/error.handler';
 import { rateLimitPlugin } from '$infrastructure/webserver/plugins/rate_limiter';
 import { envToLoggerConfig } from '$infrastructure/webserver/plugins/logger';
 
-interface AppInput {
-  plugins: FastifyPluginCallback[];
-  routes: ReturnType<typeof Router>[];
-}
-
 const registerPlugins = async (app: FastifyInstance, plugins: FastifyPluginCallback[]) => {
   const defaultPlugins = [rateLimitPlugin(app), app.register(fastifyCors), app.register(fastifyHelmet)];
   return Promise.all([...defaultPlugins, ...plugins.map((plugin) => app.register(plugin))]);
 };
 
-const registerRoutes = async (app: FastifyInstance, routers: ReturnType<typeof Router>[]) => {
+const registerRoutes = async (app: FastifyInstance, routers: Route[]) => {
   const defaultRoutes = [app.setNotFoundHandler(notFoundHandler), app.setErrorHandler(errorHandler)];
   return Promise.all([...defaultRoutes, ...routers.map(({ prefix, routes }) => app.register(routes, { prefix }))]);
 };
 
-export const App = (init: AppInput) => {
+export const App = (init: { plugins: FastifyPluginCallback[]; routes: Route[] }) => {
   const config = loadConfig();
 
   const app = fastify({ logger: envToLoggerConfig[config.NODE_ENV] });
