@@ -8,6 +8,8 @@ import { notFoundHandler } from '$infrastructure/webserver/handler/not_found.han
 import { errorHandler } from '$infrastructure/webserver/handler/error.handler';
 import { rateLimitPlugin } from '$infrastructure/webserver/plugins/rate_limiter';
 import { envToLoggerConfig } from '$infrastructure/webserver/plugins/logger';
+import { initializeORM } from '$infrastructure/database';
+import { initializeDependencies } from '$infrastructure/di';
 
 const registerPlugins = async (app: FastifyInstance, plugins: FastifyPluginCallback[]) => {
   const defaultPlugins = [rateLimitPlugin(app), app.register(fastifyCors), app.register(fastifyHelmet)];
@@ -21,6 +23,8 @@ const registerRoutes = async (app: FastifyInstance, routers: Route[]) => {
 
 export const App = (init: { plugins: FastifyPluginCallback[]; routes: Route[] }) => {
   const config = loadConfig();
+  initializeORM();
+  initializeDependencies();
 
   const app = fastify({ logger: envToLoggerConfig[config.NODE_ENV] });
 

@@ -4,6 +4,9 @@
 # Dependencies
 node_modules
 
+# Environments
+.env
+
 # Generated output
 dist
 build

@@ -35,7 +35,12 @@
 
         "material-icon-theme.folders.associations": {
           "infrastructure": "cluster",
-          "webserver": "server"
+          "webserver": "server",
+          "application": "app",
+          "auth": "",
+          "use_cases": "interface",
+          "domain": "public",
+          "dto": "class"
         },
         "material-icon-theme.files.associations": {
           "*.route.ts": "routing"
@@ -82,7 +87,8 @@
         "IronGeek.vscode-env",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "rvest.vs-code-prettier-eslint"
+        "rvest.vs-code-prettier-eslint",
+        "Prisma.prisma"
       ]
     }
   }

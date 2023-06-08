@@ -5,6 +5,13 @@ tasks:
     cmds:
       - task --list
 
+  backend:
+    desc: Runs the docker compose command for the backend (up, down, build)
+    cmds:
+      - if [ {{.CLI_ARGS}} = build ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend{{.CLI_ARGS}} --no-cache; fi
+      - if [ {{.CLI_ARGS}} = up ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend {{.CLI_ARGS}} -d; fi
+      - if [ {{.CLI_ARGS}} = down ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend {{.CLI_ARGS}}; fi
+
   run:
     desc: Runs the script with the provided name (clean, upgrade, install)
     cmds:

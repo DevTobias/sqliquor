@@ -9,5 +9,4 @@ export const configSchema = z.object({
   PORT: z.string().transform((port) => parseInt(port, 10)),
   THROTTLE_MAX_REQUESTS: z.string().transform(toInt),
   THROTTLE_TIME_WINDOW: z.string().transform(toInt),
-  HEALTH_CHECK_INTERVAL: z.string().transform(toInt),
 });
