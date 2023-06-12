@@ -18,6 +18,7 @@
     "typeRoots": ["src/global.d.ts"],
     "paths": {
       "$lib/*": ["src/lib/*"],
+      "$prisma/*": ["src/infrastructure/database/prisma/.prisma/*"],
       "$*": ["src/*"]
     }
   },

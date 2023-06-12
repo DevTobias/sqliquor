@@ -1,4 +1,4 @@
-import { genSalt, hash as secureHash, compare as compareHash } from 'bcrypt';
+import { genSalt, hash as secureHash, compare as compareHash } from 'bcryptjs';
 
 export const PasswordHash = {
   hash: async (password: string): Promise<string> => {
