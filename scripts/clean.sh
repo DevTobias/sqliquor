@@ -3,7 +3,7 @@
 GREEN=`tput setaf 2`
 NC=`tput sgr0`
 
-arr=("node_modules" "build" "dist" ".turbo" ".docusaurus" ".next")
+arr=("node_modules" "build" "dist" ".turbo" ".docusaurus" ".next" ".prisma")
 
 for folder in "${arr[@]}"
 do

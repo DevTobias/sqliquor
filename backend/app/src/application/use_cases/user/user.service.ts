@@ -1,4 +1,4 @@
-import { CreateUserDto } from '$domain/dto/user/createUser.dto';
+import { CreateUserInterface } from '$domain/interface/user.interface';
 import { User } from '$infrastructure/database';
 
 export const UserServiceSymbol = 'user_service';
@@ -11,7 +11,7 @@ export interface UserService {
    * @throws      {@link HttpException} if username or email already exists
    * @returns     The freshly created user
    */
-  create: (payload: CreateUserDto) => Promise<User>;
+  create: (payload: CreateUserInterface) => Promise<User>;
 
   /**
    * Find an {@link User} by it's email or username. If no user with

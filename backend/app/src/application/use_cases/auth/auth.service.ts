@@ -1,5 +1,4 @@
-import { RegisterPayload, RegisterResponse } from '$domain/dto/auth/register.dto';
-import { TokenPayload } from '$domain/dto/auth/signIn.dto';
+import { ResponseSignUpInterface, SignUpInterface, TokenInterface } from '$domain/interface/auth.interface';
 import { User } from '$infrastructure/database';
 
 export const AuthServiceSymbol = 'auth_service';
@@ -12,7 +11,7 @@ export interface AuthService {
    * @throws      {@link HttpException} if username or email already exists
    * @returns     The freshly created user
    */
-  signUp: (payload: RegisterPayload) => Promise<RegisterResponse>;
+  signUp: (payload: SignUpInterface) => Promise<ResponseSignUpInterface>;
 
   /**
    * Signs in the provided user. This means generating a new
@@ -23,7 +22,7 @@ export interface AuthService {
    * @param refreshCookie   The refresh token originally persisted in cookies
    * @returns               The generated token pair and a reuse detection flag
    */
-  signIn: (user: User, refreshCookie?: string) => Promise<TokenPayload>;
+  signIn: (user: User, refreshCookie?: string) => Promise<TokenInterface>;
 
   getAuthenticatedUser: (identifier: string, password: string) => Promise<User>;
 }
