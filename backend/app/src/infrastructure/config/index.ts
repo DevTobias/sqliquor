@@ -7,7 +7,8 @@ export type Environment = z.infer<typeof environmentSchema>;
 export const EnvironmentSymbol = 'env';
 
 export const loadEnvironment = (path: string): Environment => {
-  const parsedEnvironment = environmentSchema.parse(dotenv.config({ path }).parsed);
+  dotenv.config({ path });
+  const parsedEnvironment = environmentSchema.parse(process.env);
   registerValue(EnvironmentSymbol, parsedEnvironment);
   return parsedEnvironment;
 };
