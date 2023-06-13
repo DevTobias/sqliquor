@@ -13,6 +13,7 @@ const authCookieOptions: CookieOptions = {
 export interface AuthController {
   signUp: Controller;
   signIn: Controller;
+  signOut: Controller;
 }
 
 export type AuthControllerFactory = (s: { authService: AuthService }) => AuthController;
@@ -23,7 +24,7 @@ export const authControllerFactory: AuthControllerFactory = ({ authService }) =>
 
   signIn: async ({ user, cookies }, reply) => {
     if (!user) {
-      throw new HttpException('user not authorized', httpStatus.UNAUTHORIZED);
+      throw new HttpException('user not authenticated', httpStatus.UNAUTHORIZED);
     }
 
     const { accessToken, refreshToken, reuseDetected } = await authService.signIn(user, cookies.REFRESH);
@@ -32,5 +33,15 @@ export const authControllerFactory: AuthControllerFactory = ({ authService }) =>
     reply.setCookie('REFRESH', refreshToken, authCookieOptions);
 
     return { accessToken, refreshToken };
+  },
+
+  signOut: async ({ user }, reply) => {
+    reply.clearCookie('REFRESH', authCookieOptions);
+
+    if (!user) {
+      throw new HttpException('user not authenticated', httpStatus.UNAUTHORIZED);
+    }
+
+    return authService.signOut(user.id);
   },
 });

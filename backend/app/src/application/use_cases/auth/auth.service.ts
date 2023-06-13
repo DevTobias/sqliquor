@@ -1,5 +1,6 @@
 import { UserService } from '$application/use_cases/user/user.service';
 import { ResponseSignUpInterface, SignUpInterface, TokenInterface } from '$domain/interface/auth.interface';
+import { GenericResponseInterface } from '$domain/interface/generic.interface';
 import { Environment } from '$infrastructure/config';
 import { User } from '$infrastructure/database';
 
@@ -26,6 +27,14 @@ export interface AuthService {
    * @returns               The generated token pair and a reuse detection flag
    */
   signIn: (user: User, refreshCookie?: string) => Promise<TokenInterface>;
+
+  /**
+   * Signs out the user in all active sessions by invalidating all active
+   * refresh tokens.
+   *
+   * @param id  The id of the user to sign out
+   */
+  signOut(id: string): Promise<GenericResponseInterface>;
 
   /**
    * Returns the user in database with the provided email if the plain password

@@ -4,11 +4,17 @@ import { Hook, Router } from '$infrastructure/webserver/types';
 
 export const AuthRouter = 'authRouter';
 
-export type AuthRouterFactory = (s: { authController: AuthController; localAuthHook: Hook }) => Router;
-export const authRouterFactory: AuthRouterFactory = ({ authController, localAuthHook }) => ({
+export type AuthRouterFactory = (s: {
+  authController: AuthController;
+  localAuthHook: Hook;
+  tokenAuthHook: Hook;
+}) => Router;
+
+export const authRouterFactory: AuthRouterFactory = ({ authController, localAuthHook, tokenAuthHook }) => ({
   prefix: '/auth',
   routes: async (app) => {
     app.post('/signup', { schema: { body: SignUpSchema } }, authController.signUp);
     app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthHook }, authController.signIn);
+    app.post('/signout', { preHandler: tokenAuthHook }, authController.signOut);
   },
 });

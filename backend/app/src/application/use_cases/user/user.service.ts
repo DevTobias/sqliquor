@@ -15,6 +15,16 @@ export interface UserService {
   create: (payload: CreateUserInterface) => Promise<User>;
 
   /**
+   * Find an {@link User} by it's id. If no user with the provided
+   * id was found, a {@link HttpException} gets thrown.
+   *
+   * @param id  The id of the searched user
+   * @throws    {@link HttpException} if no user was found
+   * @returns   The user with the provided id
+   */
+  findById(id: string): Promise<User>;
+
+  /**
    * Find an {@link User} by it's email or username. If no user with
    * the provided identifier was found, a {@link HttpException} gets thrown.
    *

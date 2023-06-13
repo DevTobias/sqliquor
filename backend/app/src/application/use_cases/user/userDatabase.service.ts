@@ -9,6 +9,12 @@ export const UserDatabaseService: UserServiceFactory = ({ db }) => ({
     });
   },
 
+  findById: async (id) => {
+    return db.user.findUniqueOrThrow({ where: { id } }).catch(() => {
+      throw new HttpException('user with this id does not exist', status.NOT_FOUND);
+    });
+  },
+
   findByEmailOrUsername: async (identifier) => {
     return db.user.findFirstOrThrow({ where: { OR: [{ email: identifier }, { username: identifier }] } }).catch(() => {
       throw new HttpException('user with this identifier does not exist', status.NOT_FOUND);

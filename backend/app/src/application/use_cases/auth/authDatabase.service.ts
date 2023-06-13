@@ -58,6 +58,11 @@ export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) =>
     return { accessToken, refreshToken, reuseDetected };
   },
 
+  signOut: async (id) => {
+    await userService.persistTokens(id, []);
+    return { message: 'successfully signed out', statusCode: status.OK };
+  },
+
   getAuthenticatedUser: async (identifier, password) => {
     const user = await userService.findByEmailOrUsername(identifier).catch(() => {
       throw new HttpException('invalid credentials', status.UNAUTHORIZED);
