@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { AuthService } from '$application/use_cases/auth/auth.service';
 import { SignUpInterface } from '$domain/interface/auth.interface';
 import { Controller, CookieOptions, HttpException } from '$infrastructure/webserver/types';
+import { mapUserToPublic } from '$domain/mappers/user.mapper';
 
 const authCookieOptions: CookieOptions = {
   httpOnly: true,
@@ -19,7 +20,8 @@ export interface AuthController {
 export type AuthControllerFactory = (s: { authService: AuthService }) => AuthController;
 export const authControllerFactory: AuthControllerFactory = ({ authService }) => ({
   signUp: async (request, reply) => {
-    return reply.send(await authService.signUp(request.body as SignUpInterface));
+    const created = await authService.signUp(request.body as SignUpInterface);
+    return reply.send(mapUserToPublic(created));
   },
 
   signIn: async ({ user, cookies }, reply) => {

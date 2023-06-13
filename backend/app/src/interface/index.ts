@@ -1,18 +1,18 @@
 import { funcDependency, registerDependencies } from '$infrastructure/di';
 import { authControllerFactory } from '$interface/controller/auth.controller';
-import { helloControllerFactory } from '$interface/controller/hello.controller';
+import { userControllerFactory } from '$interface/controller/user.controller';
 import { localAuthHookFactory } from '$interface/hooks/localAuth.hook';
 import { tokenAuthHookFactory } from '$interface/hooks/tokenAuth.hook';
 import { authRouterFactory } from '$interface/routes/auth.route';
-import { helloRouterFactory } from '$interface/routes/hello.route';
+import { userRouterFactory } from '$interface/routes/user.route';
 
 export const initializeInterfaceLayer = () =>
   registerDependencies({
     authController: funcDependency(authControllerFactory),
-    helloController: funcDependency(helloControllerFactory),
+    userController: funcDependency(userControllerFactory),
 
     authRouter: funcDependency(authRouterFactory),
-    helloRouter: funcDependency(helloRouterFactory),
+    userRouter: funcDependency(userRouterFactory),
 
     localAuthHook: funcDependency(localAuthHookFactory),
     tokenAuthHook: funcDependency(tokenAuthHookFactory),

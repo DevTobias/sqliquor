@@ -10,8 +10,7 @@ import { removeElementIfExists } from '$application/utils/array';
 export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) => ({
   signUp: async (payload) => {
     const password = await PasswordHash.hash(payload.password);
-    const created = await userService.create({ ...payload, password });
-    return { email: created.email, username: created.username, id: created.id };
+    return userService.create({ ...payload, password });
   },
 
   signIn: async ({ id, tokens }, refreshCookie) => {

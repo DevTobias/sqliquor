@@ -1,5 +1,5 @@
 import { UserService } from '$application/use_cases/user/user.service';
-import { ResponseSignUpInterface, SignUpInterface, TokenInterface } from '$domain/interface/auth.interface';
+import { SignUpInterface, TokenInterface } from '$domain/interface/auth.interface';
 import { GenericResponseInterface } from '$domain/interface/generic.interface';
 import { Environment } from '$infrastructure/config';
 import { User } from '$infrastructure/database';
@@ -15,7 +15,7 @@ export interface AuthService {
    * @throws      {@link HttpException} if username or email already exists
    * @returns     The freshly created user
    */
-  signUp: (payload: SignUpInterface) => Promise<ResponseSignUpInterface>;
+  signUp: (payload: SignUpInterface) => Promise<User>;
 
   /**
    * Signs in the provided user. This means generating a new

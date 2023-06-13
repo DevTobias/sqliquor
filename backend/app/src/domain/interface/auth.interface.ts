@@ -4,19 +4,13 @@ export interface SignUpInterface {
   password: string;
 }
 
-export interface ResponseSignUpInterface {
-  email: string;
-  username: string;
-  id: string;
+export interface SignInInterface {
+  identifier: string;
+  password: string;
 }
 
 export interface TokenInterface {
   accessToken: string;
   refreshToken: string;
   reuseDetected: boolean;
-}
-
-export interface SignInInterface {
-  identifier: string;
-  password: string;
 }
