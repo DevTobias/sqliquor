@@ -1,6 +1,6 @@
 import status from 'http-status';
 import { Controller, HttpException } from '$infrastructure/webserver/types';
-import { mapUserToPublic } from '$domain/mappers/user.mapper';
+import { mapUserToPublic } from '$domain/mappings/user.mapper';
 
 export interface UserController {
   userInformation: Controller;

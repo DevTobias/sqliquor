@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import { AuthService } from '$application/use_cases/auth/auth.service';
 import { SignUpInterface } from '$domain/interface/auth.interface';
 import { Controller, CookieOptions, HttpException } from '$infrastructure/webserver/types';
-import { mapUserToPublic } from '$domain/mappers/user.mapper';
+import { mapUserToPublic } from '$domain/mappings/user.mapper';
 
 const authCookieOptions: CookieOptions = {
   httpOnly: true,
