@@ -7,7 +7,7 @@ import { mapUserToPublic } from '$domain/mappings/user.mapper';
 const authCookieOptions: CookieOptions = {
   httpOnly: true,
   sameSite: 'strict',
-  secure: true,
+  secure: 'auto',
   maxAge: 60 * 60 * 24 * 30,
 };
 
@@ -15,6 +15,7 @@ export interface AuthController {
   signUp: Controller;
   signIn: Controller;
   signOut: Controller;
+  refreshToken: Controller;
 }
 
 export type AuthControllerFactory = (s: { authService: AuthService }) => AuthController;
@@ -45,5 +46,15 @@ export const authControllerFactory: AuthControllerFactory = ({ authService }) =>
     }
 
     return authService.signOut(user.id);
+  },
+
+  refreshToken: async ({ user }, reply) => {
+    if (!user) {
+      throw new HttpException('could not refresh token', httpStatus.UNAUTHORIZED);
+    }
+
+    const { accessToken, refreshToken } = await authService.refreshToken(user);
+    reply.setCookie('REFRESH', refreshToken, authCookieOptions);
+    return { accessToken, refreshToken };
   },
 });

@@ -47,4 +47,27 @@ export interface AuthService {
    * @returns         The found user object if password matches
    */
   getAuthenticatedUser: (identifier: string, password: string) => Promise<User>;
+
+  /**
+   * Verifies if the refresh token is valid. If this is the case, the
+   * user associated with this token gets returned. If the token is invalid,
+   * an {@link HttpException} gets thrown. If a token reuse gets detected,
+   * all valid user tokens are getting invalidated.
+   *
+   * @param refreshToken  The refresh token to validate
+   * @throws              {@link HttpException} if token is invalid
+   * @returns             The user associated to the token if valid
+   */
+  verifyRefreshToken(refreshToken: string): Promise<User>;
+
+  /**
+   * Generates a new token pair and updating updates current session token in the
+   * database. This method does not validate the refresh token! For this, use
+   * the {@link verifyRefreshToken} method before or use the {@link JwtRefreshGuard}
+   * decorator.
+   *
+   * @param user  The user to generate a fresh key pair for
+   * @returns     The generated token pair
+   */
+  refreshToken(user: User): Promise<TokenInterface>;
 }

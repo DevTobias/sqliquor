@@ -6,6 +6,24 @@ import { AuthServiceFactory } from '$application/use_cases/auth/auth.service';
 import { AuthToken } from '$application/security/tokens';
 import { HttpException } from '$infrastructure/webserver/types';
 import { removeElementIfExists } from '$application/utils/array';
+import { User } from '$infrastructure/database';
+import { Environment } from '$infrastructure/config';
+
+const generateTokenPair = async (id: string, env: Environment) => {
+  // Generate a unique refresh id, an access and refresh token pair
+  // The refresh id is needed to improve security while not saving a token
+  // to the database.
+  const refreshId = randomUUID();
+  const [accessToken, refreshToken] = await Promise.all([
+    AuthToken.sign({ id }, env.JWT_PRIVATE_KEY, { subject: id, expiresIn: env.JWT_EXPIRES_IN }),
+    AuthToken.sign({ id }, env.JWT_REFRESH_PRIVATE_KEY, {
+      subject: id,
+      expiresIn: env.JWT_REFRESH_EXPIRES_IN,
+      jwtid: refreshId,
+    }),
+  ]);
+  return { accessToken, refreshToken, refreshId };
+};
 
 export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) => ({
   signUp: async (payload) => {
@@ -14,18 +32,7 @@ export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) =>
   },
 
   signIn: async ({ id, tokens }, refreshCookie) => {
-    // Generate a unique refresh id, an access and refresh token pair
-    // The refresh id is needed to improve security while not saving a token
-    // to the database.
-    const refreshId = randomUUID();
-    const [accessToken, refreshToken] = await Promise.all([
-      AuthToken.sign({ id }, env.JWT_PRIVATE_KEY, { subject: id, expiresIn: env.JWT_EXPIRES_IN }),
-      AuthToken.sign({ id }, env.JWT_REFRESH_PRIVATE_KEY, {
-        subject: id,
-        expiresIn: env.JWT_REFRESH_EXPIRES_IN,
-        jwtid: refreshId,
-      }),
-    ]);
+    const { accessToken, refreshId, refreshToken } = await generateTokenPair(id, env);
 
     // Parse the refresh token cookie header
     const existingRefreshId = refreshCookie ? AuthToken.decode(refreshCookie)?.jti : null;
@@ -72,5 +79,51 @@ export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) =>
     }
 
     return user;
+  },
+
+  verifyRefreshToken: async (refreshToken) => {
+    // Try to decode the token in order to get the token id to look
+    // for in the database. If this failed, a wrong token was provided.
+    const decoded = AuthToken.decode(refreshToken);
+
+    if (!decoded) {
+      throw new HttpException('invalid refresh token', status.FORBIDDEN);
+    }
+
+    const foundUser = await userService.findByToken(decoded.jti!).catch(() => null);
+
+    // The provided refresh token was not found in database. At this point,
+    // the token was a valid jwt token, so it must got used after invalidation, in other
+    // words, a token reuse was detected. All tokens of the hacked user should get
+    // invalidated by now.
+
+    if (!foundUser) {
+      const reusePayload = AuthToken.verify(refreshToken, env.JWT_REFRESH_PUBLIC_KEY) as { id: string };
+      await userService.persistTokens(reusePayload.id, []);
+      throw new HttpException('invalid refresh token', status.FORBIDDEN);
+    }
+
+    let updatedUser: User;
+
+    try {
+      AuthToken.verify(refreshToken, env.JWT_REFRESH_PUBLIC_KEY) as { id: string };
+    } catch (_) {
+      // If the token was found in database and was a valid jwt token, it means
+      // that the token expired. In this case remove the token from database.
+      throw new HttpException('invalid refresh token', status.FORBIDDEN);
+    } finally {
+      // At this point everything was ok. No reuse was detected and the token was
+      // valid and not expired. Return the user object to create a new token pair.
+      const filteredTokens = removeElementIfExists(foundUser.tokens, decoded.jti);
+      updatedUser = await userService.persistTokens(foundUser.id, filteredTokens);
+    }
+
+    return updatedUser;
+  },
+
+  refreshToken: async ({ id, tokens }) => {
+    const { accessToken, refreshId, refreshToken } = await generateTokenPair(id, env);
+    userService.persistTokens(id, [...tokens, refreshId]);
+    return { refreshToken, accessToken, reuseDetected: false };
   },
 });
