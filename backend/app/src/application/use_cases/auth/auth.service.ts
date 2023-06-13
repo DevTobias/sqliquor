@@ -1,7 +1,10 @@
+import { UserService } from '$application/use_cases/user/user.service';
 import { ResponseSignUpInterface, SignUpInterface, TokenInterface } from '$domain/interface/auth.interface';
+import { Environment } from '$infrastructure/config';
 import { User } from '$infrastructure/database';
 
-export const AuthServiceSymbol = 'auth_service';
+export type AuthServiceFactory = (s: { env: Environment; userService: UserService }) => AuthService;
+
 export interface AuthService {
   /**
    * Registers a new {@link User} in the system. If the email or
@@ -24,5 +27,15 @@ export interface AuthService {
    */
   signIn: (user: User, refreshCookie?: string) => Promise<TokenInterface>;
 
+  /**
+   * Returns the user in database with the provided email if the plain password
+   * matches the persisted password hash. If the credentials do not match,
+   * a {@link HttpException} gets thrown.
+   *
+   * @param email     The email of the user account
+   * @param password  The password of the user account
+   * @throws          {@link HttpException} if password does not match
+   * @returns         The found user object if password matches
+   */
   getAuthenticatedUser: (identifier: string, password: string) => Promise<User>;
 }

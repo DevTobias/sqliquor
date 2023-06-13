@@ -1,16 +1,13 @@
-import { asValue } from 'awilix';
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
+import { environmentSchema } from '$infrastructure/config/schema';
+import { registerValue } from '$infrastructure/di';
 
-import { di } from '$infrastructure/di';
-import { configSchema } from '$infrastructure/config/schema';
+export type Environment = z.infer<typeof environmentSchema>;
+export const EnvironmentSymbol = 'env';
 
-export type Config = z.infer<typeof configSchema>;
-export const ConfigSymbol = 'config';
-
-export const loadConfig = (): Config => {
-  dotenv.config({ path: `${global.root}/.env` });
-  const parsedConfig = configSchema.parse(process.env);
-  di.register({ config: asValue(parsedConfig) });
-  return parsedConfig;
+export const loadEnvironment = (path: string): Environment => {
+  const parsedEnvironment = environmentSchema.parse(dotenv.config({ path }).parsed);
+  registerValue(EnvironmentSymbol, parsedEnvironment);
+  return parsedEnvironment;
 };

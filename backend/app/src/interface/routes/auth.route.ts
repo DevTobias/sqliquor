@@ -1,12 +1,17 @@
-import { Router } from '@modules/clean-backend';
 import { AuthController } from '$interface/controller/auth.controller';
 import { SignInSchema, SignUpSchema } from '$domain/validation/auth.validate';
-import { localAuthenticationHook } from '$interface/hooks/auth.hook';
+import { Hook, Router } from '$infrastructure/webserver/types';
 
-export const AuthRouter = Router('/auth', async (app) => {
-  app.post('/signup', { schema: { body: SignUpSchema } }, AuthController.signUp);
+export const AuthRouter = 'authRouter';
 
-  app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthenticationHook }, (req, res) => {
-    res.send(req.user);
-  });
+export type AuthRouterFactory = (s: { authController: AuthController; localAuthHook: Hook }) => Router;
+export const authRouterFactory: AuthRouterFactory = ({ authController, localAuthHook }) => ({
+  prefix: '/auth',
+  routes: async (app) => {
+    app.post('/signup', { schema: { body: SignUpSchema } }, authController.signUp);
+
+    app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthHook }, (req, res) => {
+      res.send(req.user);
+    });
+  },
 });

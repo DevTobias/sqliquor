@@ -1,11 +1,11 @@
 import fastifyRateLimit from '@fastify/rate-limit';
 import { FastifyInstance } from 'fastify';
 
-import { Config, ConfigSymbol } from '$infrastructure/config';
-import { di } from '$infrastructure/di';
+import { Environment, EnvironmentSymbol } from '$infrastructure/config';
+import { resolveDependency } from '$infrastructure/di';
 
 export const rateLimitPlugin = (app: FastifyInstance) => {
-  const config = di.resolve<Config>(ConfigSymbol);
+  const config = resolveDependency<Environment>(EnvironmentSymbol);
 
   const rateLimitConfig = {
     max: config.THROTTLE_MAX_REQUESTS,

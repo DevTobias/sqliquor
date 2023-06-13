@@ -1,7 +1,8 @@
 import { CreateUserInterface } from '$domain/interface/user.interface';
-import { User } from '$infrastructure/database';
+import { OrmClient, User } from '$infrastructure/database';
 
-export const UserServiceSymbol = 'user_service';
+export type UserServiceFactory = (s: { db: OrmClient }) => UserService;
+
 export interface UserService {
   /**
    * Saves a new {@link User} in the database. If the email or username

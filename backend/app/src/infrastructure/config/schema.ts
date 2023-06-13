@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const toInt = (val: string) => parseInt(val, 10);
 
-export const configSchema = z.object({
+export const environmentSchema = z.object({
   // General app config
   NODE_ENV: z.enum(['development', 'test', 'production']),
 

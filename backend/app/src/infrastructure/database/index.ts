@@ -1,13 +1,11 @@
 import { PrismaClient } from '$prisma/client';
-import { registerDi } from '$infrastructure/di';
+import { registerValue } from '$infrastructure/di';
 
 export * from '$prisma/client';
-
-export const OrmSymbol = 'prisma_orm';
 export type OrmClient = PrismaClient;
 
-export const initializeORM = () => {
+export const initializeDatabase = () => {
   const client = new PrismaClient();
-  registerDi(OrmSymbol, client);
+  registerValue('db', client);
   return client;
 };

@@ -1,37 +1,29 @@
 import { randomUUID } from 'crypto';
 import status from 'http-status';
-import { HttpException, removeElementIfExists } from '@modules/clean-backend';
 
 import { PasswordHash } from '$application/security/password';
-import { AuthService } from '$application/use_cases/auth/auth.service';
-import { UserService, UserServiceSymbol } from '$application/use_cases/user/user.service';
-import { resolveDi } from '$infrastructure/di';
+import { AuthServiceFactory } from '$application/use_cases/auth/auth.service';
 import { AuthToken } from '$application/security/tokens';
-import { Config, ConfigSymbol } from '$infrastructure/config';
+import { HttpException } from '$infrastructure/webserver/types';
+import { removeElementIfExists } from '$application/utils/array';
 
-export const AuthDatabaseService: AuthService = {
+export const AuthDatabaseService: AuthServiceFactory = ({ env, userService }) => ({
   signUp: async (payload) => {
-    const userService = resolveDi<UserService>(UserServiceSymbol);
     const password = await PasswordHash.hash(payload.password);
     const created = await userService.create({ ...payload, password });
     return { email: created.email, username: created.username, id: created.id };
   },
 
-  signIn: async (user, refreshCookie) => {
-    const conf = resolveDi<Config>(ConfigSymbol);
-    const userService = resolveDi<UserService>(UserServiceSymbol);
-
-    const { id, tokens } = user;
-
+  signIn: async ({ id, tokens }, refreshCookie) => {
     // Generate a unique refresh id, an access and refresh token pair
     // The refresh id is needed to improve security while not saving a token
     // to the database.
     const refreshId = randomUUID();
     const [accessToken, refreshToken] = await Promise.all([
-      AuthToken.sign({ id }, conf.JWT_PRIVATE_KEY, { subject: id, expiresIn: conf.JWT_EXPIRES_IN }),
-      AuthToken.sign({ id }, conf.JWT_REFRESH_PRIVATE_KEY, {
+      AuthToken.sign({ id }, env.JWT_PRIVATE_KEY, { subject: id, expiresIn: env.JWT_EXPIRES_IN }),
+      AuthToken.sign({ id }, env.JWT_REFRESH_PRIVATE_KEY, {
         subject: id,
-        expiresIn: conf.JWT_REFRESH_EXPIRES_IN,
+        expiresIn: env.JWT_REFRESH_EXPIRES_IN,
         jwtid: refreshId,
       }),
     ]);
@@ -67,11 +59,9 @@ export const AuthDatabaseService: AuthService = {
   },
 
   getAuthenticatedUser: async (identifier, password) => {
-    const user = await resolveDi<UserService>(UserServiceSymbol)
-      .findByEmailOrUsername(identifier)
-      .catch(() => {
-        throw new HttpException('invalid credentials', status.UNAUTHORIZED);
-      });
+    const user = await userService.findByEmailOrUsername(identifier).catch(() => {
+      throw new HttpException('invalid credentials', status.UNAUTHORIZED);
+    });
 
     if (!(await PasswordHash.compare(password, user.password))) {
       throw new HttpException('invalid credentials', status.UNAUTHORIZED);
@@ -79,4 +69,4 @@ export const AuthDatabaseService: AuthService = {
 
     return user;
   },
-};
+});

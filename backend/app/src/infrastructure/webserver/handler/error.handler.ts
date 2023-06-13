@@ -1,5 +1,5 @@
-import { HttpException } from '@modules/clean-backend';
 import { FastifyInstance } from 'fastify';
+import { HttpException } from '$infrastructure/webserver/types';
 
 type Handler = Parameters<FastifyInstance['setErrorHandler']>[0];
 

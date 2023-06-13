@@ -1,11 +1,14 @@
-import { Controller } from '@modules/clean-backend';
-import { AuthService, AuthServiceSymbol } from '$application/use_cases/auth/auth.service';
-import { resolveDi } from '$infrastructure/di';
-import { RegisterPayload } from '$domain/dto/auth/register.dto';
+import { AuthService } from '$application/use_cases/auth/auth.service';
+import { SignUpInterface } from '$domain/interface/auth.interface';
+import { Controller } from '$infrastructure/webserver/types';
 
-export const AuthController = Controller({
+export interface AuthController {
+  signUp: Controller;
+}
+
+export type AuthControllerFactory = (s: { authService: AuthService }) => AuthController;
+export const authControllerFactory: AuthControllerFactory = ({ authService }) => ({
   signUp: async (request, reply) => {
-    const authService = resolveDi<AuthService>(AuthServiceSymbol);
-    return reply.send(await authService.signUp(request.body as RegisterPayload));
+    return reply.send(await authService.signUp(request.body as SignUpInterface));
   },
 });
