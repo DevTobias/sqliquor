@@ -9,6 +9,7 @@ declare module 'fastify' {
 
 export { FastifyRequest as Request } from 'fastify';
 export { FastifyReply as Response } from 'fastify';
+export { CookieSerializeOptions as CookieOptions } from '@fastify/cookie';
 
 export type Controller = RouteHandlerMethod;
 export type Router = { prefix: string; routes: FastifyPluginCallback };

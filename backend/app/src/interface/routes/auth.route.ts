@@ -9,9 +9,6 @@ export const authRouterFactory: AuthRouterFactory = ({ authController, localAuth
   prefix: '/auth',
   routes: async (app) => {
     app.post('/signup', { schema: { body: SignUpSchema } }, authController.signUp);
-
-    app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthHook }, (req, res) => {
-      res.send(req.user);
-    });
+    app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthHook }, authController.signIn);
   },
 });

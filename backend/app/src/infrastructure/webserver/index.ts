@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance, FastifyPluginCallback } from 'fastify';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyCors from '@fastify/cors';
-import { Route } from '@modules/clean-backend';
+import fastifyCookie from '@fastify/cookie';
 
 import { loadEnvironment } from '$infrastructure/config';
 import { notFoundHandler } from '$infrastructure/webserver/handler/not_found.handler';
@@ -10,18 +10,24 @@ import { rateLimitPlugin } from '$infrastructure/webserver/plugins/rate_limiter'
 import { envToLoggerConfig } from '$infrastructure/webserver/plugins/logger';
 import { initializeDatabase } from '$infrastructure/database';
 import { initializeDependencies } from '$infrastructure/di';
+import { Router } from '$infrastructure/webserver/types';
 
 const registerPlugins = async (app: FastifyInstance, plugins: () => FastifyPluginCallback[]) => {
-  const defaultPlugins = [rateLimitPlugin(app), app.register(fastifyCors), app.register(fastifyHelmet)];
+  const defaultPlugins = [
+    rateLimitPlugin(app),
+    app.register(fastifyCors),
+    app.register(fastifyHelmet),
+    app.register(fastifyCookie),
+  ];
   return Promise.all([...defaultPlugins, ...plugins().map((plugin) => app.register(plugin))]);
 };
 
-const registerRoutes = async (app: FastifyInstance, routers: () => Route[]) => {
+const registerRoutes = async (app: FastifyInstance, routers: () => Router[]) => {
   const defaultRoutes = [app.setNotFoundHandler(notFoundHandler), app.setErrorHandler(errorHandler)];
   return Promise.all([...defaultRoutes, ...routers().map(({ prefix, routes }) => app.register(routes, { prefix }))]);
 };
 
-export const App = (init: { plugins: () => FastifyPluginCallback[]; routes: () => Route[]; root: string }) => {
+export const App = (init: { plugins: () => FastifyPluginCallback[]; routes: () => Router[]; root: string }) => {
   const env = loadEnvironment(`${init.root}/.env`);
   initializeDatabase();
   initializeDependencies();

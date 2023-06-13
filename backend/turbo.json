@@ -5,12 +5,12 @@
       "outputs": ["dist/**"],
       "dependsOn": ["^build", "init"]
     },
-    "init": { "dependsOn": ["^build"] },
     "dev": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["^build", "init"]
     },
-    "lint": {}
+    "init": { "dependsOn": ["^build"] },
+    "lint": { "dependsOn": ["^build"] }
   }
 }
