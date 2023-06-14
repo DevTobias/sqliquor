@@ -6,4 +6,6 @@ export const mapUserToPublic = (user: User) => ({
   id: user.id,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
+  sandboxCreated: user.sandboxCreated,
+  sandboxHistory: user.sandboxHistory,
 });

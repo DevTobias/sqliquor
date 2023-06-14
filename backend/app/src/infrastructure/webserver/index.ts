@@ -8,7 +8,7 @@ import { notFoundHandler } from '$infrastructure/webserver/handler/not_found.han
 import { errorHandler } from '$infrastructure/webserver/handler/error.handler';
 import { rateLimitPlugin } from '$infrastructure/webserver/plugins/rate_limiter';
 import { envToLoggerConfig } from '$infrastructure/webserver/plugins/logger';
-import { initializeDatabase } from '$infrastructure/database';
+import { initializeDatabase, initializeSandboxDatabase } from '$infrastructure/database';
 import { initializeDependencies } from '$infrastructure/di';
 import { Router } from '$infrastructure/webserver/types';
 
@@ -29,7 +29,9 @@ const registerRoutes = async (app: FastifyInstance, routers: () => Router[]) => 
 
 export const App = (init: { plugins: () => FastifyPluginCallback[]; routes: () => Router[]; root: string }) => {
   const env = loadEnvironment(`${init.root}/.env`);
+
   initializeDatabase();
+  initializeSandboxDatabase();
   initializeDependencies();
 
   const app = fastify({ logger: envToLoggerConfig[env.NODE_ENV] });

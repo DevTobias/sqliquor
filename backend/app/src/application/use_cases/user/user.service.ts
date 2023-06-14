@@ -56,7 +56,34 @@ export interface UserService {
    * @param id      The unique identifier of the user
    * @param tokens  The token list to associate to the user
    * @throws        {@link HttpException} if token was reused
-   * @returns       The user instance with no refresh tokens
+   * @returns       The updated user instance
    */
   persistTokens: (id: string, tokens: string[]) => Promise<User>;
+
+  /**
+   * Appends the query to the sandbox history for later usage.
+   *
+   * @param id      The unique identifier of the user
+   * @param query   The executed query of the user
+   * @returns       The updated user instance
+   */
+  addSandboxQueryToHistory: (id: string, query: string) => Promise<User>;
+
+  /**
+   * Completely flushes the sandbox history of the provided user.
+   *
+   * @param id      The unique identifier of the user
+   * @returns       The updated user instance
+   */
+  flushSandboxHistory: (id: string) => Promise<User>;
+
+  /**
+   * Enables the flag for the user with provided id, which states
+   * that the custom sandbox database for the user has already
+   * been created.
+   *
+   * @param id    The unique identifier of the user
+   * @returns     The updated user instance
+   */
+  toggleSandboxCreated: (id: string) => Promise<User>;
 }

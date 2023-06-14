@@ -15,5 +15,18 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  sandbox-database:
+    image: mariadb:latest
+    restart: unless-stopped
+    ports:
+      - ${SANDBOX_DATABASE_PORT}:${SANDBOX_DATABASE_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
+    volumes:
+      - sandbox-database:/var/lib/mysql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 volumes:
   database:
+  sandbox-database:

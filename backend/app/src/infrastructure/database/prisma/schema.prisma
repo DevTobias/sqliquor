@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = ".prisma/client"
+  provider      = "prisma-client-js"
+  output        = ".prisma/client"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -14,6 +14,10 @@ model User {
   username String   @unique
   password String
   tokens   String[] @default([])
+
+  sandboxCreated  Boolean  @default(false)
+  sandboxPassword String   @default(uuid())
+  sandboxHistory  String[] @default([])
 
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
