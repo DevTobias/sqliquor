@@ -8,9 +8,9 @@
     "build": "docusaurus build"
   },
   "dependencies": {
-    "@akebifiky/remark-simple-plantuml": "^1.0.2",
     "@docusaurus/core": "2.4.1",
     "@docusaurus/preset-classic": "2.4.1",
+    "@docusaurus/theme-mermaid": "^2.4.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
@@ -18,7 +18,7 @@
     "@algolia/client-search": "^4.17.2",
     "@docusaurus/module-type-aliases": "2.4.1",
     "@tsconfig/docusaurus": "^1.0.7",
-    "typescript": "^5.1.3",
-    "react-loadable": "^5.5.0"
+    "react-loadable": "^5.5.0",
+    "typescript": "^5.1.3"
   }
 }
