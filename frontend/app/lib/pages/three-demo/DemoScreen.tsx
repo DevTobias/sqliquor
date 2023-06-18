@@ -3,8 +3,7 @@
 import { useRef } from 'react';
 import { useHelper } from '@react-three/drei';
 import { SpotLightHelper, PointLightHelper, SpotLight, PointLight } from 'three';
-
-import { Box } from '$lib/components/Box';
+import { Box } from '$lib/pages/three-demo/components/Box';
 
 export const DemoScreen = () => {
   const spotLightRef = useRef<SpotLight>(null!);
