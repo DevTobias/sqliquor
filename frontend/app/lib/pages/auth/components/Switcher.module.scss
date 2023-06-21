@@ -1,0 +1,13 @@
+.switcher {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(38, 30, 73);
+    text-decoration-color: rgb(38, 30, 73);
+  }
+}

@@ -1,4 +1,4 @@
-import '$lib/styles/index.css';
+import '$lib/styles/base/foundation.scss';
 
 export const metadata = { title: 'SQL Game Demo' };
 

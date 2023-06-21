@@ -1,4 +1,2 @@
 FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:18-bullseye
-RUN npm install -g npm
-RUN npm install -g npm-check-updates
-RUN npm install -g @go-task/cli
+RUN npm install -g npm@latest npm-check-updates@latest @go-task/cli@latest

@@ -1,0 +1,8 @@
+@use '../theme' as theme;
+
+@mixin element {
+  padding: 13px;
+  outline: none;
+  font-size: theme.fontSize('body-md');
+  @include theme.shadow-md;
+}
