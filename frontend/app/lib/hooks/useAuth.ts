@@ -5,6 +5,7 @@ import useSWR from 'swr';
 
 import { User } from '$lib/types/user';
 import { client } from '$lib/utils/http';
+import { config } from '$lib/config';
 
 interface RefreshResponse {
   accessToken: string;
@@ -20,7 +21,7 @@ export const useAuth = () => {
   );
 
   const authClient = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: config.backendUrl,
     withCredentials: true,
     headers: { Authorization: `Bearer ${data?.accessToken}` },
   });
