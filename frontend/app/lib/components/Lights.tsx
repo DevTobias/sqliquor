@@ -1,7 +1,6 @@
 'use client';
 
 import { useHelper } from '@react-three/drei';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useControls } from 'leva';
 import { useMemo, useRef } from 'react';
 import { PointLightHelper, SpotLight, PointLight, DirectionalLightHelper, DirectionalLight } from 'three';
