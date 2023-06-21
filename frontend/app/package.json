@@ -21,6 +21,7 @@
     "react-hook-form": "^7.45.0",
     "react-hot-toast": "^2.4.1",
     "sass": "^1.63.5",
+    "swr": "^2.1.5",
     "three": "^0.153.0",
     "zustand": "^4.3.8"
   },

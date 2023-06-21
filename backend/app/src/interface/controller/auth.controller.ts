@@ -9,6 +9,7 @@ const authCookieOptions: CookieOptions = {
   sameSite: 'none',
   secure: 'auto',
   maxAge: 60 * 60 * 24 * 30,
+  path: '/',
 };
 
 export interface AuthController {
@@ -35,7 +36,7 @@ export const authControllerFactory: AuthControllerFactory = ({ authService }) =>
     if (reuseDetected) reply.clearCookie('REFRESH', authCookieOptions);
     reply.setCookie('REFRESH', refreshToken, authCookieOptions);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user: mapUserToPublic(user) };
   },
 
   signOut: async ({ user }, reply) => {
@@ -55,6 +56,6 @@ export const authControllerFactory: AuthControllerFactory = ({ authService }) =>
 
     const { accessToken, refreshToken } = await authService.refreshToken(user);
     reply.setCookie('REFRESH', refreshToken, authCookieOptions);
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user: mapUserToPublic(user) };
   },
 });

@@ -1,5 +1,5 @@
 import { AuthScreen } from '$lib/pages/auth/AuthScreen';
 
-export default function Home() {
+export default function Auth() {
   return <AuthScreen />;
 }
