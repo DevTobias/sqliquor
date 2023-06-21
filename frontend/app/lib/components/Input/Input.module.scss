@@ -1,0 +1,15 @@
+@use '$styles/theme' as theme;
+@use '$styles/classes/form' as form;
+
+.input {
+  @include form.element;
+
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
+
+  &:focus,
+  &:active {
+    border: 2px solid theme.color('primary', 600);
+  }
+}

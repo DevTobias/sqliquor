@@ -30,7 +30,8 @@
           "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env",
           "next.config.js": "next-env.d.ts",
           "Taskfile.yml": ".gitignore,.editorconfig",
-          "server.ts": "global.d.ts"
+          "server.ts": "global.d.ts",
+          "*.tsx": "$(capture).module.scss"
         },
 
         "material-icon-theme.folders.associations": {
@@ -40,7 +41,8 @@
           "auth": "",
           "use_cases": "interface",
           "domain": "public",
-          "dto": "class"
+          "dto": "class",
+          "mixins": "decorators"
         },
         "material-icon-theme.files.associations": {
           "*.route.ts": "routing"
@@ -77,6 +79,9 @@
         },
         "[typescript][javascript]": {
           "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+        },
+        "[prisma]": {
+          "editor.defaultFormatter": "Prisma.prisma"
         }
       },
       "extensions": [
@@ -88,7 +93,8 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "rvest.vs-code-prettier-eslint",
-        "Prisma.prisma"
+        "Prisma.prisma",
+        "viijay-kr.react-ts-css"
       ]
     }
   }
