@@ -6,7 +6,7 @@ import { Lights } from '$lib/components/Lights';
 
 /* This screen is used to implement anything that is physically in the world */
 
-export const DemoScreen = () => {
+export const GameScreen = () => {
   return (
     <>
       <DemoLevel />

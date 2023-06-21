@@ -1,12 +1,12 @@
 'use client';
 
 import { ThreeScene } from '$lib/components/ThreeScene';
-import { DemoScreen } from '$lib/pages/three-demo/DemoScreen';
+import { GameScreen } from '$lib/pages/three-demo/GameScreen';
 
 export default function Home() {
   return (
     <ThreeScene>
-      <DemoScreen />
+      <GameScreen />
     </ThreeScene>
   );
 }
