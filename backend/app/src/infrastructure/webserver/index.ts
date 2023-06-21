@@ -15,7 +15,18 @@ import { Router } from '$infrastructure/webserver/types';
 const registerPlugins = async (app: FastifyInstance, plugins: () => FastifyPluginCallback[]) => {
   const defaultPlugins = [
     rateLimitPlugin(app),
-    app.register(fastifyCors),
+    app.register(fastifyCors, {
+      origin: (origin, cb) => {
+        if (!origin) return cb(null, true);
+
+        if (new URL(origin).hostname === 'localhost') {
+          return cb(null, true);
+        }
+
+        return cb(new Error('Not allowed'), false);
+      },
+      credentials: true,
+    }),
     app.register(fastifyHelmet),
     app.register(fastifyCookie),
   ];

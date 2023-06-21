@@ -31,7 +31,7 @@
           "next.config.js": "next-env.d.ts",
           "Taskfile.yml": ".gitignore,.editorconfig",
           "server.ts": "global.d.ts",
-          "*.tsx": "$(capture).module.scss"
+          "*.tsx": "$(capture).*"
         },
 
         "material-icon-theme.folders.associations": {

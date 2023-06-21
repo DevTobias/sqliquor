@@ -6,7 +6,7 @@ import { mapUserToPublic } from '$domain/mappings/user.mapper';
 
 const authCookieOptions: CookieOptions = {
   httpOnly: true,
-  sameSite: 'strict',
+  sameSite: 'none',
   secure: 'auto',
   maxAge: 60 * 60 * 24 * 30,
 };
