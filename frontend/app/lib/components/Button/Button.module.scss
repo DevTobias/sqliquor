@@ -1,0 +1,24 @@
+@use '$styles/theme' as theme;
+@use '$styles/classes/form' as form;
+
+.btn {
+  @include form.element;
+  font-weight: 700;
+
+  border: 2px solid transparent;
+  border-radius: 10px;
+
+  background: linear-gradient(90deg, theme.color('primary', 600) 0%, theme.color('accent', 600) 100%);
+  color: theme.color('neutral', 0);
+  cursor: pointer;
+  transition: scale 100ms ease-in-out;
+
+  &:hover {
+    scale: 1.03;
+  }
+
+  &:focus,
+  &:active {
+    border: 2px solid theme.color('neutral', 0);
+  }
+}
