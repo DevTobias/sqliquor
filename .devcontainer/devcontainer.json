@@ -27,7 +27,7 @@
         "explorer.fileNesting.enabled": true,
         "explorer.fileNesting.expand": false,
         "explorer.fileNesting.patterns": {
-          "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local",
+          "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template",
           "next.config.js": "next-env.d.ts",
           "Taskfile.yml": ".gitignore,.editorconfig",
           "server.ts": "global.d.ts",
