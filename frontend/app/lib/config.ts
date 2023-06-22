@@ -2,6 +2,6 @@ export const config = {
   backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
 
   assets: {
-    demoLevelGlB: '/models/demolevel.glb',
+    demoLevelGlB: '/models/game.glb',
   },
 };
