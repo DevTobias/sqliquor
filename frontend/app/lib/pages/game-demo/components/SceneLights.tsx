@@ -14,7 +14,7 @@ export const SceneLights = () => {
         color={'#5e5aac'}
         castShadow
         shadow-camera-far={1000}
-        shadow-mapSize-far={[1024, 1024]}
+        shadow-mapSize={[1024, 1024]}
         shadow-normalBias={0.05}
       />
 
