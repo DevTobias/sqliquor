@@ -1,11 +1,16 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { FC, ReactNode } from 'react';
 
-import styles from './ThreeScene.module.css';
+import styles from './ThreeScene.module.scss';
 
-export const ThreeScene = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  children: ReactNode;
+}
+
+export const ThreeScene: FC<Props> = ({ children }) => {
   return (
-    <div className={styles['game-container']}>
+    <div className={styles.container}>
       <Canvas shadows>
         <OrbitControls />
         {children}

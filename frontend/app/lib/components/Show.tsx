@@ -1,13 +1,13 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactNode } from 'react';
 
-type ShowProps = {
+interface ShowProps {
   /** The value to render children with (if when is truthy). */
   when: unknown;
   /** The element to render if when is falsy. */
-  fallback?: ReactElement;
+  fallback?: ReactNode;
   /** The components child elements. */
-  children: ReactElement[] | ReactElement;
-};
+  children: ReactNode[] | ReactNode;
+}
 
 /**
  * The `Show` control flow is used to conditional render components of a view: it renders `children` when the
@@ -17,7 +17,7 @@ type ShowProps = {
  * @param when      The condition to render children.
  * @param fallback  Gets rendered if when is falsy.
  */
-export const Show: FunctionComponent<ShowProps> = ({ children, when, fallback }) => {
+export const Show: FC<ShowProps> = ({ children, when, fallback }) => {
   if (!when) return fallback ?? null;
   if (!Array.isArray(children)) return children;
   return <>{children.map((child) => child)}</>;
