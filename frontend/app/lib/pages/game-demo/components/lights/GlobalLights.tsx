@@ -15,5 +15,14 @@ export const GlobalLight: FC<GlobalLightProps> = ({ position, ...rest }) => {
   useHelper(showLightHelpers && light, SpotLightHelper, 'cyan');
   useEffect(() => light.current.target.updateMatrixWorld(), []);
 
-  return <spotLight ref={light} position={position} target-position={[-position[0], 0, -position[2]]} {...rest} />;
+  return (
+    <spotLight
+      ref={light}
+      position={position}
+      target-position={[-position[0], 0, -position[2]]}
+      shadow-mapSize-height={2048}
+      shadow-mapSize-width={2048}
+      {...rest}
+    />
+  );
 };
