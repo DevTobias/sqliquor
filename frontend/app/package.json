@@ -14,6 +14,7 @@
   "dependencies": {
     "@react-three/drei": "^9.77.1",
     "@react-three/fiber": "^8.13.3",
+    "@react-three/postprocessing": "^2.14.11",
     "axios": "^1.4.0",
     "leva": "^0.9.35",
     "next": "13.4.6",

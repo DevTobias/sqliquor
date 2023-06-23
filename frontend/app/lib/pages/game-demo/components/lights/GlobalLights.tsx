@@ -1,19 +1,19 @@
 import { useHelper } from '@react-three/drei';
-import { DirectionalLightProps } from '@react-three/fiber';
+import { SpotLightProps } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { FC, useEffect, useRef } from 'react';
-import { DirectionalLight, DirectionalLightHelper } from 'three';
+import { SpotLight, SpotLightHelper } from 'three';
 
-interface GlobalLightProps extends DirectionalLightProps {
+interface GlobalLightProps extends SpotLightProps {
   position: [x: number, y: number, z: number];
 }
 
 export const GlobalLight: FC<GlobalLightProps> = ({ position, ...rest }) => {
-  const light = useRef<DirectionalLight>(null!);
+  const light = useRef<SpotLight>(null!);
 
   const { showLightHelpers } = useControls({ showLightHelpers: false });
-  useHelper(showLightHelpers && light, DirectionalLightHelper, 1, 'cyan');
+  useHelper(showLightHelpers && light, SpotLightHelper, 'cyan');
   useEffect(() => light.current.target.updateMatrixWorld(), []);
 
-  return <directionalLight ref={light} position={position} target-position={[-position[0], 0, -position[2]]} {...rest} />;
+  return <spotLight ref={light} position={position} target-position={[-position[0], 0, -position[2]]} {...rest} />;
 };
