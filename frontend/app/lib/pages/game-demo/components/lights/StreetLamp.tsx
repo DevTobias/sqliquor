@@ -1,7 +1,5 @@
-import { useHelper } from '@react-three/drei';
-import { useControls } from 'leva';
 import { FC, useEffect, useRef } from 'react';
-import { SpotLight, SpotLightHelper } from 'three';
+import { SpotLight } from 'three';
 
 interface StreetLampProps {
   position: [x: number, y: number, z: number];
@@ -10,8 +8,9 @@ interface StreetLampProps {
 export const StreetLamp: FC<StreetLampProps> = ({ position }) => {
   const light = useRef<SpotLight>(null!);
 
-  const { showLightHelpers } = useControls({ showLightHelpers: false });
-  useHelper(showLightHelpers && light, SpotLightHelper, 'red');
+  // const { showLightHelpers } = useControls({ showLightHelpers: false });
+  // useHelper(showLightHelpers && light, SpotLightHelper, 'red');
+
   useEffect(() => light.current.target.updateMatrixWorld(), []);
 
   return (

@@ -1,7 +1,10 @@
 import { config } from '$lib/config';
-import axios from 'axios';
+import ky from 'ky';
 
-export const client = axios.create({
-  baseURL: config.backendUrl,
-  withCredentials: true,
+export const client = ky.create({
+  prefixUrl: config.backendUrl,
+  credentials: 'include',
 });
+
+export const createAuthClient = (accessToken: string) =>
+  ky.create({ prefixUrl: config.backendUrl, credentials: 'include', headers: { Authorization: `Bearer ${accessToken}` } });
