@@ -8,7 +8,7 @@
     "source=backend-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
   ],
   "initializeCommand": "docker network create sql-game-network || true",
-  "postCreateCommand": "sudo chmod -R 777 frontend && sudo chmod -R 777 documentation  && sudo chmod -R 777 backend",
+  "postCreateCommand": "sudo chmod -R 777 frontend && sudo chmod -R 777 documentation && sudo chmod -R 777 backend && git config core.fileMode false && (cd backend && sudo yarn turbo init)",
   "runArgs": [
     "-p=3000:3000",
     "--network=sql-game-network",
