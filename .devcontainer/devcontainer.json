@@ -27,11 +27,12 @@
         "explorer.fileNesting.enabled": true,
         "explorer.fileNesting.expand": false,
         "explorer.fileNesting.patterns": {
-          "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template",
+          "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template,.env",
           "next.config.js": "next-env.d.ts",
           "Taskfile.yml": ".gitignore,.editorconfig",
           "server.ts": "global.d.ts",
-          "*.tsx": "$(capture).*"
+          "*.tsx": "$(capture).*",
+          "README.md": "LICENSE"
         },
 
         "material-icon-theme.folders.associations": {
