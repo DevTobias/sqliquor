@@ -21,6 +21,7 @@ export const GlobalLight: FC<GlobalLightProps> = ({ position, ...rest }) => {
       position={position}
       target-position={[-position[0], 0, -position[2]]}
       shadow-mapSize={2048}
+      shadow-bias={-0.000006}
       angle={Math.PI / 4}
       {...rest}
     />
