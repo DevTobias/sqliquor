@@ -21,12 +21,6 @@ const config = {
         docs: {
           routeBasePath: '/',
           editUrl: 'https://github.com/fh-erfurt/ss23-kba-project/tree/main/',
-          remarkPlugins: [
-            [
-              require('@akebifiky/remark-simple-plantuml'),
-              { baseUrl: 'https://www.plantuml.com/plantuml/svg' },
-            ],
-          ],
         },
         blog: false,
       },
