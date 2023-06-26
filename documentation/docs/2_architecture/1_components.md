@@ -1,0 +1,1 @@
+# Komponenten und deren Funktionalitäten

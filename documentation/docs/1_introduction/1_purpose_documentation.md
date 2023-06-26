@@ -2,8 +2,6 @@
 
 Das vorliegende Kapitel beschreibt den Zweck und die Bedeutung der technischen Dokumentation für die Software "SQLiquor". Die technische Dokumentation hat das Ziel, einen umfassenden Überblick über die verschiedenen Aspekte des Systems zu geben und dient als Referenz für alle technischen Benutzer.
 
-****
-
 **Verständnis der Systemfunktionalitäten**
 
 Die Dokumentation erklärt ausführlich die verschiedenen Funktionen und Module der Software. Sie bietet eine detaillierte Beschreibung der Arbeitsweise der einzelnen Komponenten, um Entwickler:innen und technischen Benutzer:innen ein klares Verständnis des Systems zu vermitteln.
