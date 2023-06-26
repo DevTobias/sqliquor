@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 import '$lib/styles/base/foundation.scss';
+import '$styles/code/tomorrow.scss';
 
 export const metadata: Metadata = { title: 'SQLiquor', icons: { icon: 'favicon.ico' } };
 

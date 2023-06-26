@@ -27,6 +27,11 @@ export const SandboxDatabaseService: SandboxServiceFactory = ({ sandboxDb, userS
       sandboxDb.query({ database, query, user: username, password: sandboxPassword }),
       userService.addSandboxQueryToHistory(id, query),
     ]);
+
+    if (!Array.isArray(result)) {
+      return [result];
+    }
+
     return result;
   },
 });

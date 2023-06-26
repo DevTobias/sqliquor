@@ -1,10 +1,8 @@
-/* Tomorrow Comment */
 .comment,
 .quote {
   color: #8e908c;
 }
 
-/* Tomorrow Red */
 .variable,
 .template-variable,
 .tag,
@@ -16,7 +14,6 @@
   color: #c82829;
 }
 
-/* Tomorrow Orange */
 .number,
 .built_in,
 .builtin-name,
@@ -28,12 +25,10 @@
   color: #f5871f;
 }
 
-/* Tomorrow Yellow */
 .attribute {
   color: #eab700;
 }
 
-/* Tomorrow Green */
 .string,
 .symbol,
 .bullet,
@@ -41,24 +36,14 @@
   color: #718c00;
 }
 
-/* Tomorrow Blue */
 .title,
 .section {
   color: #4271ae;
 }
 
-/* Tomorrow Purple */
 .keyword,
 .selector-tag {
   color: #8959a8;
-}
-
-.code {
-  display: block;
-  overflow-x: auto;
-  background: white;
-  color: #4d4d4c;
-  padding: 0.5em;
 }
 
 .emphasis {

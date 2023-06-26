@@ -21,8 +21,8 @@ export const CodeBlock: FC<Props> = ({ code, lang }) => {
   };
 
   return (
-    <pre>
-      <code className='code' dangerouslySetInnerHTML={{ __html: highlightCode() }}></code>
+    <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+      <code dangerouslySetInnerHTML={{ __html: highlightCode() }}></code>
     </pre>
   );
 };
