@@ -2,13 +2,22 @@
   "name": "sql-game-network",
   "build": { "dockerfile": "Dockerfile" },
   "remoteUser": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {},
+    "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
   "mounts": [
     "source=frontend-node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
     "source=documentation-node_modules,target=${containerWorkspaceFolder}/documentation/node_modules,type=volume",
-    "source=backend-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
+    "source=backend-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=devcontainer-bashhistory,target=/commandhistory,type=volume"
   ],
   "initializeCommand": "docker network create sql-game-network || true",
-  "postCreateCommand": "sudo chmod -R 777 frontend && sudo chmod -R 777 documentation && sudo chmod -R 777 backend && git config core.fileMode false && (cd backend && sudo yarn turbo init)",
+  "updateContentCommand": "git clone https://github.com/DevTobias/dotfiles ~/dotfiles && sh ~/dotfiles/install.sh && echo DEFAULT_USER=node >> ~/.zshrc",
+  "postCreateCommand": "config core.fileMode false && sudo chmod -R 777 frontend & sudo chmod -R 777 documentation & sudo chmod -R 777 backend && (cd backend && sudo yarn turbo init)",
   "runArgs": [
     "-p=3000:3000",
     "--network=sql-game-network",
@@ -17,13 +26,13 @@
   "customizations": {
     "vscode": {
       "settings": {
-        // Editor settings
+        // !Editor settings
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": true
         },
         "cSpell.language": "en,de-de",
 
-        // Explorer
+        // !Explorer
         "explorer.fileNesting.enabled": true,
         "explorer.fileNesting.expand": false,
         "explorer.fileNesting.patterns": {
@@ -56,6 +65,8 @@
           "**/.turbo": true
         },
 
+        //! Language features
+
         // Typescript
         "typescript.enablePromptUseWorkspaceTsdk": true,
         "typescript.preferences.importModuleSpecifier": "non-relative",
@@ -83,7 +94,44 @@
         },
         "[prisma]": {
           "editor.defaultFormatter": "Prisma.prisma"
-        }
+        },
+
+        //! Terminal
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "zsh"
+          }
+        },
+
+        "restoreTerminals.runOnStartup": true,
+        "restoreTerminals.keepExistingTerminalsOpen": false,
+        "restoreTerminals.terminals": [
+          {
+            "splitTerminals": [
+              {
+                "name": "client",
+                "commands": ["cd frontend", "clear"]
+              }
+            ]
+          },
+          {
+            "splitTerminals": [
+              {
+                "name": "server",
+                "commands": ["cd backend", "clear"]
+              }
+            ]
+          },
+          {
+            "splitTerminals": [
+              {
+                "name": "documentation",
+                "commands": ["cd documentation", "clear"]
+              }
+            ]
+          }
+        ]
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker-german",
@@ -95,7 +143,8 @@
         "esbenp.prettier-vscode",
         "rvest.vs-code-prettier-eslint",
         "Prisma.prisma",
-        "viijay-kr.react-ts-css"
+        "viijay-kr.react-ts-css",
+        "EthanSK.restore-terminals"
       ]
     }
   }
