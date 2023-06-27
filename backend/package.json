@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "turbo": "turbo run --no-daemon"
+    "turbo": "turbo run"
   },
   "devDependencies": {
     "turbo": "^1.10.3"

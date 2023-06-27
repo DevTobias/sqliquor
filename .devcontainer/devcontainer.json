@@ -1,7 +1,6 @@
 {
   "name": "sql-game-network",
   "build": { "dockerfile": "Dockerfile" },
-  "remoteUser": "node",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {},

@@ -22,4 +22,8 @@
   th {
     padding: 10px;
   }
+
+  &.error {
+    color: theme.color('danger', 600);
+  }
 }

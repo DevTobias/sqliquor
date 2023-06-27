@@ -7,6 +7,14 @@ interface Props {
 }
 
 export const ResultMessage: FC<Props> = ({ result }) => {
+  if (result.length === 0) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.message}>No data returned</div>
+      </div>
+    );
+  }
+
   const headers = Object.getOwnPropertyNames(result[0]);
 
   const affected = result
@@ -20,6 +28,18 @@ export const ResultMessage: FC<Props> = ({ result }) => {
     });
 
   if (affected.length > 0) return affected;
+
+  const errors = result
+    .filter((msg) => 'error' in msg)
+    .map((msg, i) => {
+      return (
+        <div key={`${msg}-${i}`} className={styles.container}>
+          <div className={`${styles.message} ${styles.error}`}>{msg.error}</div>
+        </div>
+      );
+    });
+
+  if (errors.length > 0) return errors;
 
   return (
     <div className={styles.container}>
