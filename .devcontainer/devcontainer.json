@@ -1,6 +1,7 @@
 {
   "name": "sql-game-network",
   "build": { "dockerfile": "Dockerfile" },
+  "remoteUser": "root",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:1": {},
@@ -15,7 +16,7 @@
     "source=devcontainer-bashhistory,target=/commandhistory,type=volume"
   ],
   "initializeCommand": "docker network create sql-game-network || true",
-  "updateContentCommand": "git clone https://github.com/DevTobias/dotfiles ~/dotfiles && sh ~/dotfiles/install.sh && echo DEFAULT_USER=node >> ~/.zshrc",
+  "updateContentCommand": "git clone https://github.com/DevTobias/dotfiles ~/dotfiles && sh ~/dotfiles/install.sh && echo DEFAULT_USER=root >> ~/.zshrc",
   "postCreateCommand": "config core.fileMode false && sudo chmod -R 777 frontend & sudo chmod -R 777 documentation & sudo chmod -R 777 backend && (cd backend && sudo yarn turbo init)",
   "runArgs": [
     "-p=3000:3000",
