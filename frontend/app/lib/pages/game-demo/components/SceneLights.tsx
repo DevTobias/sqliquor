@@ -1,8 +1,8 @@
 'use client';
 
+import { GlobalLight } from '$lib/pages/game-demo/components/lights/GlobalLights';
 import { StreetLamp } from '$lib/pages/game-demo/components/lights/StreetLamp';
 import { TrafficLight } from '$lib/pages/game-demo/components/lights/TrafficLight';
-import { GlobalLight } from '$lib/pages/game-demo/components/lights/GlobalLights';
 
 export const SceneLights = () => {
   return (

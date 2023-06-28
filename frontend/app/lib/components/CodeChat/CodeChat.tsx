@@ -1,11 +1,11 @@
 import { FC, createRef, useEffect } from 'react';
 
+import Button from '$lib/components/Button';
 import { LoadingMessage } from '$lib/components/CodeChat/components/LoadingMessage';
 import { QueryMessage } from '$lib/components/CodeChat/components/QueryMessage';
 import { ResultMessage } from '$lib/components/CodeChat/components/ResultMessage';
 import { SubmitField } from '$lib/components/CodeChat/components/SubmitField';
 import { useCodeChatContext } from '$lib/components/CodeChat/store/chat.store';
-import Button from '$lib/components/Button/Button';
 import { Icon } from '$lib/components/Icon';
 import { classNames } from '$lib/utils/classNames';
 

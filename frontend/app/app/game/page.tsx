@@ -2,7 +2,7 @@
 
 import { CodeChat } from '$lib/components/CodeChat/CodeChat';
 import { CodeChatProvider } from '$lib/components/CodeChat/store/chat.store';
-import { ThreeScene } from '$lib/components/ThreeScene/ThreeScene';
+import { ThreeScene } from '$lib/components/ThreeScene';
 import { GameScreen } from '$lib/pages/game-demo/GameScreen';
 
 import styles from './page.module.scss';

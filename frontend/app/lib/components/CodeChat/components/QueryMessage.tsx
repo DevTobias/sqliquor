@@ -1,6 +1,6 @@
-import { CodeBlock } from '$lib/components/CodeBlock/CodeBlock';
-
 import { FC } from 'react';
+
+import { CodeBlock } from '$lib/components/CodeChat/components/CodeBlock';
 
 import styles from './QueryMessage.module.scss';
 

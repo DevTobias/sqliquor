@@ -1,5 +1,5 @@
-import { createStore, useStore } from 'zustand';
 import { FC, PropsWithChildren, createContext, useContext, useRef } from 'react';
+import { createStore, useStore } from 'zustand';
 
 import { ChatMessage } from '$lib/components/CodeChat/models/chat.models';
 

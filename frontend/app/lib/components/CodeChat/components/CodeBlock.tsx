@@ -1,9 +1,8 @@
-import { FC } from 'react';
-
-import { process, init } from 'highlight-ts/process';
 import { registerLanguage, listLanguages } from 'highlight-ts/languages';
-import { htmlRender } from 'highlight-ts/render/html';
 import { SQL } from 'highlight-ts/languages/sql';
+import { process, init } from 'highlight-ts/process';
+import { htmlRender } from 'highlight-ts/render/html';
+import { FC } from 'react';
 
 const languages = {
   sql: SQL,

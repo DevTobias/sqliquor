@@ -10,9 +10,7 @@
         "attrs": [],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "tags": [
-          "angle-up"
-        ],
+        "tags": ["angle-up"],
         "defaultCode": 61702,
         "grid": 14
       },

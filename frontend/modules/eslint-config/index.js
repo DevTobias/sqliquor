@@ -42,7 +42,7 @@ module.exports = {
     // readable code.
     "no-return-assign": "off",
 
-    // Set a useful import
+    // Imports should be grouped with spacing and should be alphabetized
     "import/order": [
       "error",
       {
@@ -56,6 +56,11 @@ module.exports = {
           "object",
           "type",
         ],
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
+        "newlines-between": "always",
       },
     ],
   },
