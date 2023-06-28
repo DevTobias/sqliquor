@@ -3,5 +3,7 @@ export const config = {
 
   assets: {
     demoLevelGlB: '/models/game.glb',
+    mainBuildingGLB: '/models/mainbuilding.glb',
+    playerGLB: '/models/player.glb',
   },
 };

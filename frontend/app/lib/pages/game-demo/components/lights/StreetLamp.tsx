@@ -1,11 +1,12 @@
+import { SpotLightProps } from '@react-three/fiber';
 import { FC, useEffect, useRef } from 'react';
 import { SpotLight } from 'three';
 
-interface StreetLampProps {
+interface StreetLampProps extends SpotLightProps {
   position: [x: number, y: number, z: number];
 }
 
-export const StreetLamp: FC<StreetLampProps> = ({ position }) => {
+export const StreetLamp: FC<StreetLampProps> = ({ position, ...rest }) => {
   const light = useRef<SpotLight>(null!);
 
   // const { showLightHelpers } = useControls({ showLightHelpers: false });
@@ -21,6 +22,7 @@ export const StreetLamp: FC<StreetLampProps> = ({ position }) => {
       color={'#ffc18b'}
       penumbra={0.75}
       angle={1}
+      {...rest}
     />
   );
 };
