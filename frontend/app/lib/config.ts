@@ -5,5 +5,7 @@ export const config = {
     demoLevelGlB: '/models/game.glb',
     mainBuildingGLB: '/models/mainbuilding.glb',
     playerGLB: '/models/player.glb',
+    counterGLB: '/models/counter.glb',
+    computerGLB: '/models/computer.glb',
   },
 };
