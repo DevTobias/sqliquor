@@ -1,7 +1,5 @@
 import { InputHTMLAttributes, forwardRef } from 'react';
-
 import { classNames } from '$lib/utils/classNames';
-import { Show } from '$lib/components/Show';
 import styles from './Input.module.scss';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -18,9 +16,7 @@ const Input = forwardRef<HTMLInputElement, Props>(({ error, ...rest }, ref) => {
         {...rest}
       />
 
-      <Show when={error}>
-        <span className={styles.errorLabel}>{error}</span>
-      </Show>
+      {error && <span className={styles.errorLabel}>{error}</span>}
     </div>
   );
 });

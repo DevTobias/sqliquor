@@ -1,7 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { FC, ReactNode } from 'react';
-
 import styles from './ThreeScene.module.scss';
 
 interface Props {

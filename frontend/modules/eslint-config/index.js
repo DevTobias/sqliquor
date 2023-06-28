@@ -41,5 +41,22 @@ module.exports = {
     // These issues should get caught by typings. Also sometimes it allows to write shorter and more
     // readable code.
     "no-return-assign": "off",
+
+    // Set a useful import
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+        ],
+      },
+    ],
   },
 };
