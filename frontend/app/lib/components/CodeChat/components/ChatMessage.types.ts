@@ -1,3 +1,5 @@
+import { RemoteMessage } from '$lib/components/CodeChat/store/server/models';
+
 interface QueryMessageType {
   id: string;
   type: 'query';
@@ -7,7 +9,7 @@ interface QueryMessageType {
 interface ResultMessageType {
   id: string;
   type: 'result';
-  payload: { [key: string]: string | number }[];
+  payload: Promise<RemoteMessage[]> | RemoteMessage[];
 }
 
 export type Message = QueryMessageType | ResultMessageType;

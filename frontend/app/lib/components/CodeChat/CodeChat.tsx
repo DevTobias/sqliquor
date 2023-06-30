@@ -2,7 +2,6 @@ import { FC, useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import { ChatMessage } from '$lib/components/CodeChat/components/ChatMessage';
-import { LoadingMessage } from '$lib/components/CodeChat/components/messages/LoadingMessage';
 import { QueryDatabaseField } from '$lib/components/CodeChat/components/QueryDatabaseField';
 import { useCodeChatStore } from '$lib/components/CodeChat/store/client/useStore';
 import { useClickAway } from '$lib/hooks/useClickAway';
@@ -16,8 +15,8 @@ interface Props {
 }
 
 export const CodeChat: FC<Props> = ({ className = '' }) => {
-  const { messages, loading, open, setOpen } = useCodeChatStore(
-    (s) => ({ messages: s.messages, loading: s.loading, open: s.open, setOpen: s.setOpen }),
+  const { messages, open, setOpen, messagesNonce } = useCodeChatStore(
+    (s) => ({ messages: s.messages, open: s.open, setOpen: s.setOpen, messagesNonce: s.messagesNonce }),
     shallow
   );
 
@@ -25,14 +24,13 @@ export const CodeChat: FC<Props> = ({ className = '' }) => {
   useClickAway(chatWindowRef, () => setOpen(false));
 
   const messageAnchorRef = useRef<HTMLDivElement>(null!);
-  useScrollTo(messageAnchorRef, [messages]);
+  useScrollTo(messageAnchorRef, [messages, messagesNonce]);
 
   return (
     <div className={classNames(className, styles.container, !open && styles.closed)} ref={chatWindowRef}>
       <div className={styles.chat}>
         <div className={styles.messages}>
           <div ref={messageAnchorRef} />
-          {loading && <LoadingMessage />}
           {messages.map((message) => (
             <ChatMessage key={message.id} {...{ message }} />
           ))}
