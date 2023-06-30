@@ -1,12 +1,12 @@
 'use client';
 
 import { CodeChat } from '$lib/components/CodeChat/CodeChat';
-import { ChatMessage } from '$lib/components/CodeChat/models/chat.models';
-import { CodeChatProvider } from '$lib/components/CodeChat/store/chat.store';
+import { Message } from '$lib/components/CodeChat/components/ChatMessage.types';
+import { CodeChatProvider } from '$lib/components/CodeChat/store/client/useStore';
 
 import styles from './page.module.scss';
 
-const messages: ChatMessage[] = [
+const messages: Message[] = [
   {
     id: 'cd6507d9-30b0-478d-94b6-6e527f042eeb',
     type: 'result',

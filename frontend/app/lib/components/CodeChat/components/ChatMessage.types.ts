@@ -10,4 +10,4 @@ interface ResultMessageType {
   payload: { [key: string]: string | number }[];
 }
 
-export type ChatMessage = QueryMessageType | ResultMessageType;
+export type Message = QueryMessageType | ResultMessageType;

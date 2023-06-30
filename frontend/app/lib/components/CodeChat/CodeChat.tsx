@@ -1,12 +1,12 @@
-import { FC, createRef, useEffect } from 'react';
+import { FC, useRef } from 'react';
+import { shallow } from 'zustand/shallow';
 
-import Button from '$lib/components/Button';
-import { LoadingMessage } from '$lib/components/CodeChat/components/LoadingMessage';
-import { QueryMessage } from '$lib/components/CodeChat/components/QueryMessage';
-import { ResultMessage } from '$lib/components/CodeChat/components/ResultMessage';
-import { SubmitField } from '$lib/components/CodeChat/components/SubmitField';
-import { useCodeChatContext } from '$lib/components/CodeChat/store/chat.store';
-import { Icon } from '$lib/components/Icon';
+import { ChatMessage } from '$lib/components/CodeChat/components/ChatMessage';
+import { LoadingMessage } from '$lib/components/CodeChat/components/messages/LoadingMessage';
+import { QueryDatabaseField } from '$lib/components/CodeChat/components/QueryDatabaseField';
+import { useCodeChatStore } from '$lib/components/CodeChat/store/client/useStore';
+import { useClickAway } from '$lib/hooks/useClickAway';
+import { useScrollTo } from '$lib/hooks/useScrollTo';
 import { classNames } from '$lib/utils/classNames';
 
 import styles from './CodeChat.module.scss';
@@ -16,37 +16,28 @@ interface Props {
 }
 
 export const CodeChat: FC<Props> = ({ className = '' }) => {
-  const messages = useCodeChatContext((s) => s.messages);
-  const loading = useCodeChatContext((s) => s.loading);
-  const unfolded = useCodeChatContext((s) => s.unfolded);
-  const setUnfolded = useCodeChatContext((s) => s.setUnfolded);
+  const { messages, loading, open, setOpen } = useCodeChatStore(
+    (s) => ({ messages: s.messages, loading: s.loading, open: s.open, setOpen: s.setOpen }),
+    shallow
+  );
 
-  const chatEndRef = createRef<HTMLDivElement>();
-  useEffect(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages, chatEndRef]);
+  const chatWindowRef = useRef<HTMLDivElement>(null!);
+  useClickAway(chatWindowRef, () => setOpen(false));
+
+  const messageAnchorRef = useRef<HTMLDivElement>(null!);
+  useScrollTo(messageAnchorRef, [messages]);
 
   return (
-    <div className={styles.container}>
-      <Button className={styles.toggle} onClick={() => setUnfolded(!unfolded)}>
-        <Icon icon='angle-up' className={classNames(unfolded && styles.rotate, styles.icon)} />
-      </Button>
-      <div className={classNames(className, styles.chatContainer, !unfolded && styles.inactive)}>
-        <div className={classNames(styles.wrapper, !unfolded && styles.inactive)}>
-          <div className={classNames(styles.chatWrapper, !unfolded && styles.inactive)}>
-            <div ref={chatEndRef} />
-            {loading ? <LoadingMessage /> : undefined}
-            {messages.map((message) => {
-              switch (message.type) {
-                case 'query':
-                  return <QueryMessage key={message.id} query={message.payload} />;
-                case 'result':
-                  return <ResultMessage key={message.id} result={message.payload} />;
-                default:
-                  return <span></span>;
-              }
-            })}
-          </div>
-          <SubmitField />
+    <div className={classNames(className, styles.container, !open && styles.closed)} ref={chatWindowRef}>
+      <div className={styles.chat}>
+        <div className={styles.messages}>
+          <div ref={messageAnchorRef} />
+          {loading && <LoadingMessage />}
+          {messages.map((message) => (
+            <ChatMessage key={message.id} {...{ message }} />
+          ))}
         </div>
+        <QueryDatabaseField />
       </div>
     </div>
   );

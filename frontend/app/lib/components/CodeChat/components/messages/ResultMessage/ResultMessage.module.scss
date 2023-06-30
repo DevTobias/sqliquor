@@ -1,0 +1,14 @@
+@use '$styles/theme' as theme;
+
+.message {
+  border-radius: 3px 15px 15px 15px;
+
+  td,
+  th {
+    padding: 10px;
+  }
+
+  &.error {
+    color: theme.color('danger', 600);
+  }
+}

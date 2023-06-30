@@ -41,6 +41,7 @@
           "Taskfile.yml": ".gitignore,.editorconfig",
           "server.ts": "global.d.ts",
           "*.tsx": "$(capture).*",
+          "*.ts": "$(capture).*",
           "README.md": "LICENSE"
         },
 
