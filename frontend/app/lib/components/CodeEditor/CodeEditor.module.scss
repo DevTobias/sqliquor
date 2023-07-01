@@ -4,6 +4,7 @@
   box-sizing: border-box;
   padding: 0;
   overflow: hidden;
+  min-height: 100%;
 }
 
 .textarea {
@@ -16,6 +17,10 @@
   color: inherit;
   opacity: 0.8;
   overflow: hidden;
+  -webkit-text-fill-color: transparent;
+  &::selection {
+    background: #ccd7fb;
+  }
 }
 
 .editor {
@@ -39,4 +44,23 @@
   word-break: keep-all;
   overflow-wrap: break-word;
   outline: 0;
+}
+
+.text,
+.preview {
+  min-height: 16px;
+}
+
+.preview {
+  pre {
+    margin: 0;
+    padding: 0;
+    white-space: inherit;
+    font-family: inherit;
+    font-size: inherit;
+
+    code {
+      font-family: inherit;
+    }
+  }
 }

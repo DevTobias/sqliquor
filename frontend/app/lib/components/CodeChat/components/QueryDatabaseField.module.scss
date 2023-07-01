@@ -1,24 +1,29 @@
-@use '$styles/classes/form' as form;
 @use '$styles/classes/scrollbar' as scrollbar;
+@use '$styles/theme' as theme;
 
 .container {
   padding: 15px;
   grid-row: 2;
+  overflow: hidden;
 }
 
-.input {
-  @include form.element;
+.wrapper {
   @include scrollbar.simple;
+  @include theme.shadow-md;
+
+  height: 100%;
+  overflow: auto;
 
   border: 2px solid transparent;
-  border-radius: 5px;
   background: rgba(255, 255, 255, 0.25);
-  width: 100%;
-  height: 100%;
-  resize: none;
+  border-radius: 5px;
+  padding: 13px;
 
-  &:focus,
-  &:active {
+  &:focus-within {
     border: 2px solid rgba(255, 255, 255, 0.4);
   }
+}
+
+.editor {
+  font-size: theme.fontSize('body-md');
 }

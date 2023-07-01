@@ -3,7 +3,9 @@ import { shallow } from 'zustand/shallow';
 
 import { useCodeChatStore } from '$lib/components/CodeChat/store/client/useStore';
 import { executeQuery } from '$lib/components/CodeChat/store/server/mutations';
+import { CodeEditor } from '$lib/components/CodeEditor/CodeEditor';
 import { useAuth } from '$lib/hooks/useAuth';
+import { highlightCode } from '$lib/utils/highlight';
 
 import styles from './QueryDatabaseField.module.scss';
 
@@ -29,7 +31,16 @@ export const QueryDatabaseField = () => {
 
   return (
     <div className={styles.container}>
-      <textarea onFocus={() => setOpen(true)} className={styles.input} placeholder='SELECT * FROM ...' onKeyDown={onInputTyping} />
+      <div className={styles.wrapper}>
+        <CodeEditor
+          language='sql'
+          highlight={highlightCode}
+          onFocus={() => setOpen(true)}
+          className={styles.editor}
+          placeholder='SELECT * FROM ...'
+          onKeyDown={onInputTyping}
+        />
+      </div>
     </div>
   );
 };
