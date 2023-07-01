@@ -26,3 +26,29 @@ a,
 button {
   touch-action: manipulation;
 }
+
+.w-tc-editor {
+  font-family: inherit;
+  font-size: 12px;
+  color: #24292f;
+  background-color: #f6f8fa;
+  color: #24292f;
+
+  &-text,
+  &-preview {
+    min-height: 16px;
+  }
+
+  &-preview {
+    pre {
+      margin: 0;
+      padding: 0;
+      white-space: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      code {
+        font-family: inherit;
+      }
+    }
+  }
+}

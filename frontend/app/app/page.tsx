@@ -3,6 +3,7 @@
 import { CodeChat } from '$lib/components/CodeChat/CodeChat';
 import { Message } from '$lib/components/CodeChat/components/ChatMessage.types';
 import { CodeChatProvider } from '$lib/components/CodeChat/store/client/useStore';
+import { CodeEditor } from '$lib/components/CodeEditor';
 
 import styles from './page.module.scss';
 
@@ -93,6 +94,7 @@ export default function Home() {
       <div className={styles.chatWrapper}>
         <CodeChatProvider messages={messages}>
           <CodeChat className={styles.chat} />
+          <CodeEditor />
         </CodeChatProvider>
       </div>
     </div>
