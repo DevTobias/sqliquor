@@ -1,8 +1,6 @@
-import { useHelper } from '@react-three/drei';
 import { SpotLightProps } from '@react-three/fiber';
-import { useControls } from 'leva';
 import { FC, useEffect, useRef } from 'react';
-import { SpotLight, SpotLightHelper } from 'three';
+import { SpotLight } from 'three';
 
 interface GlobalLightProps extends SpotLightProps {
   position: [x: number, y: number, z: number];
@@ -11,8 +9,9 @@ interface GlobalLightProps extends SpotLightProps {
 export const GlobalLight: FC<GlobalLightProps> = ({ position, ...rest }) => {
   const light = useRef<SpotLight>(null!);
 
-  const { showLightHelpers } = useControls({ showLightHelpers: false });
-  useHelper(showLightHelpers && light, SpotLightHelper, 'cyan');
+  // const { showLightHelpers } = useControls({ showLightHelpers: false });
+  // useHelper(showLightHelpers && light, SpotLightHelper, 'cyan');
+
   useEffect(() => light.current.target.updateMatrixWorld(), []);
 
   return (

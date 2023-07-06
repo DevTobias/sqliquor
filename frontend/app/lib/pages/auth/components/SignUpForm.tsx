@@ -2,10 +2,10 @@ import { FC, HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import Button from '$lib/components/Button/Button';
-import Input from '$lib/components/Input/Input';
-import { Switcher } from '$lib/pages/auth/components/Switcher';
+import Button from '$lib/components/Button';
+import Input from '$lib/components/Input';
 import { SignUpFormData, emailOpt, passwordOpt, usernameOpt } from '$lib/pages/auth/components/SignUpForm.validators';
+import { Switcher } from '$lib/pages/auth/components/Switcher';
 import { signIn, signUp } from '$lib/pages/auth/data/auth.service';
 
 import styles from './SignForm.module.scss';

@@ -1,0 +1,16 @@
+@use '$styles/theme' as theme;
+
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.message {
+  padding: 15px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.6);
+  max-width: 90%;
+  font-size: theme.fontSize('body-sm');
+  transition: height 300ms ease, width 300ms ease;
+  overflow: hidden;
+}

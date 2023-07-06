@@ -1,0 +1,16 @@
+@mixin simple {
+  &::-webkit-scrollbar {
+    width: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 7px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.5);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

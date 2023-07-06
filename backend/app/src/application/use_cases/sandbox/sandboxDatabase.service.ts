@@ -1,3 +1,4 @@
+import { SqlError } from 'mariadb';
 import { SandboxServiceFactory } from '$application/use_cases/sandbox/sandbox.service';
 
 export const SandboxDatabaseService: SandboxServiceFactory = ({ sandboxDb, userService }) => ({
@@ -23,10 +24,24 @@ export const SandboxDatabaseService: SandboxServiceFactory = ({ sandboxDb, userS
 
   executeQuery: async ({ id, username, sandboxPassword }, query) => {
     const database = id.replaceAll('-', '');
-    const [result] = await Promise.all([
-      sandboxDb.query({ database, query, user: username, password: sandboxPassword }),
-      userService.addSandboxQueryToHistory(id, query),
-    ]);
-    return result;
+
+    try {
+      const [result] = await Promise.all([
+        sandboxDb.query({ database, query, user: username, password: sandboxPassword }),
+        userService.addSandboxQueryToHistory(id, query),
+      ]);
+
+      if (!Array.isArray(result)) {
+        return [result];
+      }
+
+      return result;
+    } catch (e) {
+      if (e instanceof SqlError) {
+        return [{ error: e.sqlMessage }];
+      }
+
+      throw e;
+    }
   },
 });

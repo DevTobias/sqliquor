@@ -1,12 +1,12 @@
+import { useRouter } from 'next/navigation';
 import { FC, HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
 
-import Button from '$lib/components/Button/Button';
-import Input from '$lib/components/Input/Input';
-import { Switcher } from '$lib/pages/auth/components/Switcher';
+import Button from '$lib/components/Button';
+import Input from '$lib/components/Input';
 import { SignInFormData, identifierOpt, passwordOpt } from '$lib/pages/auth/components/SignInForm.validators';
+import { Switcher } from '$lib/pages/auth/components/Switcher';
 import { signIn } from '$lib/pages/auth/data/auth.service';
 
 import styles from './SignForm.module.scss';

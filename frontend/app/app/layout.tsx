@@ -1,6 +1,9 @@
-import '$lib/styles/base/foundation.scss';
+import { Metadata } from 'next';
 
-export const metadata = { title: 'SQL Game Demo' };
+import '$lib/styles/base/foundation.scss';
+import '$styles/code/tomorrow.scss';
+
+export const metadata: Metadata = { title: 'SQLiquor', icons: { icon: 'favicon.ico' } };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

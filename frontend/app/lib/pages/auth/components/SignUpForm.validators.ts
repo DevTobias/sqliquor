@@ -1,4 +1,5 @@
 import { RegisterOptions } from 'react-hook-form';
+
 import { emailPattern } from '$lib/utils/patterns';
 
 export type SignUpFormData = {

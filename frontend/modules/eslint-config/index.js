@@ -41,5 +41,31 @@ module.exports = {
     // These issues should get caught by typings. Also sometimes it allows to write shorter and more
     // readable code.
     "no-return-assign": "off",
+
+    // Callback methods can be used to manipulate the target of the event (e.g. clear the input field).
+    // This should not be discouraged.
+    "no-param-reassign": "off",
+
+    // Imports should be grouped with spacing and should be alphabetized
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+        ],
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
+        "newlines-between": "always",
+      },
+    ],
   },
 };
