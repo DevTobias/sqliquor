@@ -10,5 +10,10 @@ export const client = ky.create({
   credentials: 'include',
 });
 
-export const createAuthClient = (accessToken: string): HttpClient =>
-  ky.create({ prefixUrl: config.backendUrl, credentials: 'include', headers: { Authorization: `Bearer ${accessToken}` } });
+export const cmsClient = ky.create({
+  prefixUrl: 'http://localhost:8055',
+  credentials: 'include',
+});
+
+export const createAuthClient = (accessToken: string, url = config.backendUrl): HttpClient =>
+  ky.create({ prefixUrl: url, credentials: 'include', headers: { Authorization: `Bearer ${accessToken}` } });

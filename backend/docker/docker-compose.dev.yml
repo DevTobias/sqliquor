@@ -42,6 +42,7 @@ services:
       DB_FILENAME: "/directus/database/database.sql"
       ADMIN_EMAIL: "admin@sql.de"
       ADMIN_PASSWORD: "admin"
+      CORS_ENABLED: "true"
     extra_hosts:
       - "host.docker.internal:host-gateway"
 

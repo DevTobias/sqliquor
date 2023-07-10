@@ -1,8 +1,10 @@
+import deepEqual from 'deep-eql';
 import { useRef, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import { useCodeChatStore } from '$lib/components/CodeChat/store/client/useStore';
 import { executeQuery, sendChatMessages } from '$lib/components/CodeChat/store/server/mutations';
+import { fetchLevelData } from '$lib/components/CodeChat/store/server/queries';
 import { CodeEditor, EditorTypeHandler } from '$lib/components/CodeEditor/CodeEditor';
 import { ToggleSwitch } from '$lib/components/ToggleSwitch';
 import { useAuth } from '$lib/hooks/useAuth';
@@ -16,11 +18,27 @@ export const QueryDatabaseField = () => {
   const wrapperRef = useRef<HTMLDivElement>(null!);
 
   const [mode, setMode] = useState<'sql' | 'chat'>('chat');
-  const { addMessage, setOpen } = useCodeChatStore((s) => ({ addMessage: s.addMessage, setOpen: s.setOpen }), shallow);
+  const { addMessage, setOpen, setLevel, activeLevel } = useCodeChatStore(
+    (s) => ({ addMessage: s.addMessage, setOpen: s.setOpen, setLevel: s.setLevel, activeLevel: s.activeLevel }),
+    shallow
+  );
 
   const queryDatabase = async (query: string) => {
+    const queryPromise = executeQuery(authClient!, query);
+
     addMessage({ type: 'query', payload: query, id: Math.random().toString(36) });
-    addMessage({ type: 'query_result', payload: executeQuery(authClient!, query), id: Math.random().toString(36) });
+    addMessage({ type: 'query_result', payload: queryPromise, id: Math.random().toString(36) });
+
+    const queryResult = await queryPromise;
+    const step = activeLevel?.steps[0];
+
+    if (!step) return;
+
+    if (deepEqual(queryResult, step.expected)) {
+      addMessage({ type: 'question_result', payload: step.success, id: Math.random().toString(36) });
+    } else {
+      addMessage({ type: 'question_result', payload: step.error, id: Math.random().toString(36) });
+    }
   };
 
   const sendMessage = async (message: string) => {
@@ -54,8 +72,23 @@ export const QueryDatabaseField = () => {
     setMode(mode === 'sql' ? 'chat' : 'sql');
   };
 
+  const loadNextLevel = async () => {
+    const level = await fetchLevelData(1);
+    setLevel(level);
+    addMessage({
+      type: 'question_result',
+      payload: level.steps[0].task,
+      id: Math.random().toString(36),
+    });
+  };
+
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      onDoubleClick={() => {
+        loadNextLevel();
+      }}
+    >
       <ToggleSwitch className={styles.toggle} onChange={toggleInput} />
       <div className={styles.wrapper} ref={wrapperRef}>
         <CodeEditor
@@ -63,7 +96,7 @@ export const QueryDatabaseField = () => {
           highlight={mode === 'chat' ? (str) => str : highlightCode}
           onFocus={() => setOpen(true)}
           className={styles.editor}
-          placeholder={mode === 'chat' ? 'Send a message' : 'Query the database'}
+          placeholder={mode === 'chat' ? 'Schreib mit Caroline' : 'Sende eine Anfrage'}
           onKeyDown={onInputTyping}
         />
       </div>

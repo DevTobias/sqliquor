@@ -101,7 +101,6 @@ const generatePrompt = (username: string) => `
     ORDER }|--|| DINING_TABLE: places
     ORDER }|--|{ COCKTAIL: contains
   ]
-
 `;
 
 export const ChatOpenAiService: ChatServiceFactory = ({ env }) => ({
