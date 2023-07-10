@@ -7,10 +7,13 @@ import { config } from '$lib/config';
 
 type GLTFResult = GLTF & {
   nodes: {
-    Level: THREE.Mesh;
+    Outsidewall_back: THREE.Mesh;
+    Outsidewall_front: THREE.Mesh;
+    StorageRack_2_mesh001: THREE.Mesh;
   };
   materials: {
-    White: THREE.MeshStandardMaterial;
+    PaletteMaterial001: THREE.MeshStandardMaterial;
+    ['Storage_Metal.003']: THREE.MeshStandardMaterial;
   };
 };
 
@@ -19,13 +22,25 @@ export const MainBuilding: FC<GroupProps> = (props) => {
   return (
     <group {...props} dispose={null}>
       <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Level.geometry}
-        material={materials.White}
+        geometry={nodes.Outsidewall_back.geometry}
+        material={materials.PaletteMaterial001}
         position={[0, 3, -17]}
         rotation={[0, Math.PI / 2, 0]}
         scale={[0.25, 3, 16.75]}
+      />
+      <mesh
+        geometry={nodes.Outsidewall_front.geometry}
+        material={nodes.Outsidewall_front.material}
+        position={[-0.25, 1, 16.75]}
+        rotation={[0, -Math.PI / 2, 0]}
+        scale={[0.25, 1, 16.75]}
+      />
+      <mesh
+        geometry={nodes.StorageRack_2_mesh001.geometry}
+        material={materials['Storage_Metal.003']}
+        position={[-13.768, 0, -15.609]}
+        rotation={[Math.PI / 2, 0, -Math.PI / 2]}
+        scale={2.5}
       />
     </group>
   );

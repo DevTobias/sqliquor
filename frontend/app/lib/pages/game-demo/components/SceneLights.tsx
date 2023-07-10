@@ -8,7 +8,7 @@ import { InteriorLight } from '$lib/pages/game-demo/components/lights/InteriorLi
 export const SceneLights = () => {
   return (
     <>
-      <InteriorLight position={[0, 20, 0]} intensity={1} color={'#ffffff'} castShadow />
+      <InteriorLight position={[0, 25, 0]} intensity={0.5} color={'#edd89d'} castShadow />
       <GlobalLight position={[50, 75, 50]} rotation={[-0.565, 0.645, 0.292]} intensity={0.5} color={'#5e5aac'} castShadow />
 
       <StreetLamp position={[-27.162, 15.301, 0.474]} castShadow />
