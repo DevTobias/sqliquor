@@ -6,10 +6,23 @@ interface QueryMessageType {
   payload: string;
 }
 
-interface ResultMessageType {
+interface QuestionMessageType {
   id: string;
-  type: 'result';
+  type: 'question';
+  payload: string;
+}
+
+interface QueryResultMessageType {
+  id: string;
+  type: 'query_result';
   payload: Promise<RemoteMessage[]> | RemoteMessage[];
 }
 
-export type Message = QueryMessageType | ResultMessageType;
+interface QuestionResultMessageType {
+  id: string;
+  type: 'question_result';
+  payload: Promise<string> | string;
+}
+
+export type ResultMessageType = QueryResultMessageType | QuestionResultMessageType;
+export type Message = QueryMessageType | QuestionMessageType | ResultMessageType;

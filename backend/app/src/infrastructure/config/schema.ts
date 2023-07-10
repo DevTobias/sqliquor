@@ -38,4 +38,7 @@ export const environmentSchema = z.object({
   JWT_REFRESH_PRIVATE_KEY: z.string().min(1),
   JWT_REFRESH_PUBLIC_KEY: z.string().min(1),
   JWT_REFRESH_EXPIRES_IN: z.string().min(1),
+
+  // OpenAI environments
+  OPENAI_API_KEY: z.string().min(1),
 });

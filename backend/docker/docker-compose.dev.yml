@@ -27,6 +27,24 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  directus-cms:
+    image: directus/directus:latest
+    restart: unless-stopped
+    volumes:
+      - ./cms/uploads:/directus/uploads
+      - ./cms/database:/directus/database
+    ports:
+      - 8055:8055
+    environment:
+      KEY: "sqliquor"
+      SECRET: "sqliquor"
+      DB_CLIENT: "sqlite3"
+      DB_FILENAME: "/directus/database/database.sql"
+      ADMIN_EMAIL: "admin@sql.de"
+      ADMIN_PASSWORD: "admin"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 volumes:
   database:
   sandbox-database:

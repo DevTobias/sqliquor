@@ -13,10 +13,12 @@ import { checkForShortcuts } from '$lib/components/CodeEditor/shortcuts';
 
 import styles from './CodeEditor.module.scss';
 
+export type EditorTypeHandler = (event: KeyboardEvent<HTMLTextAreaElement>) => void | boolean | string;
+
 interface CodeEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   language: string;
   highlight: (code: string, lang: string) => string;
-  onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void | boolean;
+  onKeyDown?: EditorTypeHandler;
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({ placeholder, language, className, onChange, highlight, ...rest }) => {
@@ -31,9 +33,11 @@ export const CodeEditor: FC<CodeEditorProps> = ({ placeholder, language, classNa
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
     if (rest.readOnly) return;
-    if (!rest.onKeyDown || rest.onKeyDown(event) !== false) {
-      checkForShortcuts(event);
-    }
+
+    const result = !rest.onKeyDown || rest.onKeyDown(event);
+
+    if (typeof result === 'string') setValue(result);
+    else if (result !== false) checkForShortcuts(event);
   };
 
   const onDoubleClick: MouseEventHandler<HTMLTextAreaElement> = (event) => {

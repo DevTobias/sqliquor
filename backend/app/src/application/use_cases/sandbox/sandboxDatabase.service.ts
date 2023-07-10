@@ -35,10 +35,10 @@ export const SandboxDatabaseService: SandboxServiceFactory = ({ sandboxDb, userS
         return [result];
       }
 
-      return result;
+      return JSON.parse(JSON.stringify(result).replace(database, 'DATABASE'));
     } catch (e) {
       if (e instanceof SqlError) {
-        return [{ error: e.sqlMessage }];
+        return [{ error: e.sqlMessage?.replace(database, 'DATABASE') }];
       }
 
       throw e;
