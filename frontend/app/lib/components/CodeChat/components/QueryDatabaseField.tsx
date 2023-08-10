@@ -1,12 +1,11 @@
 import deepEqual from 'deep-eql';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import { useCodeChatStore } from '$lib/components/CodeChat/store/client/useStore';
 import { executeQuery, sendChatMessages } from '$lib/components/CodeChat/store/server/mutations';
 import { fetchLevelData } from '$lib/components/CodeChat/store/server/queries';
 import { CodeEditor, EditorTypeHandler } from '$lib/components/CodeEditor/CodeEditor';
-import { ToggleSwitch } from '$lib/components/ToggleSwitch';
 import { useAuth } from '$lib/hooks/useAuth';
 import { highlightCode } from '$lib/utils/highlight';
 
@@ -17,7 +16,6 @@ export const QueryDatabaseField = () => {
 
   const wrapperRef = useRef<HTMLDivElement>(null!);
 
-  const [mode, setMode] = useState<'sql' | 'chat'>('chat');
   const { addMessage, setOpen, setLevel, activeLevel } = useCodeChatStore(
     (s) => ({ addMessage: s.addMessage, setOpen: s.setOpen, setLevel: s.setLevel, activeLevel: s.activeLevel }),
     shallow
@@ -59,17 +57,13 @@ export const QueryDatabaseField = () => {
     if (event.key === 'Enter') {
       event.preventDefault();
 
-      if (mode === 'sql') queryDatabase(event.currentTarget.value);
-      else sendMessage(event.currentTarget.value);
+      if (event.currentTarget.value.includes('Hey Caroline')) sendMessage(event.currentTarget.value);
+      else queryDatabase(event.currentTarget.value);
 
       return '';
     }
 
     return true;
-  };
-
-  const toggleInput = () => {
-    setMode(mode === 'sql' ? 'chat' : 'sql');
   };
 
   const loadNextLevel = async () => {
@@ -89,14 +83,13 @@ export const QueryDatabaseField = () => {
         loadNextLevel();
       }}
     >
-      <ToggleSwitch className={styles.toggle} onChange={toggleInput} />
       <div className={styles.wrapper} ref={wrapperRef}>
         <CodeEditor
           language='sql'
-          highlight={mode === 'chat' ? (str) => str : highlightCode}
+          highlight={highlightCode}
           onFocus={() => setOpen(true)}
           className={styles.editor}
-          placeholder={mode === 'chat' ? 'Schreib mit Caroline' : 'Sende eine Anfrage'}
+          placeholder='Schreib mit Caroline'
           onKeyDown={onInputTyping}
         />
       </div>
