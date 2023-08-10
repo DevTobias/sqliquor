@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
-import { useMeasure } from 'react-use';
 
+import { useMeasure } from '$lib/hooks/useMeasure';
 import { classNames } from '$lib/utils/classNames';
 
 import styles from './GenericMessage.module.scss';

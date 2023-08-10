@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker-german",
+    "streetsidesoftware.code-spell-checker",
+    "ms-azuretools.vscode-docker",
+    "EditorConfig.EditorConfig",
+    "IronGeek.vscode-env",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "rvest.vs-code-prettier-eslint",
+    "Prisma.prisma",
+    "viijay-kr.react-ts-css",
+    "EthanSK.restore-terminals"
+  ]
+}

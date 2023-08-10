@@ -37,6 +37,8 @@ export const SandboxDatabaseService: SandboxServiceFactory = ({ sandboxDb, userS
 
       return result;
     } catch (e) {
+      console.log(e);
+
       if (e instanceof SqlError) {
         return [{ error: e.sqlMessage }];
       }

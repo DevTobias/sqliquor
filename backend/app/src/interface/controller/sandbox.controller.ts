@@ -24,6 +24,8 @@ export const sandboxControllerFactory: SandboxControllerFactory = ({ sandboxServ
       await sandboxService.createSandboxForUser(user);
     }
 
+    console.log(user);
+
     const result = await sandboxService.executeQuery(user, body as string);
     const parsedResult = JSON.stringify(result, (_, value) => (typeof value === 'bigint' ? value.toString() : value));
     return reply.header('Content-Type', 'application/json').send(parsedResult);
