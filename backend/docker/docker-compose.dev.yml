@@ -15,10 +15,24 @@ services:
     volumes:
       - database:/data/postgres
 
+  sandbox-database:
+    image: mariadb:latest
+    restart: unless-stopped
+    ports:
+      - ${SANDBOX_DATABASE_PORT}:${SANDBOX_DATABASE_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
+    networks:
+      - sqliqour-network
+    volumes:
+      - sandbox-database:/var/lib/mysql
+
 networks:
   sqliqour-network:
     driver: bridge
 
 volumes:
   database:
+    driver: local
+  sandbox-database:
     driver: local

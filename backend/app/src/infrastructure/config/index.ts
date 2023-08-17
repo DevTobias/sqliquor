@@ -11,6 +11,12 @@ export const environmentSchema = z.object({
   // Database configuration
   DATABASE_URL: z.string().min(1),
 
+  // Sandbox database configuration
+  SANDBOX_DATABASE_HOST: z.string().min(1),
+  SANDBOX_DATABASE_PORT: z.string().transform((val) => parseInt(val, 10)),
+  SANDBOX_DATABASE_ROOT_USER: z.string().min(1),
+  SANDBOX_DATABASE_ROOT_PASSWORD: z.string().min(1),
+
   // Authentication token config
   JWT_ISSUER: z.string().min(1),
   JWT_AUDIENCE: z.string().min(1),

@@ -2,6 +2,7 @@ import { Container, ServiceIdentifier, Token } from '@freshgum/typedi';
 import Elysia from 'elysia';
 
 import { createDatabaseConnection, Database, User } from '$database';
+import { createSandboxConnection, Sandbox } from '$database/sandbox';
 import { Environment, loadEnvironment } from '$infrastructure/config';
 import { errorHandler } from '$infrastructure/webserver/handler/error.handler';
 import { cookie } from '$infrastructure/webserver/plugins/cookie';
@@ -10,6 +11,7 @@ import { helmet } from '$infrastructure/webserver/plugins/helmet';
 import { logger } from '$infrastructure/webserver/plugins/logger';
 
 export const DATABASE = new Token<Database>();
+export const SANDBOX = new Token<Sandbox>();
 export const ENVIRONMENT = new Token<Environment>();
 
 export const resolve = <T>(identifier: ServiceIdentifier<T>) => Container.get(identifier);
@@ -17,8 +19,10 @@ export const resolve = <T>(identifier: ServiceIdentifier<T>) => Container.get(id
 export const bootstrap = () => {
   const env = loadEnvironment();
   const db = createDatabaseConnection(env.DATABASE_URL);
+  const sandbox = createSandboxConnection(env);
 
   Container.set({ id: DATABASE, value: db, dependencies: [] });
+  Container.set({ id: SANDBOX, value: sandbox, dependencies: [] });
   Container.set({ id: ENVIRONMENT, value: env, dependencies: [] });
 
   const app = new Elysia();
@@ -26,6 +30,7 @@ export const bootstrap = () => {
   const setup = app
     .decorate('env', env)
     .decorate('db', db)
+    .decorate('sandbox', sandbox)
     .decorate('user', null as User | null)
     .use(cookie(env.IS_DEV))
     .use(logger())
