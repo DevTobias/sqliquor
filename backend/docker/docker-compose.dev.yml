@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  database:
+  postgres:
     image: postgres:alpine
     restart: unless-stopped
     ports:
@@ -10,19 +10,15 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_DB}
+    networks:
+      - sqliqour-network
     volumes:
       - database:/data/postgres
 
-  sandbox-database:
-    image: mariadb:latest
-    restart: unless-stopped
-    ports:
-      - ${SANDBOX_DATABASE_PORT}:${SANDBOX_DATABASE_PORT}
-    environment:
-      MYSQL_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
-    volumes:
-      - sandbox-database:/var/lib/mysql
+networks:
+  sqliqour-network:
+    driver: bridge
 
 volumes:
   database:
-  sandbox-database:
+    driver: local

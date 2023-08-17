@@ -1,15 +1,14 @@
 {
   "recommendations": [
-    "streetsidesoftware.code-spell-checker-german",
+    "aaron-bond.better-comments",
     "streetsidesoftware.code-spell-checker",
-    "ms-azuretools.vscode-docker",
+    "streetsidesoftware.code-spell-checker-german",
     "EditorConfig.EditorConfig",
     "IronGeek.vscode-env",
     "dbaeumer.vscode-eslint",
+    "pomber.git-file-history",
     "esbenp.prettier-vscode",
     "rvest.vs-code-prettier-eslint",
-    "Prisma.prisma",
-    "viijay-kr.react-ts-css",
-    "EthanSK.restore-terminals"
+    "viijay-kr.react-ts-css"
   ]
 }

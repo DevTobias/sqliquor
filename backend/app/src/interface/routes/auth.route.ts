@@ -1,27 +1,17 @@
+import { signInSchema, signUpSchema } from '$domain/auth.interface';
+import { App, SetupHandler, resolve } from '$infrastructure/webserver';
 import { AuthController } from '$interface/controller/auth.controller';
-import { SignInSchema, SignUpSchema } from '$domain/validation/auth.validate';
-import { Hook, Router } from '$infrastructure/webserver/types';
+import { AuthHooks } from '$interface/hooks/auth.hook';
 
-export const AuthRouter = 'authRouter';
+export const authRoutes = (setup: SetupHandler) => (app: App) => {
+  const authController = resolve(AuthController);
+  const authHooks = resolve(AuthHooks);
 
-export type AuthRouterFactory = (s: {
-  authController: AuthController;
-  localAuthHook: Hook;
-  tokenAuthHook: Hook;
-  refreshTokenAuthHook: Hook;
-}) => Router;
-
-export const authRouterFactory: AuthRouterFactory = ({
-  authController,
-  localAuthHook,
-  tokenAuthHook,
-  refreshTokenAuthHook,
-}) => ({
-  prefix: '/auth',
-  routes: async (app) => {
-    app.post('/signup', { schema: { body: SignUpSchema } }, authController.signUp);
-    app.post('/signin', { schema: { body: SignInSchema }, preHandler: localAuthHook }, authController.signIn);
-    app.post('/signout', { preHandler: tokenAuthHook }, authController.signOut);
-    app.post('/refresh', { preHandler: refreshTokenAuthHook }, authController.refreshToken);
-  },
-});
+  return app.use(setup).group('/auth', (group) => {
+    return group
+      .post('/signup', authController.signUp, { body: signUpSchema })
+      .post('/signin', authController.signIn, { body: signInSchema, beforeHandle: authHooks.localAuth })
+      .post('/signout', authController.signOut, { beforeHandle: authHooks.tokenAuth })
+      .post('/refresh', authController.refreshToken, { beforeHandle: authHooks.refreshAuth });
+  });
+};

@@ -1,13 +1,13 @@
-import { Hook, Router } from '$infrastructure/webserver/types';
+import { App, SetupHandler, resolve } from '$infrastructure/webserver';
 import { UserController } from '$interface/controller/user.controller';
+import { AuthHooks } from '$interface/hooks/auth.hook';
 
-export const UserRouter = 'userRouter';
+export const userRoutes = (setup: SetupHandler) => (app: App) => {
+  const authHooks = resolve(AuthHooks);
 
-export type UserRouterFactory = (s: { userController: UserController; tokenAuthHook: Hook }) => Router;
-
-export const userRouterFactory: UserRouterFactory = ({ tokenAuthHook, userController }) => ({
-  prefix: '/user',
-  routes: async (app) => {
-    app.get('/', { preHandler: tokenAuthHook }, userController.userInformation);
-  },
-});
+  return app.use(setup).group('/user', (group) => {
+    return group.get('/', UserController.getUser, {
+      beforeHandle: authHooks.tokenAuth,
+    });
+  });
+};

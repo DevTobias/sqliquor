@@ -5,14 +5,20 @@ tasks:
     cmds:
       - task --list
 
-  backend:
-    desc: Runs the docker compose command for the backend (up, down, build)
-    cmds:
-      - if [ {{.CLI_ARGS}} = build ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend{{.CLI_ARGS}} --no-cache; fi
-      - if [ {{.CLI_ARGS}} = up ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend {{.CLI_ARGS}} -d; fi
-      - if [ {{.CLI_ARGS}} = down ]; then docker compose -f backend/docker/docker-compose.dev.yml --env-file backend/app/.env -p sql-game-backend {{.CLI_ARGS}}; fi
-
   run:
     desc: Runs the script with the provided name (clean, upgrade, install)
     cmds:
-      - sudo bash scripts/{{.CLI_ARGS}}.sh
+      - sh scripts/{{.CLI_ARGS}}.sh
+
+  backend:
+    desc: Builds or starts the backend inside of a container - [build|start]
+    cmds:
+      - if [ {{.CLI_ARGS}} = build ]; then docker build -f backend/docker/Dockerfile -t devtobias/sqliqour_backend backend; fi
+      - if [ {{.CLI_ARGS}} = start ]; then docker run --env-file backend/app/.env.development -p 8080:8080 devtobias/sqliqour_backend; fi
+
+  setup:
+    desc: Setups the complete dev environment (installing dependencies, bootstrapping the database)
+    cmds:
+      - docker compose -f  backend/docker/docker-compose.dev.yml --env-file backend/app/.env.development -p sqliqour-dev up -d
+      - sleep 5
+      - cd backend/app && bun drizzle:migrate
