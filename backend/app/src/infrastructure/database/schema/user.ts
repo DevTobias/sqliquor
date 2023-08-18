@@ -17,8 +17,11 @@ export const user = pgTable('user', {
 });
 
 export type User = InferModel<typeof user>;
-export type CreateUser = Omit<
-  InferModel<typeof user, 'insert'>,
-  'createdAt' | 'id' | 'tokens' | 'sandboxCreated' | 'sandboxPassword' | 'messageHistory'
+export type CreateUser = Pick<InferModel<typeof user, 'insert'>, 'email' | 'username' | 'password'>;
+export type UpdateUser = { id: string } & Partial<
+  Pick<
+    InferModel<typeof user, 'insert'>,
+    'email' | 'username' | 'password' | 'messageHistory' | 'updatedAt' | 'sandboxCreated'
+  >
 >;
 export type PublicUser = Omit<User, 'password' | 'tokens' | 'sandboxPassword'>;

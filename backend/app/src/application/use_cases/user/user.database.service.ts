@@ -2,7 +2,7 @@ import { Service } from '@freshgum/typedi';
 import { and, eq, ne, or, sql } from 'drizzle-orm';
 
 import { UserService } from '$application/use_cases/user/_user.service';
-import { CreateUser, Database, user } from '$database';
+import { CreateUser, Database, UpdateUser, user } from '$database';
 import { DATABASE } from '$infrastructure/webserver';
 import { HTTP, httpException } from '$infrastructure/webserver/types';
 import { first } from '$lib/utils/promise';
@@ -14,6 +14,12 @@ export class UserDatabaseService implements UserService {
   create = async (payload: CreateUser) => {
     return first(this.db.insert(user).values(payload).returning(), () =>
       httpException('user with this email or username already exists', HTTP.CONFLICT)
+    );
+  };
+
+  update = async (payload: UpdateUser) => {
+    return first(this.db.update(user).set(payload).returning().where(eq(user.id, payload.id)), () =>
+      httpException('user with this id does not exist', HTTP.CONFLICT)
     );
   };
 

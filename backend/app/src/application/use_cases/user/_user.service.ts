@@ -1,4 +1,4 @@
-import { CreateUser, User } from '$database';
+import { CreateUser, UpdateUser, User } from '$database';
 
 export interface UserService {
   /**
@@ -10,6 +10,16 @@ export interface UserService {
    * @returns     The created database user
    */
   create: (payload: CreateUser) => Promise<User>;
+
+  /**
+   * Updates the {@link User} instance in the database. If the id does not exist
+   * in the db, a {@link HttpException} gets thrown.
+   *
+   * @param user  The user dto which should get updated
+   * @throws      {@link HttpException} if id does not already exist
+   * @returns     The updated database user
+   */
+  update: (user: UpdateUser) => Promise<User>;
 
   /**
    * Find an {@link User} by it's id. If no user with the provided

@@ -25,7 +25,8 @@ services:
     networks:
       - sqliqour-network
     volumes:
-      - sandbox-database:/var/lib/mysql
+      - sandbox-database:/var/lib/mysql:rw
+    user: mysql
 
 networks:
   sqliqour-network:

@@ -1,4 +1,4 @@
-import { PoolConnection, createPool, createConnection, Connection } from 'mariadb';
+import { createPool, createConnection } from 'mysql2/promise';
 
 import { Environment } from '$infrastructure/config';
 
@@ -13,35 +13,20 @@ export const createSandboxConnection = (env: Environment) => {
   });
 
   const queryRoot = async (query: string, parameter = []) => {
-    let conn: PoolConnection | undefined;
-    try {
-      conn = await pool.getConnection();
-      return await conn.query(query, parameter);
-    } finally {
-      if (conn) conn.end();
-    }
+    const conn = await pool.getConnection();
+    return conn.execute(query, parameter);
   };
 
-  const queryUser = async (
-    query: string,
-    parameter: string,
-    credentials: { user: string; password: string; database: string }
-  ) => {
-    let conn: Connection | undefined;
-
-    try {
-      conn = await createConnection({
-        user: credentials.user,
-        password: credentials.password,
-        database: credentials.database,
-        multipleStatements: true,
-        host: env.SANDBOX_DATABASE_HOST,
-        port: env.SANDBOX_DATABASE_PORT,
-      });
-      return await conn.query(query, parameter);
-    } finally {
-      if (conn) conn.end();
-    }
+  const queryUser = async (query: string, credentials: { user: string; password: string; database: string }) => {
+    const conn = await createConnection({
+      user: credentials.user,
+      password: credentials.password,
+      database: credentials.database,
+      multipleStatements: true,
+      host: env.SANDBOX_DATABASE_HOST,
+      port: env.SANDBOX_DATABASE_PORT,
+    });
+    return (await conn.execute(query))[0] as object;
   };
 
   return { queryRoot, queryUser };
