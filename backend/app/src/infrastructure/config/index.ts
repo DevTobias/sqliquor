@@ -17,6 +17,8 @@ export const environmentSchema = z.object({
   SANDBOX_DATABASE_ROOT_USER: z.string().min(1),
   SANDBOX_DATABASE_ROOT_PASSWORD: z.string().min(1),
 
+  OPENAI_API_KEY: z.string(),
+
   // Authentication token config
   JWT_ISSUER: z.string().min(1),
   JWT_AUDIENCE: z.string().min(1),

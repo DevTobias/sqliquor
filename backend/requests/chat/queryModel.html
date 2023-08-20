@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Query Model Demo</title>
+  </head>
+  <body>
+    <div>
+      <h1>Query Model Demo</h1>
+      <div class="inputs">
+        <input type="text" id="query" />
+        <button id="send">Ask</button>
+      </div>
+      <div id="response"></div>
+    </div>
+  </body>
+
+  <script>
+    // prettier-ignore
+    const ACCESS_TOKEN = 'eyJhbGciOiJSUzI1NiIsImp0aSI6IjVhOGQzNTBkLTUxMTEtNDdkNS04N2QwLTU3ZDg0Mzc1NmIzNiJ9.eyJpZCI6IjVhOGQzNTBkLTUxMTEtNDdkNS04N2QwLTU3ZDg0Mzc1NmIzNiIsImlzcyI6InNxbGlxb3VyIiwiYXVkIjoic3FsaXFvdXI6YXBwIiwiZXhwIjoxNjkyNTM4NjExLCJzdWIiOiI1YThkMzUwZC01MTExLTQ3ZDUtODdkMC01N2Q4NDM3NTZiMzYiLCJqdGkiOiI1YThkMzUwZC01MTExLTQ3ZDUtODdkMC01N2Q4NDM3NTZiMzYiLCJpYXQiOjE2OTI1MzgwMTF9.E25bA9FnGXJYn2kb1CTiaVR0AYaqEL7QPEQwI-puW9f3dsr4JFLfpXNTO9rJdzYMxax6hkoefmWkVkxTtJM1DgDOYWCI9Wu6-CLVj6OGberFLOLPA2GGcHmFM2SX_dbYD7RqvjOzE0ZW-Nd7MaHwC-Hcdgdam5Ubi6g2lqlESOgSK5rJQ5TxkQHbzmaRaAGYqtXfezxelHMmDUM_GtGNbvo4iTW5NMVaOPq_8_IyWPWGyTXglYL_VFDo8prhghtAyBpuwkxKmc-f0d-LH1XWGWPWROhlF_R7KVFkk6XKP383QjtqaGeg-zWh4DkzBcAHccxfaUFcXLbuF7Qb9UYA2w';
+
+    async function* readStream(reader) {
+      const textDecoder = new TextDecoder();
+      let readResult = await reader.read();
+      while (!readResult.done) {
+        yield textDecoder.decode(readResult.value);
+        readResult = await reader.read();
+      }
+    }
+
+    document.getElementById('send').addEventListener('click', async () => {
+      const content = document.getElementById('query').value;
+
+      const response = await fetch('http://localhost:8080/chat/query', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify([{ role: 'user', content }]),
+      });
+
+      for await (const chunk of readStream(response.body.getReader())) {
+        document.getElementById('response').innerHTML += chunk;
+      }
+    });
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: #353541;
+      color: white;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body > div {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 50rem;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #3f414e;
+      color: white;
+      border: none;
+      outline: none;
+      width: 90%;
+    }
+
+    button {
+      width: 10%;
+      background-color: #3f414e;
+      color: white;
+      outline: none;
+      border: none;
+    }
+
+    .inputs {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</html>
