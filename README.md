@@ -51,7 +51,7 @@ To setup the dev environment, you need to make sure to have the following tools 
 
 You can install all the dependencies of the `backend`, `frontend` und `documentation` projects with this simple command: `task run -- install`. If you don't want to install all dependencies of all projects, navigate to the desired one and run `yarn install`.
 
-Now we have to setup the databases. For this to work, you have to adjust the `backend/app/.env.development` file which includes all secrets like database passwords and stuff like this. You just need to fill the empty spaces and/or adjust the other values as you like. After this, you can now start the backend (database) containers with `task setup`.
+Now we have to setup the databases. For this to work, you have to create a `backend/app/.env.development` file which includes all secrets like database passwords, api tokens and other stuff you want to keep secret. Just copy the `backend/app/.env.template` and fill the empty spaces and/or adjust the other values as you like. After this, you can now start the backend (database) containers with `task setup`.
 
 If the database is ready, you can now move on to start the actually backend development server inside the `backend/app` directory with `bun start`.
 
