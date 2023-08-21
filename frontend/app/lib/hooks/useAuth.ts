@@ -2,7 +2,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 
-import { User } from '$lib/types/user';
+import { User } from '$lib/pages/auth/data/auth.model';
 import { client, createAuthClient } from '$lib/utils/http';
 
 interface RefreshResponse {
