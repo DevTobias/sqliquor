@@ -4,22 +4,23 @@ export interface SignUpPayload {
   password: string;
 }
 
-export interface SignUpResponse {
-  email: string;
-  username: string;
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  sandboxCreated: boolean;
-  sandboxHistory: string[];
-}
-
 export interface SignInPayload {
   identifier: string;
   password: string;
 }
 
-export interface SignInResponse {
+export interface User {
+  id: string;
+  email: string;
+  username: string;
+  sandboxCreated: boolean;
+  messageHistory: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Tokens {
   accessToken: string;
   refreshToken: string;
+  user: User;
 }

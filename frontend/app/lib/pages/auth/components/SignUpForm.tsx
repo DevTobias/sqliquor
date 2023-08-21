@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { FC, HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -15,6 +16,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const SignUpForm: FC<Props> = ({ onSwitch, ...rest }) => {
+  const router = useRouter();
   const { register, formState, handleSubmit } = useForm<SignUpFormData>();
   const { username, email, password } = formState.errors;
 
@@ -27,7 +29,9 @@ export const SignUpForm: FC<Props> = ({ onSwitch, ...rest }) => {
       error: 'User with this email or password already exists.',
     });
 
-    await signIn({ identifier: data.email, password: data.password });
+    signIn({ identifier: data.email, password: data.password })
+      .then(() => router.push(localStorage.getItem('navigate-from') ?? '/'))
+      .catch(() => {});
   });
 
   return (

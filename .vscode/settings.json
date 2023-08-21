@@ -8,7 +8,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template,.env.development,drizzle.config.ts",
+    "package.json": ".gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template,.env.development,drizzle.config.ts,next.config.js",
     "next.config.js": "next-env.d.ts",
     "Taskfile.yml": ".editorconfig,.gitignore",
     "index.ts": "migrate.ts,extension.ts",

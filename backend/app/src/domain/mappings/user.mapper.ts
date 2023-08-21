@@ -6,4 +6,6 @@ export const mapUser = (user: User): PublicUser => ({
   username: user.username,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
+  sandboxCreated: user.sandboxCreated,
+  messageHistory: user.messageHistory,
 });

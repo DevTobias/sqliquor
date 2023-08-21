@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 
@@ -13,12 +13,14 @@ interface RefreshResponse {
 
 export const useAuth = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const { data, error, isLoading } = useSWR<RefreshResponse>('auth/refresh', (url: string) =>
     client.post(url).then((res) => res.json())
   );
 
   useEffect(() => {
+    localStorage.setItem('navigate-from', pathname);
     if (error) router.push('/auth');
   });
 

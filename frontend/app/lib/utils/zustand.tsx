@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, createContext, useContext, useRef } from 'react';
-import { StoreApi, useStore } from 'zustand';
+import { StoreApi } from 'zustand';
+import { useStoreWithEqualityFn } from 'zustand/traditional';
 
 export function createProvider<S>(createStore: (init: Partial<S>) => StoreApi<S>) {
   const Context = createContext<ReturnType<typeof createStore> | null>(null);
@@ -13,7 +14,7 @@ export function createProvider<S>(createStore: (init: Partial<S>) => StoreApi<S>
   function useStoreContext<T>(selector: (state: S) => T, equalityFn?: (left: T, right: T) => boolean): T {
     const store = useContext(Context);
     if (!store) throw new Error('Missing context provider in the tree');
-    return useStore(store, selector, equalityFn);
+    return useStoreWithEqualityFn(store, selector, equalityFn);
   }
 
   return { Context, Provider, useStoreContext };
