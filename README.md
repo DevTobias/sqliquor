@@ -55,6 +55,8 @@ Now we have to setup the databases. For this to work, you have to create a `back
 
 If the database is ready, you can now move on to start the actually backend development server inside the `backend/app` directory with `bun start`.
 
+If the server hast started successfully, you can now move on to the frontend. This should be pretty simple tho. Navigate to the `frontend` directory and type `yarn turbo dev` to start the next.js development server.
+
 ## 🔓 License
 
 This software ist distributed under the MIT license. For more information you can have a look at the [license file](./LICENSE).

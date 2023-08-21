@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-plusplus */
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import { DependencyList, useCallback, useRef, useState } from 'react';
 

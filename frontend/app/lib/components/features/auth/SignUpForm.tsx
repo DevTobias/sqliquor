@@ -1,42 +1,38 @@
-import { useRouter } from 'next/navigation';
 import { FC, HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import Button from '$lib/components/Button';
+import { SignUpFormData, emailOpt, passwordOpt, usernameOpt } from '$lib/components/features/auth/SignUpForm.validators';
+import { Switcher } from '$lib/components/features/auth/Switcher';
 import Input from '$lib/components/Input';
-import { SignUpFormData, emailOpt, passwordOpt, usernameOpt } from '$lib/pages/auth/components/SignUpForm.validators';
-import { Switcher } from '$lib/pages/auth/components/Switcher';
-import { signIn, signUp } from '$lib/pages/auth/data/auth.service';
+import { useAuthStore } from '$lib/store/auth.store';
 
-import styles from './SignForm.module.scss';
+import styles from './AuthForm.module.scss';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   onSwitch: VoidFunction;
+  onSuccess: VoidFunction;
 }
 
-export const SignUpForm: FC<Props> = ({ onSwitch, ...rest }) => {
-  const router = useRouter();
+export const SignUpForm: FC<Props> = ({ onSwitch, onSuccess, ...rest }) => {
+  const { signup } = useAuthStore((s) => ({ signup: s.signup }));
   const { register, formState, handleSubmit } = useForm<SignUpFormData>();
   const { username, email, password } = formState.errors;
 
   const onSubmit = handleSubmit(async (data) => {
-    const signUpPromise = signUp(data);
+    const signUpPromise = signup(data).then(onSuccess);
 
     await toast.promise(signUpPromise, {
       loading: 'Signing up user...',
       success: 'User successfully signed up.',
       error: 'User with this email or password already exists.',
     });
-
-    signIn({ identifier: data.email, password: data.password })
-      .then(() => router.push(localStorage.getItem('navigate-from') ?? '/'))
-      .catch(() => {});
   });
 
   return (
-    <div className={styles.container} {...rest}>
-      <div className={styles.formWrapper}>
+    <div className={styles.singleFormContainer} {...rest}>
+      <div className={styles.singleFormWrapper}>
         <h2>Create New Account</h2>
         <form onSubmit={onSubmit}>
           <Input type='text' placeholder='Username' error={username?.message} {...register('username', usernameOpt)} />

@@ -6,10 +6,9 @@
   font-weight: 700;
 
   border: 2px solid transparent;
-  border-radius: 10px;
+  border-radius: 5px;
+  margin: 0;
 
-  background: linear-gradient(90deg, theme.color('primary', 600) 0%, theme.color('accent', 600) 100%);
-  color: theme.color('neutral', 0);
   cursor: pointer;
   transition: scale 100ms ease-in-out;
 
@@ -20,5 +19,57 @@
   &:focus,
   &:active {
     border: 2px solid theme.color('neutral', 0);
+  }
+}
+
+.btn-grad {
+  background-image: linear-gradient(to right, #77a1d3 0%, #79cbca 51%, #77a1d3 100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.primary {
+  background-image: linear-gradient(
+    to right,
+    theme.color('primary', 600) 0%,
+    theme.color('accent', 600) 51%,
+    theme.color('primary', 600) 100%
+  );
+  background-size: 200% auto;
+  color: theme.color('neutral', 0);
+  transition: 0.5s;
+
+  &:hover {
+    background-position: right center;
+    text-decoration: none;
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.3);
+  color: theme.color('neutral', 0);
+}
+
+.ghost {
+  color: theme.color('primary', 600);
+  box-shadow: none;
+  background: transparent;
+
+  &:hover {
+    background: theme.color('neutral', 100);
   }
 }

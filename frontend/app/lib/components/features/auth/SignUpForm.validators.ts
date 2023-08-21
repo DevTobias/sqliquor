@@ -1,7 +1,5 @@
 import { RegisterOptions } from 'react-hook-form';
 
-import { emailPattern } from '$lib/utils/patterns';
-
 export type SignUpFormData = {
   email: string;
   username: string;
@@ -10,7 +8,7 @@ export type SignUpFormData = {
 
 export const emailOpt: RegisterOptions<SignUpFormData, 'email'> = {
   required: { message: 'Email is required', value: true },
-  pattern: { message: 'Not a valid email', value: emailPattern },
+  pattern: { message: 'Not a valid email', value: /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm },
 };
 
 export const usernameOpt: RegisterOptions<SignUpFormData, 'username'> = {

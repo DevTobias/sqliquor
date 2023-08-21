@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import { DependencyList, RefObject, useEffect } from 'react';
 
 export const useScrollTo = (

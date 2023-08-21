@@ -1,0 +1,57 @@
+@use '$styles/theme' as theme;
+
+.doubleFormWrapper {
+  width: 25rem;
+  aspect-ratio: 1/1.5;
+  overflow: hidden;
+  color: theme.color('neutral', 600);
+}
+
+.doubleFormContainer {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+  & > * {
+    grid-column: 1;
+    grid-row: 1;
+    transition: transform 500ms ease;
+  }
+
+  & > *:first-child[aria-hidden='true'] {
+    transform: translateX(-100%);
+  }
+
+  & > *:last-child[aria-hidden='true'] {
+    transform: translateX(100%);
+  }
+}
+
+.singleFormContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.singleFormWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: absolute;
+  top: 13%;
+  width: 100%;
+  padding: 2.5rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  h2 {
+    font-size: theme.fontSize('header-sm');
+  }
+}
