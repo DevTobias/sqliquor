@@ -9,6 +9,8 @@ export const sandboxRoutes = (setup: SetupHandler) => (app: App) => {
   const authHooks = resolve(AuthHooks);
 
   return app.use(setup).group('/sandbox', (group) => {
-    return group.post('/execute', sandboxController.execute, { body: t.String(), beforeHandle: authHooks.tokenAuth });
+    return group
+      .post('/execute', sandboxController.execute, { body: t.String(), beforeHandle: authHooks.tokenAuth })
+      .post('/reset', sandboxController.reset, { beforeHandle: authHooks.tokenAuth });
   });
 };

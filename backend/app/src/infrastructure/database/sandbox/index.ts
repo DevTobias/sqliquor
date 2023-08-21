@@ -12,9 +12,8 @@ export const createSandboxConnection = (env: Environment) => {
     multipleStatements: true,
   });
 
-  const queryRoot = async (query: string, parameter = []) => {
-    const conn = await pool.getConnection();
-    return conn.execute(query, parameter);
+  const queryRoot = async (query: string) => {
+    return pool.query(query);
   };
 
   const queryUser = async (query: string, credentials: { user: string; password: string; database: string }) => {

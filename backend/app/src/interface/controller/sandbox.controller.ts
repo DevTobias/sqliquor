@@ -17,4 +17,8 @@ export class SandboxController {
     set.headers['Content-Type'] = 'application/json';
     return JSON.stringify(result, (_, value) => (typeof value === 'bigint' ? value.toString() : value));
   };
+
+  reset: Handler<unknown> = async ({ user }) => {
+    await this.sandboxService.createUserSandbox(user!);
+  };
 }
