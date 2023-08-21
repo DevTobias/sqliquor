@@ -1,19 +1,17 @@
-import { createPool, createConnection } from 'mysql2/promise';
+import { createConnection } from 'mysql2/promise';
 
 import { Environment } from '$infrastructure/config';
 
 export const createSandboxConnection = (env: Environment) => {
-  const pool = createPool({
-    host: env.SANDBOX_DATABASE_HOST,
-    port: env.SANDBOX_DATABASE_PORT,
-    user: env.SANDBOX_DATABASE_ROOT_USER,
-    password: env.SANDBOX_DATABASE_ROOT_PASSWORD,
-    connectionLimit: 5,
-    multipleStatements: true,
-  });
-
   const queryRoot = async (query: string) => {
-    return pool.query(query);
+    const conn = await createConnection({
+      host: env.SANDBOX_DATABASE_HOST,
+      port: env.SANDBOX_DATABASE_PORT,
+      user: env.SANDBOX_DATABASE_ROOT_USER,
+      password: env.SANDBOX_DATABASE_ROOT_PASSWORD,
+      multipleStatements: true,
+    });
+    return conn.query(query);
   };
 
   const queryUser = async (query: string, credentials: { user: string; password: string; database: string }) => {
