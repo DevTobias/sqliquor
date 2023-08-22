@@ -14,5 +14,19 @@
   height: 100vh;
   width: 100%;
   position: relative;
-  background: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+  background-image: url('/bar.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(to right, #95fae831 0%, #95fae831 100%);
+  pointer-events: none;
 }
