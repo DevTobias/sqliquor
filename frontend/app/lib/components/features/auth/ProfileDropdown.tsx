@@ -1,10 +1,11 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import Button from '$lib/components/Button';
 import { Dropdown } from '$lib/components/Dropdown';
 import { AuthForm } from '$lib/components/features/auth/AuthForm';
+import { useAuthPopupStore } from '$lib/components/features/auth/store/authpopup.store';
 import { Popup } from '$lib/components/Popup';
 import { useAuthStore } from '$lib/store/auth.store';
 import { classNames } from '$lib/utils/classNames';
@@ -13,12 +14,12 @@ import styles from './ProfileDropdown.module.scss';
 
 export const ProfileDropdown: FC = () => {
   const { user, client, signout } = useAuthStore((s) => ({ user: s.user, client: s.client, signout: s.signout }));
-  const [popup, setPopup] = useState(false);
+  const { active, setActive } = useAuthPopupStore();
 
   return (
     <>
       {!user && (
-        <Button className={classNames(styles.wrapper, styles.signin)} variant='glass' onClick={() => setPopup(!popup)}>
+        <Button className={classNames(styles.wrapper, styles.signin)} variant='glass' onClick={() => setActive(!active)}>
           Sign In
         </Button>
       )}
@@ -33,8 +34,8 @@ export const ProfileDropdown: FC = () => {
         </Dropdown>
       )}
 
-      <Popup visible={popup} setVisible={setPopup}>
-        <AuthForm onSuccess={() => setPopup(false)} />
+      <Popup visible={active} setVisible={setActive}>
+        <AuthForm onSuccess={() => setActive(false)} />
       </Popup>
     </>
   );

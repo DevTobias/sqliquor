@@ -1,22 +1,8 @@
 @use '$styles/theme' as theme;
 
-.chatWrapper {
-  position: absolute;
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%, 50%);
-}
-
-.chat {
-  height: 750px;
-  width: 750px;
-}
-
 .container {
   height: 100vh;
   width: 100%;
-  position: relative;
-  z-index: 0;
   color: theme.color('neutral', 0);
   display: flex;
   justify-content: center;
