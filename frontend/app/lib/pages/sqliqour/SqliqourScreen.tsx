@@ -3,7 +3,7 @@
 import { ClientSuspense } from '$lib/components/ClientSuspense';
 import { ProfileDropdown } from '$lib/components/features/auth/ProfileDropdown';
 import { LoadingScreen } from '$lib/components/features/loading/LoadingScreen';
-import { GameLoop } from '$lib/pages/sqliqour/data/components/GameLoop';
+import { GameLoop } from '$lib/pages/sqliqour/components/GameLoop';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
 import { useAuthStore } from '$lib/store/auth.store';
 

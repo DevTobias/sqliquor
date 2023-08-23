@@ -1,0 +1,33 @@
+@use '$styles/classes/scrollbar' as scrollbar;
+@use '$styles/theme' as theme;
+
+.container {
+  padding: 15px;
+  grid-row: 2;
+  overflow: hidden;
+}
+
+.wrapper {
+  @include scrollbar.simple;
+  @include theme.shadow-md;
+
+  height: 100%;
+  overflow: auto;
+
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  padding: 13px;
+
+  &:focus-within {
+    border: 2px solid rgba(255, 255, 255, 0.4);
+  }
+
+  textarea::placeholder {
+    color: rgba(82, 82, 82, 0.5);
+  }
+}
+
+.editor {
+  font-size: theme.fontSize('body-md');
+}

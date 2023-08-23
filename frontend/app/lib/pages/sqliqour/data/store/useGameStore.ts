@@ -37,7 +37,7 @@ export const useGameStore = createWithEqualityFn<State & Actions>(
               ...get().activeEvents,
               {
                 id: generateSimpleId(),
-                timestamp: new Date().getTime() / 1000,
+                timestamp: Math.ceil(new Date().getTime() / 1000),
                 event: availableEvents[getRandomNumber(0, availableEvents.length)].event_id,
               },
             ],

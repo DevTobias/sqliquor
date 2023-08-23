@@ -1,3 +1,4 @@
+import { AvailableIcons } from '$lib/components/Icon';
 import { cmsClient } from '$lib/services/_http';
 
 export const SqliqourCmsService = {
@@ -23,7 +24,7 @@ export interface GameEvent {
   time: number;
   name: string;
   task: string;
-  icon: string;
+  icon: AvailableIcons;
   sample_solution: string;
   expected_result: string | null;
   must_include_keywords: string[] | null;

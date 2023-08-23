@@ -4,8 +4,10 @@ import { classNames } from '$lib/utils/classNames';
 
 import styles from './Icon.module.scss';
 
+export type AvailableIcons = 'angle-up' | 'user' | 'exit';
+
 interface Props extends HTMLAttributes<SVGElement> {
-  icon: 'angle-up' | 'user' | 'exit';
+  icon: AvailableIcons;
   iconPath?: string;
   className?: string;
 }

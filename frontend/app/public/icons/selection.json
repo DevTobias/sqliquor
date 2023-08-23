@@ -13,14 +13,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "clear, close",
-        "id": 153,
+        "id": 0,
         "order": 3,
         "prevSize": 24,
         "name": "clear"
       },
       "setIdx": 0,
-      "setId": 3,
-      "iconIdx": 153
+      "setId": 4,
+      "iconIdx": 0
     },
     {
       "icon": {
@@ -42,7 +42,7 @@
         "prevSize": 28
       },
       "setIdx": 1,
-      "setId": 2,
+      "setId": 3,
       "iconIdx": 0
     },
     {
@@ -67,8 +67,75 @@
         "code": 61702
       },
       "setIdx": 1,
-      "setId": 2,
+      "setId": 3,
       "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": ["M318 298h388l76-84h-540zM896 214l-342 384v212h214v86h-512v-86h214v-212l-342-384v-86h768v86z"],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": ["local_bar"],
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "local_bar",
+        "id": 535,
+        "order": 5,
+        "prevSize": 24,
+        "name": "local_bar"
+      },
+      "setIdx": 2,
+      "setId": 2,
+      "iconIdx": 535
+    },
+    {
+      "icon": {
+        "paths": [
+          "M500 810q86 0 145-59t59-145q0-88-24-172-62 82-198 110-120 26-120 132 0 56 40 95t98 39zM576 28q128 104 203 253t75 317q0 140-100 240t-242 100-242-100-100-240q0-216 138-380v16q0 66 44 112t110 46q64 0 105-45t41-113q0-40-8-92t-16-82z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": ["whatshot"],
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "whatshot",
+        "id": 692,
+        "order": 6,
+        "prevSize": 24,
+        "name": "whatshot"
+      },
+      "setIdx": 2,
+      "setId": 2,
+      "iconIdx": 692
+    },
+    {
+      "icon": {
+        "paths": [
+          "M128 938v-852l64 64 64-64 64 64 64-64 64 64 64-64 64 64 64-64 64 64 64-64 64 64 64-64v852l-64-64-64 64-64-64-64 64-64-64-64 64-64-64-64 64-64-64-64 64-64-64zM768 384v-86h-512v86h512zM768 554v-84h-512v84h512zM768 726v-86h-512v86h512z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": ["receipt"],
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "receipt",
+        "id": 787,
+        "order": 7,
+        "prevSize": 24,
+        "name": "receipt"
+      },
+      "setIdx": 2,
+      "setId": 2,
+      "iconIdx": 787
     }
   ],
   "height": 1024,
