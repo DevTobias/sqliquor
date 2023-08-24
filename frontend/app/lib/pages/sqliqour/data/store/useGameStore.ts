@@ -9,7 +9,7 @@ type State = {
   loading: boolean;
   gameStarted: boolean;
   currentLevel: number;
-  activeEvents: { id: string; event: GameEvent; timestamp: number }[];
+  activeEvents: { id: string; timestamp: number; event: GameEvent }[];
 };
 
 type Actions = {

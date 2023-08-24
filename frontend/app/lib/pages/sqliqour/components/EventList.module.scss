@@ -1,0 +1,46 @@
+@use '$styles/theme' as theme;
+
+.card {
+  height: 75px;
+  width: 75px;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  color: theme.color('neutral', 0);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: none;
+  overflow: hidden;
+
+  &:first-child {
+    border-radius: 5px 0 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 5px 0 0;
+  }
+
+  &:first-child:last-child {
+    border-radius: 5px 5px 0 0;
+  }
+
+  transition: scale 100ms ease-in-out;
+
+  &:hover {
+    scale: 1.05;
+    z-index: 10;
+  }
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.32);
+}

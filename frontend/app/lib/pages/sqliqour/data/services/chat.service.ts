@@ -7,10 +7,10 @@ export const ChatService = {
     return (await res.json()) as RemoteMessage[];
   },
 
-  sendMessage: async (client: HttpClient, messages: ChatMessage[]): Promise<string> => {
-    const res = await client.post('chat', { json: messages });
-    if (res.status !== 200) throw new Error('Could not send chat message');
-    return (await res.text()) as string;
+  sendMessage: async (client: HttpClient, messages: ChatMessage[]): Promise<ReadableStream<Uint8Array>> => {
+    const res = await client.post('chat/query', { json: messages });
+    if (res.status !== 200 || res.body === null) throw new Error('Could not send chat message');
+    return res.body;
   },
 };
 

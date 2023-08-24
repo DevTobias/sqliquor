@@ -43,7 +43,7 @@ client
   .post('auth/refresh')
   .then(async (res) => {
     const data = (await res.json()) as { accessToken: string; refreshToken: string; user: User };
-    await new Promise<void>((resolve) => setTimeout(() => resolve(), 2000));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     useAuthStore.setState({ loading: false, user: data.user, client: createAuthClient(data.accessToken) });
   })
   .catch(() => useAuthStore.setState({ loading: false }));

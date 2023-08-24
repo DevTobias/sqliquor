@@ -1,4 +1,4 @@
-import { RemoteMessage } from '$lib/pages/sqliqour/data/services/query.service';
+import { RemoteMessage } from '$lib/pages/sqliqour/data/services/chat.service';
 
 interface QueryMessageType {
   id: string;
@@ -21,7 +21,7 @@ interface QueryResultMessageType {
 interface QuestionResultMessageType {
   id: string;
   type: 'question_result';
-  payload: Promise<string> | string;
+  payload: Promise<ReadableStream<Uint8Array>>;
 }
 
 export type ResultMessageType = QueryResultMessageType | QuestionResultMessageType;

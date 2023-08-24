@@ -13,14 +13,10 @@ interface Props {
 }
 
 export const CodeChat: FC<Props> = ({ className = '' }) => {
-  const { messages, open, messagesNonce } = useCodeChatStore((s) => ({
-    messages: s.messages,
-    open: s.open,
-    messagesNonce: s.messagesNonce,
-  }));
+  const { messages, open } = useCodeChatStore((s) => ({ messages: s.messages, open: s.open }));
 
   const messageAnchorRef = useRef<HTMLDivElement>(null!);
-  useScrollTo(messageAnchorRef, [messages, messagesNonce]);
+  useScrollTo(messageAnchorRef, [messages]);
 
   return (
     <div className={classNames(className, styles.container, !open && styles.closed)}>
