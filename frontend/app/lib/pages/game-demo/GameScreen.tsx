@@ -6,12 +6,13 @@ import { Player } from '$lib/pages/game-demo/components/Player';
 import { SceneLights } from '$lib/pages/game-demo/components/SceneLights';
 import { ScenePostProcessing } from '$lib/pages/game-demo/components/ScenePostProcessing';
 
+//      <DemoScene />
+//      <Player />
+
 export const GameScreen = () => {
   return (
     <>
-      <DemoScene />
       <MainBuilding />
-      <Player />
       <SceneLights />
       <ScenePostProcessing />
     </>
