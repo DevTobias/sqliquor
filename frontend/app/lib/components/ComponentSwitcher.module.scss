@@ -1,0 +1,18 @@
+.switcher {
+  overflow: hidden;
+  display: grid;
+
+  & > * {
+    grid-column: 1;
+    grid-row: 1;
+    transition: transform 500ms ease;
+  }
+
+  & > *:first-child:global(.disabled) {
+    transform: translateX(-100%);
+  }
+
+  & > *:last-child:global(.disabled) {
+    transform: translateX(100%);
+  }
+}

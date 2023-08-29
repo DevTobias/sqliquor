@@ -1,17 +1,17 @@
 import { Icon } from '$lib/components/Icon';
 import { Progress } from '$lib/components/Progress';
 import { useCurrentTimestamp } from '$lib/hooks/useCurrentTime';
-import { useCodeChatStore } from '$lib/pages/sqliqour/data/store/useCodeChatStore';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
+import { useTaskStore } from '$lib/pages/sqliqour/data/store/useTaskStore';
 
 import styles from './EventList.module.scss';
 
 export const EventList = () => {
   const currentTimestamp = useCurrentTimestamp();
   const { activeEvents } = useGameStore((s) => ({ activeEvents: s.activeEvents }));
-  const { closeChat, openChat, activeEvent } = useCodeChatStore((s) => ({
-    closeChat: s.closeChat,
-    openChat: s.openChat,
+  const { closeChat, openChat, activeEvent } = useTaskStore((s) => ({
+    closeChat: s.closeTaskWindow,
+    openChat: s.openTaskWindow,
     activeEvent: s.activeEvent,
   }));
 

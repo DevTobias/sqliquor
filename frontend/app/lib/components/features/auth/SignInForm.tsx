@@ -7,15 +7,17 @@ import { identifierOpt, passwordOpt, SignInFormData } from '$lib/components/feat
 import { Switcher } from '$lib/components/features/auth/Switcher';
 import Input from '$lib/components/Input';
 import { useAuthStore } from '$lib/store/auth.store';
+import { classNames } from '$lib/utils/classNames';
 
 import styles from './AuthForm.module.scss';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
   onSwitch: VoidFunction;
   onSuccess: VoidFunction;
 }
 
-export const SignInForm: FC<Props> = ({ onSwitch, onSuccess, ...rest }) => {
+export const SignInForm: FC<Props> = ({ className, onSwitch, onSuccess, ...rest }) => {
   const { signin } = useAuthStore((s) => ({ signin: s.signin }));
   const { register, formState, handleSubmit } = useForm<SignInFormData>();
   const { identifier, password } = formState.errors;
@@ -31,8 +33,8 @@ export const SignInForm: FC<Props> = ({ onSwitch, onSuccess, ...rest }) => {
   });
 
   return (
-    <div className={styles.singleFormContainer} {...rest}>
-      <div className={styles.singleFormWrapper}>
+    <div className={classNames(styles['form-container'], className)} {...rest}>
+      <div className={styles['form-content']}>
         <h2>Sign In</h2>
         <form onSubmit={onSubmit}>
           <Input type='text' placeholder='Username or email' error={identifier?.message} {...register('identifier', identifierOpt)} />

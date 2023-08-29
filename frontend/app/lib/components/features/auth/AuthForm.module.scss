@@ -1,42 +1,19 @@
 @use '$styles/theme' as theme;
 
-.doubleFormWrapper {
+.switcher {
   width: 25rem;
   aspect-ratio: 1/1.5;
-  overflow: hidden;
   color: theme.color('neutral', 600);
 }
 
-.doubleFormContainer {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-
-  & > * {
-    grid-column: 1;
-    grid-row: 1;
-    transition: transform 500ms ease;
-  }
-
-  & > *:first-child[aria-hidden='true'] {
-    transform: translateX(-100%);
-  }
-
-  & > *:last-child[aria-hidden='true'] {
-    transform: translateX(100%);
-  }
-}
-
-.singleFormContainer {
+.form-container {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
 }
 
-.singleFormWrapper {
+.form-content {
   display: flex;
   flex-direction: column;
   gap: 3rem;

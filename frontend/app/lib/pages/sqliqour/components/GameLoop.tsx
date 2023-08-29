@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Events } from '$lib/pages/sqliqour/components/Events';
+import { Events } from '$lib/pages/sqliqour/components/Events/Events';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
 
 export const GameLoop = () => {

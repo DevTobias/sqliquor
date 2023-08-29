@@ -7,15 +7,17 @@ import { SignUpFormData, emailOpt, passwordOpt, usernameOpt } from '$lib/compone
 import { Switcher } from '$lib/components/features/auth/Switcher';
 import Input from '$lib/components/Input';
 import { useAuthStore } from '$lib/store/auth.store';
+import { classNames } from '$lib/utils/classNames';
 
 import styles from './AuthForm.module.scss';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
   onSwitch: VoidFunction;
   onSuccess: VoidFunction;
 }
 
-export const SignUpForm: FC<Props> = ({ onSwitch, onSuccess, ...rest }) => {
+export const SignUpForm: FC<Props> = ({ className, onSwitch, onSuccess, ...rest }) => {
   const { signup } = useAuthStore((s) => ({ signup: s.signup }));
   const { register, formState, handleSubmit } = useForm<SignUpFormData>();
   const { username, email, password } = formState.errors;
@@ -31,7 +33,7 @@ export const SignUpForm: FC<Props> = ({ onSwitch, onSuccess, ...rest }) => {
   });
 
   return (
-    <div className={styles.singleFormContainer} {...rest}>
+    <div className={classNames(styles.singleFormContainer, className)} {...rest}>
       <div className={styles.singleFormWrapper}>
         <h2>Create New Account</h2>
         <form onSubmit={onSubmit}>
