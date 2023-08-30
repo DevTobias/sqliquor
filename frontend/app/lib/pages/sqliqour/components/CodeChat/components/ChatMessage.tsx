@@ -12,7 +12,7 @@ interface Props {
 export const ChatMessage: FC<Props> = ({ message }) => {
   switch (message.type) {
     case 'query':
-      return <QueryMessage query={message.payload} />;
+      return <QueryMessage query={message.payload} id={message.id} />;
     case 'question':
       return <QuestionMessage question={message.payload} />;
     case 'query_result':

@@ -17,23 +17,7 @@
 }
 
 .events {
-  display: flex;
   position: relative;
-}
-
-.bar {
-  position: absolute;
-  width: 75px;
-  height: 2px;
-  background-color: #ffffff;
-  bottom: -1px;
-  transition: left 100ms ease;
-  left: calc(var(--position) * 75px);
-  z-index: 20;
-
-  &.inactive {
-    visibility: hidden;
-  }
 }
 
 .task {
@@ -42,38 +26,6 @@
 }
 
 .switcher {
-  height: 35px;
-  width: 35px;
-  padding: 5px;
-  border-radius: 5px 5px 0 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  color: theme.color('neutral', 0);
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: none;
-  overflow: hidden;
-
-  transition:
-    height 300ms ease,
-    padding 300ms ease,
-    scale 100ms ease-in-out,
-    rotate 300ms ease;
-
-  &:hover {
-    scale: 1.05;
-  }
-
-  &.inactive {
-    height: 0;
-    padding: 0;
-  }
-
   & > .chat,
   & > .task {
     transition: rotate 300ms ease;
@@ -95,4 +47,16 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: theme.color('neutral', 600);
+}
+
+.controls {
+  display: flex;
+
+  div:first-child {
+    border-radius: 5px 0 0 0;
+  }
+
+  div:last-child {
+    border-radius: 0 5px 0 0;
+  }
 }

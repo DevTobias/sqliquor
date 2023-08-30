@@ -5,7 +5,6 @@ import { classNames } from '$lib/utils/classNames';
 import styles from './Icon.module.scss';
 
 export type AvailableIcons =
-  | 'angle-up'
   | 'user'
   | 'exit'
   | 'precision_manufactoring'
@@ -13,7 +12,8 @@ export type AvailableIcons =
   | 'local_fire_department'
   | 'forum'
   | 'timelapse'
-  | 'handyman';
+  | 'handyman'
+  | 'fact_check';
 
 interface Props extends HTMLAttributes<SVGElement> {
   icon: AvailableIcons;

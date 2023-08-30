@@ -15,4 +15,22 @@
     height 300ms ease,
     width 300ms ease;
   overflow: hidden;
+  overflow-x: auto;
+  box-sizing: content-box;
+  border: transparent solid 2px;
+}
+
+.clickable .message {
+  cursor: pointer;
+  transition: background-color 100ms ease;
+
+  &:hover {
+    background-color: rgb(119, 161, 211, 0.2);
+    border: #77a1d3 solid 2px;
+  }
+}
+
+.selected {
+  background-color: rgb(119, 161, 211, 0.2);
+  border: #77a1d3 solid 2px;
 }

@@ -26,7 +26,7 @@ export const Dropdown: FC<Props> = ({ children, className = '' }) => {
         <Icon icon='user' />
       </Button>
 
-      <div className={classNames(styles.dropdown, open && styles.open)}>{children}</div>
+      <div className={classNames(styles.dropdown, !open && styles.close)}>{children}</div>
     </div>
   );
 };

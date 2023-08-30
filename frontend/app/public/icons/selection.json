@@ -3,6 +3,52 @@
   "icons": [
     {
       "icon": {
+        "paths": [
+          "M854 128h-684q-34 0-59 25t-25 61v596q0 36 25 61t59 25h684q34 0 59-25t25-61v-596q0-36-25-61t-59-25zM426 726h-212v-86h212v86zM426 554h-212v-84h212v84zM426 384h-212v-86h212v86zM632 640l-120-122 60-60 60 62 136-136 60 60z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": ["fact_check"],
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "fact_check",
+        "id": 19,
+        "order": 17,
+        "prevSize": 24,
+        "name": "fact_check"
+      },
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M512 598q108 0 225 47t117 123v86h-684v-86q0-76 117-123t225-47zM512 512q-70 0-120-50t-50-120 50-121 120-51 120 51 50 121-50 120-120 50z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": ["person"],
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "person",
+        "id": 18,
+        "order": 18,
+        "prevSize": 24,
+        "name": "person"
+      },
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
         "paths": ["M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"],
         "attrs": [],
         "isMulticolor": false,
@@ -13,14 +59,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "clear, close",
-        "id": 0,
-        "order": 3,
+        "id": 11,
+        "order": 19,
         "prevSize": 24,
         "name": "clear"
       },
       "setIdx": 0,
-      "setId": 6,
-      "iconIdx": 0
+      "setId": 0,
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -34,14 +80,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "local_bar",
-        "id": 1,
-        "order": 5,
+        "id": 12,
+        "order": 20,
         "prevSize": 24,
         "name": "local_bar"
       },
       "setIdx": 0,
-      "setId": 6,
-      "iconIdx": 1
+      "setId": 0,
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -57,14 +103,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "whatshot",
-        "id": 2,
-        "order": 6,
+        "id": 13,
+        "order": 21,
         "prevSize": 24,
         "name": "whatshot"
       },
       "setIdx": 0,
-      "setId": 6,
-      "iconIdx": 2
+      "setId": 0,
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -80,62 +126,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "receipt",
-        "id": 3,
-        "order": 7,
+        "id": 14,
+        "order": 22,
         "prevSize": 24,
         "name": "receipt"
       },
       "setIdx": 0,
-      "setId": 6,
-      "iconIdx": 3
-    },
-    {
-      "icon": {
-        "paths": [
-          "M731.429 799.429c0 83.429-54.857 151.429-121.714 151.429h-488c-66.857 0-121.714-68-121.714-151.429 0-150.286 37.143-324 186.857-324 46.286 45.143 109.143 73.143 178.857 73.143s132.571-28 178.857-73.143c149.714 0 186.857 173.714 186.857 324zM585.143 292.571c0 121.143-98.286 219.429-219.429 219.429s-219.429-98.286-219.429-219.429 98.286-219.429 219.429-219.429 219.429 98.286 219.429 219.429z"
-        ],
-        "width": 731,
-        "attrs": [{}],
-        "isMulticolor": false,
-        "isMulticolor2": false,
-        "tags": ["user"],
-        "grid": 14
-      },
-      "attrs": [{}],
-      "properties": {
-        "order": 1,
-        "id": 0,
-        "name": "user",
-        "prevSize": 28
-      },
-      "setIdx": 1,
-      "setId": 5,
-      "iconIdx": 0
-    },
-    {
-      "icon": {
-        "paths": [
-          "M614.286 676.571c0 4.571-2.286 9.714-5.714 13.143l-28.571 28.571c-3.429 3.429-8 5.714-13.143 5.714-4.571 0-9.714-2.286-13.143-5.714l-224.571-224.571-224.571 224.571c-3.429 3.429-8.571 5.714-13.143 5.714s-9.714-2.286-13.143-5.714l-28.571-28.571c-3.429-3.429-5.714-8.571-5.714-13.143s2.286-9.714 5.714-13.143l266.286-266.286c3.429-3.429 8.571-5.714 13.143-5.714s9.714 2.286 13.143 5.714l266.286 266.286c3.429 3.429 5.714 8.571 5.714 13.143z"
-        ],
-        "width": 658.2857142857142,
-        "attrs": [],
-        "isMulticolor": false,
-        "isMulticolor2": false,
-        "tags": ["angle-up"],
-        "defaultCode": 61702,
-        "grid": 14
-      },
-      "attrs": [],
-      "properties": {
-        "name": "angle-up",
-        "id": 1,
-        "order": 2,
-        "prevSize": 28,
-        "code": 61702
-      },
-      "setIdx": 1,
-      "setId": 5,
-      "iconIdx": 1
+      "setId": 0,
+      "iconIdx": 5
     },
     {
       "icon": {
@@ -151,14 +149,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "forum, question_answer",
-        "id": 102,
-        "order": 8,
+        "id": 15,
+        "order": 23,
         "prevSize": 24,
         "name": "forum"
       },
-      "setIdx": 4,
-      "setId": 2,
-      "iconIdx": 102
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 6
     },
     {
       "icon": {
@@ -174,14 +172,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "timelapse",
-        "id": 491,
-        "order": 9,
+        "id": 16,
+        "order": 24,
         "prevSize": 24,
         "name": "timelapse"
       },
-      "setIdx": 4,
-      "setId": 2,
-      "iconIdx": 491
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 7
     },
     {
       "icon": {
@@ -197,14 +195,14 @@
       "attrs": [],
       "properties": {
         "ligatures": "handyman",
-        "id": 1232,
-        "order": 10,
+        "id": 17,
+        "order": 25,
         "prevSize": 24,
         "name": "handyman"
       },
-      "setIdx": 4,
-      "setId": 2,
-      "iconIdx": 1232
+      "setIdx": 0,
+      "setId": 0,
+      "iconIdx": 8
     }
   ],
   "height": 1024,
@@ -214,7 +212,7 @@
     "showQuickUse2": true,
     "showSVGs": true,
     "fontPref": {
-      "prefix": "icon-",
+      "prefix": "",
       "metadata": {
         "fontFamily": "icomoon"
       },
@@ -226,13 +224,12 @@
       "embed": false
     },
     "imagePref": {
-      "prefix": "",
       "png": false,
-      "useClassSelector": true,
+      "useClassSelector": false,
       "color": 0,
       "bgColor": 16777215,
       "classSelector": ".icon",
-      "name": "icomoon",
+      "name": "sqliqour",
       "height": 32,
       "columns": 16,
       "margin": 16,

@@ -11,6 +11,7 @@ type State = {
   messages: Message[];
   activeEvent: number | null;
   activeView: 'task' | 'chat';
+  selectedQuery: string | null;
 };
 
 type Actions = {
@@ -19,20 +20,25 @@ type Actions = {
   closeTaskWindow: () => void;
   openTaskWindow: (i: number) => void;
   setActiveView: (view: 'task' | 'chat') => void;
+  selectQueryMessage: (selectedQuery: string) => void;
 };
 
 export const useTaskStore = createWithEqualityFn<State & Actions>(
-  (set) => ({
-    ...{ open: false, activeEvent: null, messages: [], activeView: 'task' },
+  (set, get) => ({
+    ...{ open: false, activeEvent: null, messages: [], activeView: 'task', selectedQuery: null },
     openTaskWindow: (i) => set({ open: true, activeEvent: i }),
     closeTaskWindow: () => set({ open: false, activeEvent: null }),
     setActiveView: (activeView) => set({ activeView }),
+    selectQueryMessage: (selectedQuery) => {
+      if (selectedQuery === get().selectedQuery) return set({ selectedQuery: null });
+      return set({ selectedQuery });
+    },
     queryUserDatabase: async (client, query) => {
       const queryPromise = ChatService.execute(client, query);
       return set(({ messages }) => ({
         messages: [
-          { type: 'query', payload: query, id: generateSimpleId() },
           { type: 'query_result', payload: queryPromise, id: generateSimpleId() },
+          { type: 'query', payload: query, id: generateSimpleId() },
           ...messages,
         ],
       }));
@@ -40,12 +46,12 @@ export const useTaskStore = createWithEqualityFn<State & Actions>(
     askMessage: async (client, message) => {
       return set(({ messages }) => ({
         messages: [
-          { type: 'question', payload: message, id: generateSimpleId() },
           {
             type: 'question_result',
             payload: ChatService.sendMessage(client, [{ role: 'user', content: message }]),
             id: generateSimpleId(),
           },
+          { type: 'question', payload: message, id: generateSimpleId() },
           ...messages,
         ],
       }));
