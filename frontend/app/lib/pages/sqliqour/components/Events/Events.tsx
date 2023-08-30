@@ -7,12 +7,15 @@ import { CodeChat } from '$lib/pages/sqliqour/components/CodeChat/CodeChat';
 import { EventList } from '$lib/pages/sqliqour/components/Events/components/EventList';
 import { TabButton } from '$lib/pages/sqliqour/components/Events/components/TabButton';
 import { Task } from '$lib/pages/sqliqour/components/Events/components/Task';
+import { TaskSuccessIndicator } from '$lib/pages/sqliqour/components/TaskSuccessIndicator';
+import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
 import { useTaskStore } from '$lib/pages/sqliqour/data/store/useTaskStore';
 import { classNames } from '$lib/utils/classNames';
 
 import styles from './Events.module.scss';
 
 export const Events = () => {
+  const { checkAnswer } = useGameStore((s) => ({ checkAnswer: s.checkAnswer }));
   const { activeEvent, closeChat, setActiveView, activeView } = useTaskStore((s) => ({
     activeEvent: s.activeEvent,
     closeChat: s.closeTaskWindow,
@@ -36,7 +39,7 @@ export const Events = () => {
           </TabButton>
 
           <TabButton className={styles.switcher} visible={activeEvent !== null}>
-            <Icon icon='fact_check' onClick={() => {}} />
+            <Icon icon='fact_check' onClick={checkAnswer} />
           </TabButton>
         </div>
 
@@ -47,6 +50,8 @@ export const Events = () => {
         <CodeChat className={classNames(styles.task, activeView !== 'chat' && 'disabled')} />
         <Task className={classNames(styles.task, activeView !== 'task' && 'disabled')} />
       </ComponentSwitcher>
+
+      <TaskSuccessIndicator />
     </div>
   );
 };

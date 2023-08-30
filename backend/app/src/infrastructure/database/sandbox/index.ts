@@ -23,7 +23,9 @@ export const createSandboxConnection = (env: Environment) => {
       host: env.SANDBOX_DATABASE_HOST,
       port: env.SANDBOX_DATABASE_PORT,
     });
-    return (await conn.execute(query))[0] as object;
+    const res = (await conn.execute(query))[0] as object;
+    conn.end();
+    return res;
   };
 
   return { queryRoot, queryUser };

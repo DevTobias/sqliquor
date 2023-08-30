@@ -11,36 +11,45 @@ type State = {
   messages: Message[];
   activeEvent: number | null;
   activeView: 'task' | 'chat';
-  selectedQuery: string | null;
+  selectedAnswer: string | null;
+  showSuccessAnimation: boolean;
 };
 
 type Actions = {
+  addResponseMessage: (msg: string) => void;
   queryUserDatabase: (client: HttpClient, query: string) => void;
   askMessage: (client: HttpClient, message: string) => void;
   closeTaskWindow: () => void;
   openTaskWindow: (i: number) => void;
   setActiveView: (view: 'task' | 'chat') => void;
-  selectQueryMessage: (selectedQuery: string) => void;
+  selectAnswer: (answer: string) => void;
 };
 
 export const useTaskStore = createWithEqualityFn<State & Actions>(
   (set, get) => ({
-    ...{ open: false, activeEvent: null, messages: [], activeView: 'task', selectedQuery: null },
+    ...{ open: false, activeEvent: null, messages: [], activeView: 'task', selectedAnswer: null, showSuccessAnimation: false },
     openTaskWindow: (i) => set({ open: true, activeEvent: i }),
     closeTaskWindow: () => set({ open: false, activeEvent: null }),
     setActiveView: (activeView) => set({ activeView }),
-    selectQueryMessage: (selectedQuery) => {
-      if (selectedQuery === get().selectedQuery) return set({ selectedQuery: null });
-      return set({ selectedQuery });
+    selectAnswer: (selectedAnswer) => {
+      if (selectedAnswer === get().selectedAnswer) return set({ selectedAnswer: null });
+      return set({ selectedAnswer });
     },
+    addResponseMessage: (msg) =>
+      set(({ messages }) => ({
+        messages: [{ type: 'general_result', payload: msg, id: generateSimpleId() }, ...messages],
+        activeView: 'chat',
+      })),
     queryUserDatabase: async (client, query) => {
       const queryPromise = ChatService.execute(client, query);
+      const queryId = generateSimpleId();
       return set(({ messages }) => ({
         messages: [
           { type: 'query_result', payload: queryPromise, id: generateSimpleId() },
-          { type: 'query', payload: query, id: generateSimpleId() },
+          { type: 'query', payload: query, id: queryId },
           ...messages,
         ],
+        selectedAnswer: queryId,
       }));
     },
     askMessage: async (client, message) => {

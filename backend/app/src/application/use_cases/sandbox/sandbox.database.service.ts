@@ -65,14 +65,14 @@ export class SandboxDatabaseService implements SandboxService {
     }
   };
 
-  execute = async ({ id, username, sandboxPassword, messageHistory }: User, query: string) => {
+  execute = async ({ id, username, sandboxPassword }: User, query: string) => {
     const database = id.replaceAll('-', '');
 
     const sanitize = (obj: object | string) => JSON.parse(JSON.stringify(obj).replace(database, 'DATABASE'));
 
     try {
       const result = await this.sandbox.queryUser(query, { database, user: username, password: sandboxPassword });
-      this.userService.update({ id, messageHistory: [...messageHistory, query] });
+      // this.userService.update({ id, messageHistory: [...messageHistory, query] });
       return !Array.isArray(result) ? sanitize([result]) : sanitize(result);
     } catch (e) {
       if (e instanceof Error) return [{ error: sanitize(e.message) }];

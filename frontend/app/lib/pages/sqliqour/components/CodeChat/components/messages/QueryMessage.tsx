@@ -12,13 +12,10 @@ interface Props {
 }
 
 export const QueryMessage: FC<Props> = ({ query, id }) => {
-  const { selectedQuery, selectQueryMessage } = useTaskStore((s) => ({
-    selectedQuery: s.selectedQuery,
-    selectQueryMessage: s.selectQueryMessage,
-  }));
+  const { selectedAnswer, selectAnswer } = useTaskStore((s) => ({ selectedAnswer: s.selectedAnswer, selectAnswer: s.selectAnswer }));
 
   return (
-    <GenericMessage className={styles.message} position='right' onClick={() => selectQueryMessage(id)} selected={selectedQuery === id}>
+    <GenericMessage className={styles.message} position='right' onClick={() => selectAnswer(id)} selected={selectedAnswer === id}>
       <CodeBlock code={query} lang='sql' />
     </GenericMessage>
   );

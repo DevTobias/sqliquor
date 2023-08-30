@@ -24,5 +24,11 @@ interface QuestionResultMessageType {
   payload: Promise<ReadableStream<Uint8Array>>;
 }
 
-export type ResultMessageType = QueryResultMessageType | QuestionResultMessageType;
+interface GeneralResultMessageType {
+  id: string;
+  type: 'general_result';
+  payload: string;
+}
+
+export type ResultMessageType = QueryResultMessageType | QuestionResultMessageType | GeneralResultMessageType;
 export type Message = QueryMessageType | QuestionMessageType | ResultMessageType;

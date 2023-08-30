@@ -17,6 +17,7 @@ export const ChatMessage: FC<Props> = ({ message }) => {
       return <QuestionMessage question={message.payload} />;
     case 'query_result':
     case 'question_result':
+    case 'general_result':
       return <ResultMessage message={message} />;
     default:
       return <span></span>;

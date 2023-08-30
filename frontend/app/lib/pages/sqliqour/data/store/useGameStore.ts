@@ -1,8 +1,11 @@
+import deepEqual from 'deep-eql';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 import { ChatService } from '$lib/pages/sqliqour/data/services/chat.service';
 import { GameEvent, Level, SqliqourCmsService } from '$lib/pages/sqliqour/data/services/cms.service';
+import { useTaskStore } from '$lib/pages/sqliqour/data/store/useTaskStore';
+import { useAuthStore } from '$lib/store/auth.store';
 import { generateSimpleId, getRandomNumber, probability } from '$lib/utils/random';
 
 type RandomEvent = { id: string; timestamp: number; event: GameEvent };
@@ -18,6 +21,7 @@ type State = {
 type Actions = {
   loadLevels: () => Promise<void>;
   startGameLoop: () => Promise<void>;
+  checkAnswer: () => void;
 };
 
 const initial = { gameStarted: false, loading: true, currentLevel: 0, levels: [], activeEvents: [] };
@@ -66,10 +70,50 @@ export const useGameStore = createWithEqualityFn<State & Actions>(
       set({ gameStarted: true });
 
       setInterval(async () => {
-        if (get().activeEvents.length < 4 && probability(10)) {
+        if (get().activeEvents.length < 4 && probability(50)) {
           set(await addRandomEvent(get()));
         }
       }, 1000);
+    },
+
+    checkAnswer: async () => {
+      const { addResponseMessage, selectedAnswer: selectedAnswerId } = useTaskStore.getState();
+      const client = useAuthStore.getState().client!;
+      const { activeEvents } = get();
+
+      if (!selectedAnswerId) return addResponseMessage('Bitte wähle eine deiner Antworten aus, welche du abgeben möchtest!');
+
+      const { event, id } = activeEvents[useTaskStore.getState().activeEvent!];
+      const answer = useTaskStore.getState().messages.find((msg) => msg.id === selectedAnswerId)!.payload as string;
+
+      let isCorrect = false;
+
+      if (event.expected_result === null) {
+        const [userResult, expectedResult] = await Promise.all([
+          ChatService.execute(client, answer),
+          ChatService.execute(client, event.sample_solution),
+        ]);
+        isCorrect = deepEqual(userResult, expectedResult);
+      }
+
+      if (event.expected_result !== null) {
+        const expectedResult = await ChatService.execute(client, event.sample_solution);
+        isCorrect = deepEqual(event.expected_result, expectedResult);
+      }
+
+      if (isCorrect) {
+        set({ activeEvents: activeEvents.filter((e) => e.id !== id) });
+        addResponseMessage(`Super! Du hast die Aufgabe richtig gelöst!`);
+        useTaskStore.setState({
+          selectedAnswer: null,
+          activeEvent: activeEvents.length <= 1 ? null : 0,
+          activeView: 'task',
+          showSuccessAnimation: true,
+        });
+        return setTimeout(() => useTaskStore.setState({ showSuccessAnimation: false }), 3000);
+      }
+
+      return addResponseMessage(`Das war noch nicht ganz richtig! Probiere es nochmal, du warst knapp dran!`);
     },
   }),
   shallow

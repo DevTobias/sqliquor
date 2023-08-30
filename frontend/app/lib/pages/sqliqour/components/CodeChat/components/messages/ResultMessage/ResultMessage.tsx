@@ -5,6 +5,7 @@ import useAsync from '$lib/hooks/useAsync';
 import { ResultMessageType } from '$lib/pages/sqliqour/components/CodeChat/components/ChatMessage.types';
 import { GenericMessage } from '$lib/pages/sqliqour/components/CodeChat/components/messages/GenericMessage';
 import { MarkdownMessage } from '$lib/pages/sqliqour/components/CodeChat/components/messages/ResultMessage/MarkdownMessage';
+import { MarkdownStreamMessage } from '$lib/pages/sqliqour/components/CodeChat/components/messages/ResultMessage/MarkdownStreamMessage';
 import { SqlMessage } from '$lib/pages/sqliqour/components/CodeChat/components/messages/ResultMessage/SqlMessage';
 import { RemoteMessage } from '$lib/pages/sqliqour/data/services/chat.service';
 
@@ -24,9 +25,10 @@ export const ResultMessage: FC<Props> = ({ message }) => {
           <LoadingSpinner />
         </div>
       )}
+      {state.value && !state.loading && message.type === 'general_result' && <MarkdownMessage result={state.value as string} />}
       {state.value && !state.loading && message.type === 'query_result' && <SqlMessage result={state.value as RemoteMessage[]} />}
       {state.value && !state.loading && message.type === 'question_result' && (
-        <MarkdownMessage result={state.value as ReadableStream<Uint8Array>} />
+        <MarkdownStreamMessage result={state.value as ReadableStream<Uint8Array>} />
       )}
     </GenericMessage>
   );
