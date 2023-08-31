@@ -6,11 +6,11 @@ export type SignInFormData = {
 };
 
 export const identifierOpt: RegisterOptions<SignInFormData, 'identifier'> = {
-  required: { message: 'Identifier is required', value: true },
-  minLength: { message: 'Must be a minimum of 3 characters', value: 3 },
+  required: { message: 'Benutzername/Email wird benötigt', value: true },
+  minLength: { message: 'Mindestens 3 Zeichen lang', value: 3 },
 };
 
 export const passwordOpt: RegisterOptions<SignInFormData, 'password'> = {
-  required: { message: 'Password is required', value: true },
-  minLength: { message: 'Must be a minimum of 6 characters', value: 6 },
+  required: { message: 'Passwort wird benötigt', value: true },
+  minLength: { message: 'Mindestens 6 Zeichen lang', value: 6 },
 };

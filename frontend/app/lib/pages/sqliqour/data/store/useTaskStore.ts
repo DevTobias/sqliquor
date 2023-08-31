@@ -23,11 +23,22 @@ type Actions = {
   openTaskWindow: (i: number) => void;
   setActiveView: (view: 'task' | 'chat') => void;
   selectAnswer: (answer: string) => void;
+  reset: () => void;
+};
+
+const initial: State = {
+  open: false,
+  activeEvent: null,
+  messages: [],
+  activeView: 'task',
+  selectedAnswer: null,
+  showSuccessAnimation: false,
 };
 
 export const useTaskStore = createWithEqualityFn<State & Actions>(
   (set, get) => ({
-    ...{ open: false, activeEvent: null, messages: [], activeView: 'task', selectedAnswer: null, showSuccessAnimation: false },
+    ...initial,
+    reset: () => set(initial),
     openTaskWindow: (i) => set({ open: true, activeEvent: i }),
     closeTaskWindow: () => set({ open: false, activeEvent: null }),
     setActiveView: (activeView) => set({ activeView }),

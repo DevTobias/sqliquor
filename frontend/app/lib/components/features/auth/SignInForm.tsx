@@ -26,24 +26,29 @@ export const SignInForm: FC<Props> = ({ className, onSwitch, onSuccess, ...rest 
     const signInPromise = signin(data).then(onSuccess);
 
     await toast.promise(signInPromise, {
-      loading: 'Signing into your account...',
-      success: 'Successfully authenticated.',
-      error: 'Credentials were invalid.',
+      loading: 'In das Benutzerkonto anmelden...',
+      success: 'Erfolgreich angemeldet.',
+      error: 'Bitte überprüfe deine Zugangsdaten',
     });
   });
 
   return (
     <div className={classNames(styles['form-container'], className)} {...rest}>
       <div className={styles['form-content']}>
-        <h2>Sign In</h2>
+        <h2>Anmelden</h2>
         <form onSubmit={onSubmit}>
-          <Input type='text' placeholder='Username or email' error={identifier?.message} {...register('identifier', identifierOpt)} />
-          <Input type='password' error={password?.message} placeholder='Password' {...register('password', passwordOpt)} />
-          <Button type='submit'>Sign In</Button>
+          <Input
+            type='text'
+            placeholder='Nutzername oder Email'
+            error={identifier?.message}
+            {...register('identifier', identifierOpt)}
+          />
+          <Input type='password' error={password?.message} placeholder='Passwort' {...register('password', passwordOpt)} />
+          <Button type='submit'>Anmelden</Button>
         </form>
       </div>
 
-      <Switcher {...{ onSwitch }}>Don&apos;t have an account? Sign Up</Switcher>
+      <Switcher {...{ onSwitch }}>Noch nicht registriert? Jetzt anmelden</Switcher>
     </div>
   );
 };

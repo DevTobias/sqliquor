@@ -10,9 +10,8 @@
   border-radius: 10px;
   rotate: 10deg;
 
-  background-color: white;
-
   pointer-events: all;
+  overflow: hidden;
 
   transition:
     200ms rotate ease-in-out,

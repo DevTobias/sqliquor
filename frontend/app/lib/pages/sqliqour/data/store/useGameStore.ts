@@ -2,6 +2,7 @@ import deepEqual from 'deep-eql';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
+import { useAuthPopupStore } from '$lib/components/features/auth/store/authpopup.store';
 import { ChatService } from '$lib/pages/sqliqour/data/services/chat.service';
 import { GameEvent, Level, SqliqourCmsService } from '$lib/pages/sqliqour/data/services/cms.service';
 import { useTaskStore } from '$lib/pages/sqliqour/data/store/useTaskStore';
@@ -13,18 +14,19 @@ type RandomEvent = { id: string; timestamp: number; event: GameEvent };
 type State = {
   levels: Level[];
   loading: boolean;
-  gameStarted: boolean;
   currentLevel: number;
   activeEvents: RandomEvent[];
+  gameState: 'running' | 'paused' | 'finished' | null;
 };
 
 type Actions = {
   loadLevels: () => Promise<void>;
   startGameLoop: () => Promise<void>;
   checkAnswer: () => void;
+  reset: () => void;
 };
 
-const initial = { gameStarted: false, loading: true, currentLevel: 0, levels: [], activeEvents: [] };
+const initial: State = { loading: true, currentLevel: 0, levels: [], activeEvents: [], gameState: null };
 
 const replaceInRandomEvent = (randomEvent: RandomEvent, key: string, value: string) => {
   return {
@@ -39,12 +41,8 @@ const replaceInRandomEvent = (randomEvent: RandomEvent, key: string, value: stri
 
 const addRandomEvent = async (state: State & Actions): Promise<Partial<State & Actions>> => {
   const availableEvents = state.levels[state.currentLevel].events;
-
-  let randomEvent = {
-    id: generateSimpleId(),
-    timestamp: Math.ceil(new Date().getTime() / 1000),
-    event: availableEvents[getRandomNumber(0, availableEvents.length)].event_id,
-  };
+  const chosenEvent = availableEvents[getRandomNumber(0, availableEvents.length)].event_id;
+  let randomEvent = { id: generateSimpleId(), timestamp: chosenEvent.time, event: chosenEvent };
 
   if (randomEvent.event.task.includes('{{EMPLOYEE_NAME}}') || randomEvent.event.sample_solution.includes('{{EMPLOYEE_NAME}}')) {
     const employees = await ChatService.getAllEmployees();
@@ -61,18 +59,44 @@ const addRandomEvent = async (state: State & Actions): Promise<Partial<State & A
   return { activeEvents: [...state.activeEvents, randomEvent] };
 };
 
+let interval: NodeJS.Timeout;
+
 export const useGameStore = createWithEqualityFn<State & Actions>(
   (set, get) => ({
     ...initial,
+    reset: () => set({ ...initial, levels: get().levels, loading: false }),
     loadLevels: async () => set({ levels: await SqliqourCmsService.loadLevels(), loading: false }),
     startGameLoop: async () => {
-      if (get().gameStarted) return;
-      set({ gameStarted: true });
+      if (get().gameState !== null || get().loading) return;
+      set({ gameState: 'running' });
 
-      setInterval(async () => {
-        if (get().activeEvents.length < 4 && probability(50)) {
+      interval = setInterval(async () => {
+        const { activeEvents, gameState } = get();
+
+        if (gameState === 'running' && useAuthStore.getState().client === null) {
+          set({ gameState: 'paused' });
+          return useAuthPopupStore.getState().setActive(true);
+        }
+
+        if (gameState === 'paused' && useAuthStore.getState().client !== null) {
+          return set({ gameState: 'running' });
+        }
+
+        if (gameState === 'paused' || gameState === 'finished') return null;
+
+        if (activeEvents.length < 4 && probability(50)) {
           set(await addRandomEvent(get()));
         }
+
+        set({ activeEvents: get().activeEvents.map((e) => ({ ...e, timestamp: e.timestamp - 1 })) });
+
+        if (activeEvents.find((e) => e.timestamp <= 0)) {
+          clearInterval(interval);
+          set({ gameState: 'finished' });
+          useTaskStore.getState().closeTaskWindow();
+        }
+
+        return null;
       }, 1000);
     },
 

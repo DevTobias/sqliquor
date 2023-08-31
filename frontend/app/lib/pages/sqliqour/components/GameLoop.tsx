@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { Events } from '$lib/pages/sqliqour/components/Events/Events';
+import { GameOverPopup } from '$lib/pages/sqliqour/components/GameOverPopup';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
 
 export const GameLoop = () => {
@@ -14,6 +15,7 @@ export const GameLoop = () => {
     <div>
       {levels[0].title}
       <Events />
+      <GameOverPopup />
     </div>
   );
 };

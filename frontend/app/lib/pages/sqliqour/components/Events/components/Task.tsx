@@ -14,11 +14,10 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export const Task: FC<Props> = ({ className, ...rest }) => {
   const { activeEvent } = useTaskStore((s) => ({ activeEvent: s.activeEvent }));
-  const { activeEvents } = useGameStore((s) => ({ activeEvents: s.activeEvents }));
+  const { activeEvents } = useGameStore((s) => ({ activeEvents: s.activeEvents.map((e) => e.event) }));
 
   if (activeEvent === null) return <TaskWrapper className={className} />;
-
-  const { name, task } = activeEvents[activeEvent].event;
+  const { name, task } = activeEvents[activeEvent];
 
   return (
     <TaskWrapper className={className} {...rest}>

@@ -7,16 +7,16 @@ export type SignUpFormData = {
 };
 
 export const emailOpt: RegisterOptions<SignUpFormData, 'email'> = {
-  required: { message: 'Email is required', value: true },
-  pattern: { message: 'Not a valid email', value: /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm },
+  required: { message: 'Email wird benötigt', value: true },
+  pattern: { message: 'Email ist ungültig', value: /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm },
 };
 
 export const usernameOpt: RegisterOptions<SignUpFormData, 'username'> = {
-  required: { message: 'Username is required', value: true },
-  minLength: { message: 'Must be a minimum of 3 characters', value: 3 },
+  required: { message: 'Nutzername wird benötigt', value: true },
+  minLength: { message: 'Mindestens 3 Zeichen lang', value: 3 },
 };
 
 export const passwordOpt: RegisterOptions<SignUpFormData, 'password'> = {
-  required: { message: 'Password is required', value: true },
-  minLength: { message: 'Must be a minimum of 6 characters', value: 6 },
+  required: { message: 'Password wird benötigt', value: true },
+  minLength: { message: 'Mindestens 6 Zeichen lang', value: 6 },
 };

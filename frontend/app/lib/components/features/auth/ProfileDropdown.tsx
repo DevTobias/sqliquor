@@ -20,7 +20,7 @@ export const ProfileDropdown: FC = () => {
     <>
       {!user && (
         <Button className={classNames(styles.wrapper, styles.signin)} variant='glass' onClick={() => setActive(!active)}>
-          Sign In
+          Anmelden
         </Button>
       )}
 
@@ -29,7 +29,7 @@ export const ProfileDropdown: FC = () => {
           <span>{user?.username}</span>
           <hr className={styles.divider} />
           <Button variant='glass' className={styles.signout} onClick={signout}>
-            Sign Out
+            Abmelden
           </Button>
         </Dropdown>
       )}

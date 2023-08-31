@@ -2,7 +2,6 @@ import { CSSProperties } from 'react';
 
 import { Icon } from '$lib/components/Icon';
 import { Progress } from '$lib/components/Progress';
-import { useCurrentTimestamp } from '$lib/hooks/useCurrentTime';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
 import { useTaskStore } from '$lib/pages/sqliqour/data/store/useTaskStore';
 import { classNames } from '$lib/utils/classNames';
@@ -14,8 +13,7 @@ interface CssProps extends CSSProperties {
 }
 
 export const EventList = () => {
-  const currentTimestamp = useCurrentTimestamp();
-  const { activeEvents } = useGameStore((s) => ({ activeEvents: s.activeEvents }));
+  const { activeEvents, gameState } = useGameStore((s) => ({ activeEvents: s.activeEvents, gameState: s.gameState }));
   const { closeChat, openChat, activeEvent } = useTaskStore((s) => ({
     closeChat: s.closeTaskWindow,
     openChat: s.openTaskWindow,
@@ -23,8 +21,9 @@ export const EventList = () => {
   }));
 
   const handleEventClick = (eventId: number) => {
-    if (activeEvent === eventId) closeChat();
-    else openChat(eventId);
+    if (gameState !== 'running') return null;
+    if (activeEvent === eventId) return closeChat();
+    return openChat(eventId);
   };
 
   return (
@@ -36,9 +35,10 @@ export const EventList = () => {
         />
       )}
       {activeEvents.map(({ event, id, timestamp }, i) => {
-        const remainingTime = Math.ceil((1 - (currentTimestamp - timestamp) / event.time) * 100);
+        const remainingTime = Math.ceil((timestamp / event.time) * 100);
         const unifiedRemainingTime = Math.max(0, Math.min(100, remainingTime));
         const progressColor = unifiedRemainingTime < 40 ? '#e63381' : '#85d9b3';
+
         return (
           <button key={id} className={styles.card} onClick={() => handleEventClick(i)}>
             <Progress className={styles.progress} value={unifiedRemainingTime} progressColor={progressColor} />

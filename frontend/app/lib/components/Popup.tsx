@@ -10,16 +10,18 @@ import styles from './Popup.module.scss';
 interface Props {
   children: ReactNode;
   visible: boolean;
-  setVisible: (value: boolean) => void;
+  setVisible?: (value: boolean) => void;
 }
 
 export const Popup: FC<Props> = ({ children, visible, setVisible }) => {
   return (
     <div className={styles.wrapper}>
       <div className={classNames(styles.popup, visible && styles.visible)}>
-        <Button className={styles.close} variant='ghost' onClick={() => setVisible(false)}>
-          <Icon icon='exit' />
-        </Button>
+        {setVisible && (
+          <Button className={styles.close} variant='ghost' onClick={() => setVisible(false)}>
+            <Icon icon='exit' />
+          </Button>
+        )}
         {children}
       </div>
       <Toaster />

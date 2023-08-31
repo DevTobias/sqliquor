@@ -26,25 +26,25 @@ export const SignUpForm: FC<Props> = ({ className, onSwitch, onSuccess, ...rest 
     const signUpPromise = signup(data).then(onSuccess);
 
     await toast.promise(signUpPromise, {
-      loading: 'Signing up user...',
-      success: 'User successfully signed up.',
-      error: 'User with this email or password already exists.',
+      loading: 'Nutzerkonto anlegen...',
+      success: 'Konto erfolgreich angelegt.',
+      error: 'Dieses Konto existiert bereits.',
     });
   });
 
   return (
-    <div className={classNames(styles.singleFormContainer, className)} {...rest}>
-      <div className={styles.singleFormWrapper}>
-        <h2>Create New Account</h2>
+    <div className={classNames(styles['form-container'], className)} {...rest}>
+      <div className={styles['form-content']}>
+        <h2>Neues Konto anlegen</h2>
         <form onSubmit={onSubmit}>
-          <Input type='text' placeholder='Username' error={username?.message} {...register('username', usernameOpt)} />
+          <Input type='text' placeholder='Benutzername' error={username?.message} {...register('username', usernameOpt)} />
           <Input type='email' placeholder='Email' error={email?.message} {...register('email', emailOpt)} />
-          <Input type='password' error={password?.message} placeholder='Password' {...register('password', passwordOpt)} />
-          <Button type='submit'>Create Account</Button>
+          <Input type='password' error={password?.message} placeholder='Passwort' {...register('password', passwordOpt)} />
+          <Button type='submit'>Konto erstellen</Button>
         </form>
       </div>
 
-      <Switcher {...{ onSwitch }}>Already have an account? Sign In</Switcher>
+      <Switcher {...{ onSwitch }}>Du hast bereits einen Account? Anmelden</Switcher>
     </div>
   );
 };
