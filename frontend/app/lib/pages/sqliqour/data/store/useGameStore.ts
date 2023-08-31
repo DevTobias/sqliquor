@@ -15,6 +15,8 @@ type State = {
   levels: Level[];
   loading: boolean;
   currentLevel: number;
+  currentDay: number;
+  currentTimer: number | null;
   activeEvents: RandomEvent[];
   gameState: 'running' | 'paused' | 'finished' | null;
 };
@@ -24,9 +26,18 @@ type Actions = {
   startGameLoop: () => Promise<void>;
   checkAnswer: () => void;
   reset: () => void;
+  nextDayOrLevel: () => void;
 };
 
-const initial: State = { loading: true, currentLevel: 0, levels: [], activeEvents: [], gameState: null };
+const initial: State = {
+  loading: true,
+  currentLevel: 0,
+  currentDay: 1,
+  levels: [],
+  activeEvents: [],
+  gameState: null,
+  currentTimer: null,
+};
 
 const replaceInRandomEvent = (randomEvent: RandomEvent, key: string, value: string) => {
   return {
@@ -66,9 +77,20 @@ export const useGameStore = createWithEqualityFn<State & Actions>(
     ...initial,
     reset: () => set({ ...initial, levels: get().levels, loading: false }),
     loadLevels: async () => set({ levels: await SqliqourCmsService.loadLevels(), loading: false }),
+    nextDayOrLevel: () => {
+      const { levels, currentLevel, currentDay } = get();
+
+      const update: Partial<State> = { currentDay: currentDay + 1, activeEvents: [], gameState: 'running' };
+      if (currentDay + 1 > levels[currentLevel].amount_days) {
+        const nextLevel = Math.min(levels.length - 1, currentLevel + 1);
+        set({ ...update, currentLevel: nextLevel, currentTimer: levels[nextLevel].day_duration, currentDay: 1 });
+      } else {
+        set({ ...update, currentTimer: levels[currentLevel].day_duration });
+      }
+    },
     startGameLoop: async () => {
       if (get().gameState !== null || get().loading) return;
-      set({ gameState: 'running' });
+      set({ gameState: 'running', currentTimer: get().levels[0].day_duration });
 
       interval = setInterval(async () => {
         const { activeEvents, gameState } = get();
@@ -88,12 +110,19 @@ export const useGameStore = createWithEqualityFn<State & Actions>(
           set(await addRandomEvent(get()));
         }
 
-        set({ activeEvents: get().activeEvents.map((e) => ({ ...e, timestamp: e.timestamp - 1 })) });
+        set({
+          activeEvents: get().activeEvents.map((e) => ({ ...e, timestamp: e.timestamp - 1 })),
+          currentTimer: get().currentTimer! - 1,
+        });
 
         if (activeEvents.find((e) => e.timestamp <= 0)) {
           clearInterval(interval);
           set({ gameState: 'finished' });
           useTaskStore.getState().closeTaskWindow();
+        }
+
+        if (get().currentTimer! <= 0) {
+          set({ gameState: 'paused' });
         }
 
         return null;
