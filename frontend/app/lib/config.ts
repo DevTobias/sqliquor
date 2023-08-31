@@ -3,8 +3,8 @@ export const config = {
   cmsUrl: process.env.NEXT_PUBLIC_CMS_URL,
 
   assets: {
-    demoLevelGlB: '/models/game.glb',
-    mainBuildingGLB: '/models/mainbuilding.glb',
-    playerGLB: '/models/player.glb',
+    environmentGLB: '/models/environment.glb',
+    barGLB: '/models/bar.glb',
+    sampleCharactersGLB: '/models/sample_characters.glb',
   },
 };

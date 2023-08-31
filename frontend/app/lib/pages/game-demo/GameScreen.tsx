@@ -1,18 +1,17 @@
 'use client';
 
-import { DemoScene } from '$lib/pages/game-demo/components/DemoScene';
-import { MainBuilding } from '$lib/pages/game-demo/components/Mainbuilding';
-import { Player } from '$lib/pages/game-demo/components/Player';
+import { Bar } from '$lib/pages/game-demo/components/Bar';
+import { Environment } from '$lib/pages/game-demo/components/Environment';
+import { SampleCharacters } from '$lib/pages/game-demo/components/SampleCharacters';
 import { SceneLights } from '$lib/pages/game-demo/components/SceneLights';
 import { ScenePostProcessing } from '$lib/pages/game-demo/components/ScenePostProcessing';
-
-//      <DemoScene />
-//      <Player />
 
 export const GameScreen = () => {
   return (
     <>
-      <MainBuilding />
+      <Bar receiveShadow />
+      <Environment receiveShadow />
+      <SampleCharacters castShadow receiveShadow />
       <SceneLights />
       <ScenePostProcessing />
     </>
