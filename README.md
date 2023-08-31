@@ -61,6 +61,10 @@ If the server hast started successfully, you can now move on to the frontend. Th
 
 This software ist distributed under the MIT license. For more information you can have a look at the [license file](./LICENSE).
 
+## 📝 Attribution
+
+This project contains assets from [Poly by Google](https://poly.pizza/u/Poly%20by%20Google) and the [pmndrs marketplace](https://market.pmnd.rs/).
+
 ## 💌 Contact
 
 The maintainers and original developers of the project are
