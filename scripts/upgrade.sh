@@ -1,1 +1,1 @@
-bunx npm-check-updates --workspaces --root --cwd frontend -u & bunx npm-check-updates --workspaces --root --cwd backend -u & bunx npm-check-updates --reject react,react-dom --root --cwd documentation -u & wait
+npx npm-check-updates --workspaces --root --cwd frontend -u & npx npm-check-updates --workspaces --root --cwd backend -u & npx npm-check-updates --reject react,react-dom --root --cwd documentation -u & wait

@@ -1,6 +1,5 @@
 ---
-sidebar_position: 1
-slug: /
+outline: deep
 ---
 
 # Einleitung
@@ -13,7 +12,7 @@ Die Dokumentation erklärt ausführlich die verschiedenen Funktionen und Module 
 
 **Entwicklung und Wartung**
 
-Die technische Dokumentation unterstützt das Entwicklungsteam bei der Implementierung neuer Funktionen und bei der Fehlerbehebung. Durch klare Anleitungen, Richtlinien und Best Practices trägt sie zur effizienten Entwicklung, Erweiterung und Wartung des Systems bei. Das Ziel soll es stets sein, dass die Software zu jedem Zeitpunkt auch durch ein anderes Entwicklungsteam verwaltet und weiter entwickelt werden kann. 
+Die technische Dokumentation unterstützt das Entwicklungsteam bei der Implementierung neuer Funktionen und bei der Fehlerbehebung. Durch klare Anleitungen, Richtlinien und Best Practices trägt sie zur effizienten Entwicklung, Erweiterung und Wartung des Systems bei. Das Ziel soll es stets sein, dass die Software zu jedem Zeitpunkt auch durch ein anderes Entwicklungsteam verwaltet und weiter entwickelt werden kann.
 
 **Wissensmanagement**
 
