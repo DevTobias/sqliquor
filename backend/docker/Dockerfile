@@ -30,6 +30,8 @@ WORKDIR /app
 
 COPY --from=builder /root/.bun/bin/bun bun
 COPY --from=builder /build/out/server.js .
+COPY --from=builder /build/app/src/application/use_cases/sandbox/config/schema.sql src/application/use_cases/sandbox/config/schema.sql
+COPY --from=builder /build/app/src/application/use_cases/sandbox/config/data.sql src/application/use_cases/sandbox/config/data.sql
 
 ENV NODE_ENV=production
 CMD ["./bun", "server.js"]

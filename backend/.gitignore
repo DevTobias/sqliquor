@@ -2,6 +2,7 @@
 
 _temp
 .env.development
+.env.production
 
 # Logs
 

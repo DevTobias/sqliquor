@@ -14,7 +14,7 @@ tasks:
     desc: Builds or starts the backend inside of a container - [build|start]
     cmds:
       - if [ {{.CLI_ARGS}} = build ]; then docker build -f backend/docker/Dockerfile -t devtobias/sqliqour_backend backend; fi
-      - if [ {{.CLI_ARGS}} = start ]; then docker run --env-file backend/app/.env.development -p 8080:8080 devtobias/sqliqour_backend; fi
+      - if [ {{.CLI_ARGS}} = start ]; then docker run --env-file backend/app/.env.production -p 8080:8080 devtobias/sqliqour_backend; fi
 
   setup:
     desc: Setups the complete dev environment (installing dependencies, bootstrapping the database)
