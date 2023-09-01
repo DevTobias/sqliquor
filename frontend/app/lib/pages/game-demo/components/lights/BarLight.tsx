@@ -22,9 +22,7 @@ export const BarLight: FC<BarLightProps> = ({ position, ...rest }) => {
       color={'#FFE2C4'}
       penumbra={0.75}
       angle={1}
-      intensity={0.5}
-      castShadow
-      receiveShadow
+      intensity={0.75}
       {...rest}
     />
   );
