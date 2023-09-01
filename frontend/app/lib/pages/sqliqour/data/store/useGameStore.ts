@@ -106,7 +106,7 @@ export const useGameStore = createWithEqualityFn<State & Actions>(
 
         if (gameState === 'paused' || gameState === 'finished') return null;
 
-        if (activeEvents.length < 4 && probability(50)) {
+        if (activeEvents.length < 4 && probability(4)) {
           set(await addRandomEvent(get()));
         }
 
