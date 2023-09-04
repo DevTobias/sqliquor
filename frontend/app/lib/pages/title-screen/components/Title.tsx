@@ -11,9 +11,9 @@ import styles from './Title.module.scss';
 
 export const Title = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [dataLoading, setLoading] = useState(false);
 
-  const { user } = useAuthStore();
+  const { user, loading: authLoading } = useAuthStore();
   const { setActive } = useAuthPopupStore();
   const { loadLevels } = useGameStore((s) => ({ loadLevels: s.loadLevels }));
 
@@ -23,6 +23,8 @@ export const Title = () => {
     if (user) return router.push('/sqliqour');
     return setActive(true);
   };
+
+  const loading = dataLoading || authLoading;
 
   return (
     <div className={styles.container}>

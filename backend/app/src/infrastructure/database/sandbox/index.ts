@@ -11,7 +11,9 @@ export const createSandboxConnection = (env: Environment) => {
       password: env.SANDBOX_DATABASE_ROOT_PASSWORD,
       multipleStatements: true,
     });
-    return conn.query(query);
+    const res = conn.query(query);
+    conn.end();
+    return res;
   };
 
   const queryUser = async (query: string, credentials: { user: string; password: string; database: string }) => {
