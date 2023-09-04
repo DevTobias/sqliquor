@@ -7,7 +7,7 @@ export const cors = () => {
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization'],
       origin: ({ url }) => {
-        return new URL(url).hostname === 'localhost';
+        return new URL(url).hostname === 'localhost' || new URL(url).hostname === 'sqliqour';
       },
     })
   );
