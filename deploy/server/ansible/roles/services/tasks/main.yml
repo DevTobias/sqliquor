@@ -53,6 +53,7 @@
             'DB_CLIENT': 'sqlite3'
             'DB_FILENAME': 'database/database.sql'
             'CORS_ENABLED': 'true'
+            'CORS_ORIGIN': 'true'
             'RATE_LIMITER_ENABLED': 'true'
             'CACHE_ENABLED': 'true'
             'ADMIN_EMAIL': '{{ cms_admin_email }}'
