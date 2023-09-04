@@ -6,9 +6,7 @@ export const cors = () => {
     corsPlugin({
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization'],
-      origin: ({ url }) => {
-        return new URL(url).hostname === 'localhost' || new URL(url).hostname === 'sqliqour.com';
-      },
+      origin: () => true,
     })
   );
 };
