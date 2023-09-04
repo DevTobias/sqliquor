@@ -14,7 +14,10 @@ COPY modules/prettier-config/package.json modules/prettier-config/package.json
 RUN yarn --frozen-lockfile
 
 COPY . .
+
+ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
+
 RUN yarn turbo build
 
 #! Start the production image
@@ -25,7 +28,7 @@ WORKDIR /frontend
 ENV NODE_ENV production
 
 COPY --from=builder /frontend/app/.next/standalone .
-COPY --from=builder /frontend/app/public ./public
+COPY --from=builder /frontend/app/public ./app/public
 COPY --from=builder /frontend/app/.next/static ./app/public/_next/static
 
 EXPOSE 8082

@@ -1,0 +1,164 @@
+- name: Create the traefik directory
+  file:
+    path: '/etc/traefik'
+    state: directory
+    owner: '{{ username }}'
+    group: '{{ username }}'
+
+- name: Copy traefik.yaml file
+  template:
+    src: 'traefik.yml.j2'
+    dest: '/etc/traefik/traefik.yml'
+
+- name: Deploy docker compose stack
+  docker_compose:
+    project_name: sqliqour
+    remove_orphans: true
+    definition:
+      version: '3'
+      services:
+        watchtower:
+          image: 'containrrr/watchtower:1.5.3'
+          restart: unless-stopped
+          command: --schedule "* */15 * * * *"
+          volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+        traefik-router:
+          image: 'traefik:v2.10'
+          restart: unless-stopped
+          ports:
+            - '80:80'
+            - '443:443'
+          volumes:
+            - /etc/traefik:/etc/traefik
+            - traefik-ssl-certs:/ssl-certs
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+          networks:
+            - internal-network
+
+        directus-cms:
+          image: directus/directus:10
+          restart: unless-stopped
+          volumes:
+            - cms-uploads:/directus/uploads
+            - cms-database:/directus/database
+          networks:
+            - internal-network
+          depends_on:
+            - traefik-router
+          environment:
+            'KEY': '{{ cms_key }}'
+            'SECRET': '{{ cms_secret }}'
+            'DB_CLIENT': 'sqlite3'
+            'DB_FILENAME': 'database/database.sql'
+            'CORS_ENABLED': 'true'
+            'RATE_LIMITER_ENABLED': 'true'
+            'CACHE_ENABLED': 'true'
+            'ADMIN_EMAIL': '{{ cms_admin_email }}'
+            'ADMIN_PASSWORD': '{{ cms_admin_password }}'
+            'PUBLIC_URL': 'https://cms.{{ root_host }}'
+          labels:
+            traefik.enable: true
+            traefik.http.routers.directus.entrypoints: web, websecure
+            traefik.http.routers.directus.rule: Host(`cms.{{ root_host }}`)
+            traefik.http.routers.directus.tls: true
+            traefik.http.routers.directus.tls.certresolver: zerossl
+
+        user-database:
+          image: postgres:15-alpine
+          restart: unless-stopped
+          environment:
+            'POSTGRES_USER': '{{ user_db_user }}'
+            'POSTGRES_PASSWORD': '{{ user_db_password }}'
+            'POSTGRES_DB': '{{ user_db_database }}'
+          networks:
+            - internal-network
+          volumes:
+            - user-database:/data/postgres
+
+        sandbox-database:
+          image: mariadb:11
+          restart: unless-stopped
+          environment:
+            'MYSQL_ROOT_PASSWORD': '{{ sandbox_db_password }}'
+          networks:
+            - internal-network
+          volumes:
+            - sandbox-database:/var/lib/mysql
+
+        docs:
+          image: sqliqour/documentation
+          restart: unless-stopped
+          networks:
+            - internal-network
+          depends_on:
+            - traefik-router
+          labels:
+            traefik.enable: true
+            traefik.http.routers.docs.entrypoints: web, websecure
+            traefik.http.routers.docs.rule: Host(`docs.{{ root_host }}`)
+            traefik.http.routers.docs.tls: true
+            traefik.http.routers.docs.tls.certresolver: zerossl
+            traefik.http.routers.docs-router.service: docs-service
+            traefik.http.services.docs-service.loadbalancer.server.port: 8081
+
+        frontend:
+          image: sqliqour/frontend
+          restart: unless-stopped
+          networks:
+            - internal-network
+          depends_on:
+            - traefik-router
+          labels:
+            traefik.enable: true
+            traefik.http.routers.front.entrypoints: web, websecure
+            traefik.http.routers.front.rule: Host(`{{ root_host }}`)
+            traefik.http.routers.front.tls: true
+            traefik.http.routers.front.tls.certresolver: zerossl
+
+        backend:
+          image: sqliqour/backend
+          restart: unless-stopped
+          environment:
+            'NODE_ENV': 'production'
+            'HOST': '0.0.0.0'
+            'PORT': '8080'
+            'DATABASE_URL': '{{ user_db_url }}'
+            'SANDBOX_DATABASE_HOST': '{{ sandbox_db_host }}'
+            'SANDBOX_DATABASE_PORT': '{{ sandbox_db_port }}'
+            'SANDBOX_DATABASE_ROOT_USER': '{{ sandbox_db_user }}'
+            'SANDBOX_DATABASE_ROOT_PASSWORD': '{{ sandbox_db_password }}'
+            'OPENAI_API_KEY': '{{ openai_api_key }}'
+            'JWT_ISSUER': '{{ jwt_issuer }}'
+            'JWT_AUDIENCE': '{{ jwt_audience }}'
+            'JWT_PRIVATE_KEY': '{{ jwt_private_key }}'
+            'JWT_PUBLIC_KEY': '{{ jwt_public_key }}'
+            'JWT_EXPIRES_IN': '{{ jwt_expires_in }}'
+            'JWT_REFRESH_PRIVATE_KEY': '{{ jwt_refresh_private_key }}'
+            'JWT_REFRESH_PUBLIC_KEY': '{{ jwt_refresh_public_key }}'
+            'JWT_REFRESH_EXPIRES_IN': '{{ jwt_refresh_expires_in }}'
+          networks:
+            - internal-network
+          labels:
+            traefik.enable: true
+            traefik.http.routers.backend.entrypoints: web, websecure
+            traefik.http.routers.backend.rule: Host(`api.{{ root_host }}`)
+            traefik.http.routers.backend.tls: true
+            traefik.http.routers.backend.tls.certresolver: zerossl
+
+      volumes:
+        traefik-ssl-certs:
+          driver: local
+        cms-uploads:
+          driver: local
+        cms-database:
+          driver: local
+        user-database:
+          driver: local
+        sandbox-database:
+          driver: local
+
+      networks:
+        internal-network:
+          driver: bridge

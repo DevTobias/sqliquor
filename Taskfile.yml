@@ -20,7 +20,7 @@ tasks:
   test-deployment:
     desc: Starts the production containers
     cmds:
-      - docker compose -f  deploy/docker-compose.prod.yml --env-file deploy/.env.production -p sqliqour-prod up -d --build
+      - docker compose -f deploy/docker-compose.prod.yml --env-file deploy/.env.production -p sqliqour-prod up -d --build
 
   stop:
     desc: Stops the dev environment

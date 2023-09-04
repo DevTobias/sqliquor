@@ -8,14 +8,15 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "package.json": ".dockerignore,.gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template,.env.development,drizzle.config.ts,next.config.js,.env.production",
+    "package.json": ".env.production.local,.dockerignore,.gitignore,tsconfig.json,turbo.json,babel.config.js,docusaurus.config.js,.env.local,.env.template,.env.development,drizzle.config.ts,next.config.js,.env.production",
     "next.config.js": "next-env.d.ts",
     "Taskfile.yml": ".editorconfig,.gitignore",
     "index.ts": "migrate.ts,extension.ts",
     "*.tsx": "$(capture).*",
     "*.ts": "$(capture).*",
     "README.md": "LICENSE",
-    "docker-compose.prod.yml": ".gitignore,.env.production"
+    "docker-compose.prod.yml": ".gitignore,.env.production",
+    "ansible.cfg": "requirements.yml,inventory.yml"
   },
 
   "files.exclude": {
