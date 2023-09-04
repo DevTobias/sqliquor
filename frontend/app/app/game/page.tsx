@@ -3,14 +3,10 @@
 import { ThreeScene } from '$lib/components/features/three/ThreeScene';
 import { GameScreen } from '$lib/pages/game-demo/GameScreen';
 
-import styles from './page.module.scss';
-
-export default function Home() {
+export default function Game() {
   return (
-    <div className={styles.container}>
-      <ThreeScene>
-        <GameScreen />
-      </ThreeScene>
-    </div>
+    <ThreeScene>
+      <GameScreen />
+    </ThreeScene>
   );
 }

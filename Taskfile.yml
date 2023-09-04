@@ -10,15 +10,20 @@ tasks:
     cmds:
       - sh scripts/{{.CLI_ARGS}}.sh
 
-  backend:
-    desc: Builds or starts the backend inside of a container - [build|start]
-    cmds:
-      - if [ {{.CLI_ARGS}} = build ]; then docker build -f backend/docker/Dockerfile -t devtobias/sqliqour_backend backend; fi
-      - if [ {{.CLI_ARGS}} = start ]; then docker run --env-file backend/app/.env.production -p 8080:8080 devtobias/sqliqour_backend; fi
-
   setup:
     desc: Setups the complete dev environment (installing dependencies, bootstrapping the database)
     cmds:
       - docker compose -f  backend/docker/docker-compose.dev.yml --env-file backend/app/.env.development -p sqliqour-dev up -d
       - sleep 5
       - cd backend/app && bun drizzle:migrate
+
+  test-deployment:
+    desc: Starts the production containers
+    cmds:
+      - docker compose -f  deploy/docker-compose.prod.yml --env-file deploy/.env.production -p sqliqour-prod up -d --build
+
+  stop:
+    desc: Stops the dev environment
+    cmds:
+      - docker compose -f  backend/docker/docker-compose.dev.yml --env-file backend/app/.env.development -p sqliqour-dev down
+      - docker compose -f  deploy/docker-compose.prod.yml --env-file deploy/.env.production -p sqliqour-prod down
