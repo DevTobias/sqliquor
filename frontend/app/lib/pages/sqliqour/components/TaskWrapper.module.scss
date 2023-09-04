@@ -1,0 +1,39 @@
+@use '$styles/theme' as theme;
+@use '$styles/classes/scrollbar' as scrollbar;
+
+.closed {
+  &.container {
+    height: 0;
+  }
+
+  & > .chat {
+    grid-template-rows: 0fr 2fr;
+  }
+
+  & > .chat > .messages {
+    padding: 0 3rem;
+  }
+
+  & > .chat * {
+    padding-top: 0;
+  }
+}
+
+.container {
+  overflow: hidden;
+  transition:
+    height 0.3s ease,
+    transform 500ms ease;
+}
+
+.task {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 8fr 2fr;
+  transition: grid-template-rows 0.3s ease;
+  position: relative;
+
+  * {
+    transition: padding 0.3s ease;
+  }
+}

@@ -1,0 +1,62 @@
+@use '$styles/theme' as theme;
+
+.event-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-end;
+}
+
+.events {
+  position: relative;
+}
+
+.task {
+  height: 750px;
+  width: 750px;
+}
+
+.switcher {
+  & > .chat,
+  & > .task {
+    transition: rotate 300ms ease;
+  }
+
+  & > .chat {
+    rotate: 0;
+  }
+
+  & > .task {
+    rotate: 360deg;
+  }
+}
+
+.task-window {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: theme.color('neutral', 600);
+}
+
+.controls {
+  display: flex;
+
+  div:first-child {
+    border-radius: 5px 0 0 0;
+  }
+
+  div:last-child {
+    border-radius: 0 5px 0 0;
+  }
+}

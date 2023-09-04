@@ -67,5 +67,24 @@ module.exports = {
         "newlines-between": "always",
       },
     ],
+
+    // This is the default configuration of the airbnb base rules. However loops got enabled again, because this rule
+    // is outdated and not relevant anymore.
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'LabeledStatement',
+        message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+      },
+      {
+        selector: 'WithStatement',
+        message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      },
+    ],
+
+    // When someone uses a spread operator for a hook, its to improve reusability. Static analysis cant be done there,
+    // however this should not be discouraged.
+    "react-hooks/exhaustive-deps": "off",
+    "no-promise-executor-return": "off"
   },
 };

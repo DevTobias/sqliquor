@@ -1,0 +1,56 @@
+.spinner {
+  width: 100%;
+  aspect-ratio: 3/1;
+  box-sizing: content-box;
+}
+
+.dark > .loading > span {
+  background: rgba(43, 43, 43, 0.25);
+  animation: pulse-dark 2s infinite;
+}
+
+.light > .loading > span {
+  background: rgba(255, 255, 255, 0.5);
+  animation: pulse-light 2s infinite;
+}
+
+.loading {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  place-content: center;
+  height: 100%;
+
+  & > span {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  @for $i from 1 through 3 {
+    & > span:nth-child(#{$i}) {
+      animation-delay: 100ms * $i;
+    }
+  }
+}
+
+@keyframes pulse-dark {
+  10% {
+    transform: scale(1.2);
+    background: rgba(43, 43, 43, 0.5);
+  }
+  20% {
+    transform: scale(1);
+    background: rgba(43, 43, 43, 0.25);
+  }
+}
+
+@keyframes pulse-light {
+  10% {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.6);
+  }
+  20% {
+    transform: scale(1);
+    background: rgba(255, 255, 255, 0.5);
+  }
+}

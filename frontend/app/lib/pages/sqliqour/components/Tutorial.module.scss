@@ -1,0 +1,30 @@
+@use '$styles/theme' as theme;
+@use '$styles/classes/scrollbar' as scrollbar;
+
+.tutorial {
+  width: 50rem;
+  height: 80vh;
+  color: theme.color('neutral', 0);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  overflow-y: auto;
+  @include scrollbar.simple;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    ul {
+      margin-left: 45px;
+    }
+  }
+}

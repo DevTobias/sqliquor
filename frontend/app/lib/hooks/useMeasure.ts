@@ -1,22 +1,12 @@
 import { useMemo, useState } from 'react';
 
-import { isBrowser, noop } from '$lib/hooks/misc/utils';
 import { useIsomorphicLayoutEffect } from '$lib/hooks/useIsomorphicLayoutEffect';
 
 export type UseMeasureRect = Pick<DOMRectReadOnly, 'x' | 'y' | 'top' | 'left' | 'right' | 'bottom' | 'height' | 'width'>;
 export type UseMeasureRef<E extends Element = Element> = (element: E) => void;
 export type UseMeasureResult<E extends Element = Element> = [UseMeasureRef<E>, UseMeasureRect];
 
-const defaultState: UseMeasureRect = {
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-};
+const defaultState: UseMeasureRect = { x: 0, y: 0, width: 0, height: 0, top: 0, left: 0, bottom: 0, right: 0 };
 
 function useMeasureBrowser<E extends Element = Element>(): UseMeasureResult<E> {
   const [element, ref] = useState<E | null>(null);
@@ -43,6 +33,6 @@ function useMeasureBrowser<E extends Element = Element>(): UseMeasureResult<E> {
 }
 
 export const useMeasure =
-  isBrowser && typeof window.ResizeObserver !== 'undefined'
+  typeof window !== 'undefined' && typeof window.ResizeObserver !== 'undefined'
     ? useMeasureBrowser
-    : ((() => [noop, defaultState]) as typeof useMeasureBrowser);
+    : ((() => [() => {}, defaultState]) as typeof useMeasureBrowser);

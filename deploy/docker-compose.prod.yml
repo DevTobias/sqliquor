@@ -1,0 +1,108 @@
+version: '3'
+
+services:
+  user-database:
+    image: postgres:alpine
+    restart: unless-stopped
+    ports:
+      - ${DATABASE_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DB}
+    networks:
+      - sqliqour-network
+    volumes:
+      - database:/data/postgres
+
+  sandbox-database:
+    image: mariadb:latest
+    restart: unless-stopped
+    ports:
+      - ${SANDBOX_DATABASE_PORT}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
+    networks:
+      - sqliqour-network
+    volumes:
+      - sandbox-database:/var/lib/mysql
+
+  cms:
+    image: directus/directus:latest
+    restart: unless-stopped
+    volumes:
+      - ../backend/docker/cms/uploads:/directus/uploads
+      - ../backend/docker/cms/database:/directus/database
+    ports:
+      - ${CMS_PORT}:8055
+    environment:
+      CORS_ENABLED: 'true'
+      DB_CLIENT: 'sqlite3'
+      DB_FILENAME: '/directus/database/database.sql'
+      KEY: ${CMS_KEY}
+      SECRET: ${CMS_SECRET}
+      ADMIN_EMAIL: ${CMS_ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${CMS_ADMIN_PASSWORD}
+    networks:
+      - sqliqour-network
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../backend/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      HOST: ${HOST}
+      PORT: ${PORT}
+      DATABASE_URL: ${DATABASE_URL}
+      SANDBOX_DATABASE_HOST: ${SANDBOX_DATABASE_HOST}
+      SANDBOX_DATABASE_PORT: ${SANDBOX_DATABASE_PORT}
+      SANDBOX_DATABASE_ROOT_USER: ${SANDBOX_DATABASE_ROOT_USER}
+      SANDBOX_DATABASE_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      JWT_REFRESH_PRIVATE_KEY: ${JWT_REFRESH_PRIVATE_KEY}
+      JWT_REFRESH_PUBLIC_KEY: ${JWT_REFRESH_PUBLIC_KEY}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN}
+    networks:
+      - sqliqour-network
+    depends_on:
+      - user-database
+      - sandbox-database
+
+  docs:
+    build:
+      context: ../documentation
+      dockerfile: ../documentation/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    networks:
+      - sqliqour-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../frontend/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8082:8082
+    networks:
+      - sqliqour-network
+
+networks:
+  sqliqour-network:
+    driver: bridge
+
+volumes:
+  database:
+    driver: local
+  sandbox-database:
+    driver: local

@@ -1,11 +1,11 @@
-import { User } from '$infrastructure/database';
+import { PublicUser, User } from '$database';
 
-export const mapUserToPublic = (user: User) => ({
+export const mapUser = (user: User): PublicUser => ({
+  id: user.id,
   email: user.email,
   username: user.username,
-  id: user.id,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
   sandboxCreated: user.sandboxCreated,
-  sandboxHistory: user.sandboxHistory,
+  messageHistory: user.messageHistory,
 });

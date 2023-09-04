@@ -1,0 +1,31 @@
+.container {
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: justify;
+
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.header {
+  display: flex;
+  gap: 60px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  & > span {
+    width: 50px;
+    display: blocK;
+  }
+}

@@ -1,24 +1,40 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "node",
+    // Add Bun type definitions
+    "types": ["bun-types"],
+
+    // Enable latest features
     "lib": ["esnext"],
-    "strict": true,
-    "declaration": false,
+    "module": "esnext",
+    "target": "esnext",
+
+    // Typescript 5.x specific configuration
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
     "noEmit": true,
-    "removeComments": true,
-    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+
+    // Allow importing .js from .ts
+    "allowJs": true,
+
+    // Allow default imports for CommonJS modules
     "esModuleInterop": true,
-    "sourceMap": true,
-    "incremental": false,
+
+    // Enable best practices
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+
+    // Enable experimental decorators
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // Enable path re maps
     "paths": {
-      "$lib/*": ["src/lib/*"],
-      "$prisma/*": ["src/infrastructure/database/prisma/.prisma/*"],
-      "$*": ["src/*"]
+      "$database": ["./src/infrastructure/database"],
+      "$database/*": ["./src/infrastructure/database/*"],
+      "$lib/*": ["./lib/*"],
+      "$*": ["./src/*"]
     }
-  },
-  "exclude": ["node_modules", "dist"]
+  }
 }

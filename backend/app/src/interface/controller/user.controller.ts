@@ -1,18 +1,11 @@
-import status from 'http-status';
-import { Controller, HttpException } from '$infrastructure/webserver/types';
-import { mapUserToPublic } from '$domain/mappings/user.mapper';
+import { Service } from '@freshgum/typedi';
 
-export interface UserController {
-  userInformation: Controller;
+import { mapUser } from '$domain/mappings/user.mapper';
+import { Handler } from '$infrastructure/webserver';
+
+@Service([])
+export class UserController {
+  static getUser: Handler<unknown> = async ({ user }) => {
+    return mapUser(user!);
+  };
 }
-
-export type UserControllerFactory = () => UserController;
-export const userControllerFactory: UserControllerFactory = () => ({
-  userInformation: async ({ user }, reply) => {
-    if (!user) {
-      throw new HttpException('user not authenticated', status.UNAUTHORIZED);
-    }
-
-    return reply.send(mapUserToPublic(user));
-  },
-});

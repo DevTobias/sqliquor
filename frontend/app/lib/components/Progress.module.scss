@@ -1,0 +1,15 @@
+.container {
+  height: 20;
+  width: 100%;
+  background-color: #e0e0de;
+}
+
+.filler {
+  height: 100%;
+  width: var(--completed);
+  background-color: #a2f1ff;
+  border-radius: inherit;
+  transition:
+    width 1s ease-in-out,
+    background-color 3s ease;
+}

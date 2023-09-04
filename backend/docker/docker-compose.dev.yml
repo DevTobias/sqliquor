@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  database:
+  postgres:
     image: postgres:alpine
     restart: unless-stopped
     ports:
@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_DB}
+    networks:
+      - sqliqour-network
     volumes:
       - database:/data/postgres
 
@@ -20,9 +22,34 @@ services:
       - ${SANDBOX_DATABASE_PORT}:${SANDBOX_DATABASE_PORT}
     environment:
       MYSQL_ROOT_PASSWORD: ${SANDBOX_DATABASE_ROOT_PASSWORD}
+    networks:
+      - sqliqour-network
     volumes:
       - sandbox-database:/var/lib/mysql
 
+  directus-cms:
+    image: directus/directus:latest
+    restart: unless-stopped
+    volumes:
+      - ./cms/uploads:/directus/uploads
+      - ./cms/database:/directus/database
+    ports:
+      - 8055:8055
+    environment:
+      KEY: 'sqliquor'
+      SECRET: 'sqliquor'
+      DB_CLIENT: 'sqlite3'
+      DB_FILENAME: '/directus/database/database.sql'
+      ADMIN_EMAIL: 'admin@sqliquor.de'
+      ADMIN_PASSWORD: 'admin'
+      CORS_ENABLED: 'true'
+
+networks:
+  sqliqour-network:
+    driver: bridge
+
 volumes:
   database:
+    driver: local
   sandbox-database:
+    driver: local

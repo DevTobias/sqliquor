@@ -1,0 +1,35 @@
+@use '$styles/theme' as theme;
+
+.switcher {
+  width: 25rem;
+  aspect-ratio: 1/1.5;
+  color: theme.color('neutral', 600);
+}
+
+.form-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: white;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  position: absolute;
+  top: 13%;
+  width: 100%;
+  padding: 2.5rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  h2 {
+    font-size: theme.fontSize('header-sm');
+  }
+}

@@ -1,72 +1,52 @@
-import fastify, { FastifyInstance, FastifyPluginCallback } from 'fastify';
-import fastifyHelmet from '@fastify/helmet';
-import fastifyCors from '@fastify/cors';
-import fastifyCookie from '@fastify/cookie';
+import { Container, ServiceIdentifier, Token } from '@freshgum/typedi';
+import Elysia from 'elysia';
 
-import { loadEnvironment } from '$infrastructure/config';
-import { notFoundHandler } from '$infrastructure/webserver/handler/not_found.handler';
+import { createDatabaseConnection, Database, User } from '$database';
+import { createSandboxConnection, Sandbox } from '$database/sandbox';
+import { Environment, loadEnvironment } from '$infrastructure/config';
 import { errorHandler } from '$infrastructure/webserver/handler/error.handler';
-import { rateLimitPlugin } from '$infrastructure/webserver/plugins/rate_limiter';
-import { envToLoggerConfig } from '$infrastructure/webserver/plugins/logger';
-import { initializeDatabase, initializeSandboxDatabase } from '$infrastructure/database';
-import { initializeDependencies } from '$infrastructure/di';
-import { Router } from '$infrastructure/webserver/types';
+import { cookie } from '$infrastructure/webserver/plugins/cookie';
+import { cors } from '$infrastructure/webserver/plugins/cors';
+import { helmet } from '$infrastructure/webserver/plugins/helmet';
+import { logger } from '$infrastructure/webserver/plugins/logger';
 
-const registerPlugins = async (app: FastifyInstance, plugins: () => FastifyPluginCallback[]) => {
-  const defaultPlugins = [
-    rateLimitPlugin(app),
-    app.register(fastifyCors, {
-      origin: (origin, cb) => {
-        if (!origin) return cb(null, true);
+export const DATABASE = new Token<Database>();
+export const SANDBOX = new Token<Sandbox>();
+export const ENVIRONMENT = new Token<Environment>();
 
-        if (new URL(origin).hostname === 'localhost') {
-          return cb(null, true);
-        }
+export const resolve = <T>(identifier: ServiceIdentifier<T>) => Container.get(identifier);
 
-        return cb(new Error('Not allowed'), false);
-      },
-      credentials: true,
-    }),
-    app.register(fastifyHelmet),
-    app.register(fastifyCookie),
-  ];
-  return Promise.all([...defaultPlugins, ...plugins().map((plugin) => app.register(plugin))]);
+export const bootstrap = () => {
+  const env = loadEnvironment();
+  const db = createDatabaseConnection(env.DATABASE_URL);
+  const sandbox = createSandboxConnection(env);
+
+  Container.set({ id: DATABASE, value: db, dependencies: [] });
+  Container.set({ id: SANDBOX, value: sandbox, dependencies: [] });
+  Container.set({ id: ENVIRONMENT, value: env, dependencies: [] });
+
+  const app = new Elysia();
+
+  const setup = app
+    .decorate('env', env)
+    .decorate('db', db)
+    .decorate('sandbox', sandbox)
+    .decorate('user', null as User | null)
+    .use(cookie(env.IS_DEV))
+    .use(logger())
+    .use(cors())
+    .use(helmet())
+    .use(errorHandler());
+
+  return { app, setup: () => setup, startup: { port: env.PORT, hostname: env.HOST } };
 };
 
-const registerRoutes = async (app: FastifyInstance, routers: () => Router[]) => {
-  const defaultRoutes = [app.setNotFoundHandler(notFoundHandler), app.setErrorHandler(errorHandler)];
-  return Promise.all([...defaultRoutes, ...routers().map(({ prefix, routes }) => app.register(routes, { prefix }))]);
-};
+export type Setup = ReturnType<ReturnType<typeof bootstrap>['setup']>;
+export type SetupHandler = () => Setup;
+export type App = Elysia;
 
-export const App = (init: { plugins: () => FastifyPluginCallback[]; routes: () => Router[]; root: string }) => {
-  const env = loadEnvironment(`${init.root}/.env`);
+export type Handler<T> = (
+  ctx: Parameters<Parameters<Setup['get']>[1]>[0] & { body: T }
+) => Response | Promise<Response> | object | string;
 
-  initializeDatabase();
-  initializeSandboxDatabase();
-  initializeDependencies();
-
-  const app = fastify({ logger: envToLoggerConfig[env.NODE_ENV] });
-
-  app.addHook('preHandler', (req, _, done) => {
-    if (req.body) req.log.info({ body: req.body }, 'parsed body');
-    done();
-  });
-
-  Promise.all([registerPlugins(app, init.plugins), registerRoutes(app, init.routes)]).catch((err: Error) => {
-    app.log.fatal({ msg: `error while registering routes and plugins`, err });
-    process.exit(1);
-  });
-
-  const listen = async () => {
-    app.listen({ port: env.PORT, host: env.HOST }, (err) => {
-      if (err) {
-        app.log.fatal({ msg: `application startup error`, err });
-        process.exit(1);
-      }
-    });
-
-    return app;
-  };
-
-  return { app, env, listen };
-};
+export type Guard<T> = (ctx: Parameters<Parameters<Setup['get']>[1]>[0] & { body: T }) => void;

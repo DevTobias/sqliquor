@@ -1,12 +1,10 @@
-import { resolve } from 'path';
-import { App } from '$infrastructure/webserver';
-import { resolveDependency as load } from '$infrastructure/di';
-import { AuthRouter } from '$interface/routes/auth.route';
-import { UserRouter } from '$interface/routes/user.route';
-import { SandboxRouter } from '$interface/routes/sandbox.route';
+import '$lib/utils/array';
 
-export const app = App({
-  root: resolve(__dirname, '..'),
-  plugins: () => [],
-  routes: () => [load(AuthRouter), load(UserRouter), load(SandboxRouter)],
-}).listen();
+import { bootstrap } from '$infrastructure/webserver';
+import { authRoutes } from '$interface/routes/auth.route';
+import { chatRoutes } from '$interface/routes/chat.route';
+import { sandboxRoutes } from '$interface/routes/sandbox.route';
+import { userRoutes } from '$interface/routes/user.route';
+
+const { app, setup, startup } = bootstrap();
+app.use(authRoutes(setup)).use(userRoutes(setup)).use(sandboxRoutes(setup)).use(chatRoutes(setup)).listen(startup);

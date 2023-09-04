@@ -1,15 +1,16 @@
-import { ExecuteSchema } from '$domain/validation/sandbox.validate';
-import { Hook, Router } from '$infrastructure/webserver/types';
+import { t } from 'elysia';
+
+import { App, SetupHandler, resolve } from '$infrastructure/webserver';
 import { SandboxController } from '$interface/controller/sandbox.controller';
+import { AuthHooks } from '$interface/hooks/auth.hook';
 
-export const SandboxRouter = 'sandboxRouter';
+export const sandboxRoutes = (setup: SetupHandler) => (app: App) => {
+  const sandboxController = resolve(SandboxController);
+  const authHooks = resolve(AuthHooks);
 
-export type SandboxRouterFactory = (s: { sandboxController: SandboxController; tokenAuthHook: Hook }) => Router;
-
-export const sandboxRouterFactory: SandboxRouterFactory = ({ sandboxController, tokenAuthHook }) => ({
-  prefix: '/sandbox',
-  routes: async (app) => {
-    app.post('/execute', { schema: ExecuteSchema, preHandler: tokenAuthHook }, sandboxController.execute);
-    app.post('/clear-history', { preHandler: tokenAuthHook }, sandboxController.flushSandbox);
-  },
-});
+  return app.use(setup).group('/sandbox', (group) => {
+    return group
+      .post('/execute', sandboxController.execute, { body: t.String(), beforeHandle: authHooks.tokenAuth })
+      .post('/reset', sandboxController.reset, { beforeHandle: authHooks.tokenAuth });
+  });
+};

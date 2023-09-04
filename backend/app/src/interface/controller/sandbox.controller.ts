@@ -1,42 +1,24 @@
-import status from 'http-status';
-import { Controller, HttpException } from '$infrastructure/webserver/types';
-import { SandboxService } from '$application/use_cases/sandbox/sandbox.service';
-import { mapUserToPublic } from '$domain/mappings/user.mapper';
-import { UserService } from '$application/use_cases/user/user.service';
+import { Service } from '@freshgum/typedi';
 
-export interface SandboxController {
-  execute: Controller;
-  flushSandbox: Controller;
+import { SandboxService } from '$application/use_cases/sandbox/_sandbox.service';
+import { SandboxDatabaseService } from '$application/use_cases/sandbox/sandbox.database.service';
+import { Handler } from '$infrastructure/webserver';
+
+@Service([SandboxDatabaseService])
+export class SandboxController {
+  constructor(private sandboxService: SandboxService) {}
+
+  execute: Handler<string> = async ({ user, body, set }) => {
+    if (!user!.sandboxCreated) {
+      await this.sandboxService.createUserSandbox(user!);
+    }
+
+    const result = await this.sandboxService.execute(user!, body);
+    set.headers['Content-Type'] = 'application/json';
+    return JSON.stringify(result, (_, value) => (typeof value === 'bigint' ? value.toString() : value));
+  };
+
+  reset: Handler<unknown> = async ({ user }) => {
+    await this.sandboxService.createUserSandbox(user!);
+  };
 }
-
-export type SandboxControllerFactory = (s: {
-  sandboxService: SandboxService;
-  userService: UserService;
-}) => SandboxController;
-
-export const sandboxControllerFactory: SandboxControllerFactory = ({ sandboxService, userService }) => ({
-  execute: async ({ user, body }, reply) => {
-    if (!user) {
-      throw new HttpException('user not authenticated', status.UNAUTHORIZED);
-    }
-
-    if (!user.sandboxCreated) {
-      await sandboxService.createSandboxForUser(user);
-    }
-
-    console.log(user);
-
-    const result = await sandboxService.executeQuery(user, body as string);
-    const parsedResult = JSON.stringify(result, (_, value) => (typeof value === 'bigint' ? value.toString() : value));
-    return reply.header('Content-Type', 'application/json').send(parsedResult);
-  },
-
-  flushSandbox: async ({ user }, reply) => {
-    if (!user) {
-      throw new HttpException('user not authenticated', status.UNAUTHORIZED);
-    }
-
-    const updatedUser = await userService.flushSandboxHistory(user.id);
-    return reply.send(mapUserToPublic(updatedUser));
-  },
-});

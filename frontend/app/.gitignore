@@ -9,7 +9,6 @@
 
 # production
 /build
-.env.local
 
 # typescript
 next-env.d.ts

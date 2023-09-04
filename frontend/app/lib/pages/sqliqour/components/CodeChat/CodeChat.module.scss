@@ -1,0 +1,13 @@
+@use '$styles/theme' as theme;
+@use '$styles/classes/scrollbar' as scrollbar;
+
+.messages {
+  gap: 20px;
+  grid-row: 1;
+  padding: 3rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  transition: padding 0.3s ease;
+  @include scrollbar.simple;
+}

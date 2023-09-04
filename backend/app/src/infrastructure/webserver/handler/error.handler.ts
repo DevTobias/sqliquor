@@ -1,12 +1,20 @@
-import { FastifyInstance } from 'fastify';
+import Elysia from 'elysia';
+
 import { HttpException } from '$infrastructure/webserver/types';
 
-type Handler = Parameters<FastifyInstance['setErrorHandler']>[0];
+export const errorHandler = () => {
+  return new Elysia({ name: 'error-handler' }).onError(({ set, code, error }) => {
+    if (code === 'NOT_FOUND') {
+      set.status = 404;
+      return { msg: 'endpoint not found', status: 404 };
+    }
 
-export const errorHandler: Handler = async (error, _, reply) => {
-  if (error instanceof HttpException) {
-    return reply.code(error.code).send({ error: error.message, status: error.code });
-  }
+    if (error instanceof HttpException) {
+      set.status = error.code;
+      return { msg: error.message, status: error.code };
+    }
 
-  return reply.code(500).send({ error: error.message, status: 500 });
+    set.status = 500;
+    return { msg: error.message, status: 500 };
+  });
 };
