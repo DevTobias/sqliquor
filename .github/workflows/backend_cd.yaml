@@ -1,23 +1,25 @@
-name: Documentation Deployment
+name: Backend Deployment
 
 on:
   push:
     tags:
       - '*'
     paths:
-      - 'documentation/**'
+      - 'backend/**'
 
   workflow_dispatch:
 
 jobs:
-  deploy-documentation:
-    name: deploy docs docker image
+  deploy-frontend:
+    name: deploy backend docker image
     timeout-minutes: 15
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
     environment: production
+    env:
+      NODE_ENV: production
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -39,7 +41,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v3
         with:
-          context: documentation
-          file: documentation/docker/Dockerfile
+          context: backend
+          file: backend/docker/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/documentation:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest

@@ -11,7 +11,7 @@ on:
 
 jobs:
   deploy-frontend:
-    name: deploy next.js docker image
+    name: deploy frontend docker image
     timeout-minutes: 15
     runs-on: ubuntu-latest
     defaults:
@@ -26,19 +26,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: frontend/yarn.lock
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build the turbo repo
-        run: yarn turbo build
 
       - name: Set up QEMU for Docker
         uses: docker/setup-qemu-action@v2
