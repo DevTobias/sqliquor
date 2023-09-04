@@ -3,6 +3,8 @@
 import { ClientSuspense } from '$lib/components/ClientSuspense';
 import { ProfileDropdown } from '$lib/components/features/auth/ProfileDropdown';
 import { LoadingScreen } from '$lib/components/features/loading/LoadingScreen';
+import { ThreeScene } from '$lib/components/features/three/ThreeScene';
+import { GameScreen } from '$lib/pages/game-demo/GameScreen';
 import { CurrentDayLabel } from '$lib/pages/sqliqour/components/CurrentDayLabel';
 import { GameLoop } from '$lib/pages/sqliqour/components/GameLoop';
 import { useGameStore } from '$lib/pages/sqliqour/data/store/useGameStore';
@@ -17,9 +19,14 @@ export const SQLiqourScreen = () => {
   return (
     <div className={styles.container}>
       <ClientSuspense fallback={<LoadingScreen />} loading={authLoading || levelLoading}>
-        <GameLoop />
-        <ProfileDropdown />
-        <CurrentDayLabel />
+        <div className={styles['logic-container']}>
+          <ThreeScene>
+            <GameScreen />
+          </ThreeScene>
+          <GameLoop />
+          <ProfileDropdown />
+          <CurrentDayLabel />
+        </div>
       </ClientSuspense>
     </div>
   );

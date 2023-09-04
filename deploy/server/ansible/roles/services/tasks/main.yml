@@ -73,6 +73,8 @@
             'POSTGRES_USER': '{{ user_db_user }}'
             'POSTGRES_PASSWORD': '{{ user_db_password }}'
             'POSTGRES_DB': '{{ user_db_database }}'
+          ports:
+            - 5432:5432
           networks:
             - internal-network
           volumes:

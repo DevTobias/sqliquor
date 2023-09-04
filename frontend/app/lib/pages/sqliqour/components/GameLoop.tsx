@@ -15,7 +15,7 @@ export const GameLoop = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {currentDay === 1 && <Tutorial />}
       {currentDay !== 1 && (
         <>
@@ -25,6 +25,6 @@ export const GameLoop = () => {
           <DayTimer />
         </>
       )}
-    </div>
+    </>
   );
 };

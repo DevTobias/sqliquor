@@ -16,9 +16,7 @@ export const Tutorial = () => {
   return (
     <div className={styles.tutorial}>
       <h1>{levels[currentLevel].title}</h1>
-      <Markdown options={{ overrides: { pre: { component: CodeBlock } } }} className={styles.message}>
-        {levels[currentLevel].tutorial}
-      </Markdown>
+      <Markdown options={{ overrides: { pre: { component: CodeBlock } } }}>{levels[currentLevel].tutorial}</Markdown>
       <Button onClick={nextDayOrLevel}>Gelerntes in der Bar anwenden</Button>
     </div>
   );
