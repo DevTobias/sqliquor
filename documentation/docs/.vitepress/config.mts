@@ -58,6 +58,10 @@ export default withMermaid({
               text: 'Datenbank engine',
               link: '/development/technical/database_engine',
             },
+            {
+              text: '3D Workflow',
+              link: '/development/technical/3d_workflow',
+            },
           ],
         },
       ],

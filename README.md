@@ -3,14 +3,14 @@
 <br />
 <div align="center">
   <a href="https://github.com/DevTobias/sqliquor">
-    <img src=".github/assets/brand.svg" alt="sqliquor logo" />
+    <img src=".github/assets/brand.png" alt="sqliquor logo" />
   </a>
 
   <br />
   <br />
 
   <p align="center">
-   SQLiqour is an ideal platform for students, developers and anyone who wants to improve their SQL skills by gaining hands-on experience in managing a virtual cocktail bar.
+   SQLiquor is an ideal platform for students, developers and anyone who wants to improve their SQL skills by gaining hands-on experience in managing a virtual cocktail bar.
     <br />
     <strong>Master SQL and lead your virtual bar to success!</strong>
     <br />
